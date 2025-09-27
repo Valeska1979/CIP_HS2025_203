@@ -1,0 +1,22 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data (wir ignorieren Inhalte, aber nicht die Ordner selbst)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# OS-specific
+.DS_Store
+
+# IDE/editor settings
+.vscode/        # VS Code
+.idea/          # PyCharm
