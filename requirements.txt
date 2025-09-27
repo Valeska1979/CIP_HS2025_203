@@ -1,0 +1,9 @@
+# Web scraping
+requests
+beautifulsoup4
+selenium
+mechanicalsoup
+
+# Data analysis
+pandas
+matplotlib
