@@ -7,4 +7,3 @@ mechanicalsoup
 # Data analysis
 pandas
 matplotlib
-numpy
