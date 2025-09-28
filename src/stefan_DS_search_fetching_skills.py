@@ -24,18 +24,9 @@ search_bar.send_keys(Keys.RETURN) #pressing Enter / Search for the job
 
 time.sleep(5)
 
-all_jobs = []
-
-
-
-
-
-
-
-
 #Fetching the required skills
 
-wait = WebDriverWait(driver, 5)
+wait = WebDriverWait(driver, 8)
 skills_list = wait.until(
     EC.presence_of_all_elements_located(
         (By.XPATH, "//*[@id='job-ad-details-section']//ul[contains(@class, 'li-t_disc')]/li")))
@@ -43,7 +34,5 @@ skills_list = wait.until(
 # Extract text from each <li>
 skills = [li.text for li in skills_list]
 print(skills)
-
-
 
 input("Press ENTER to close the browser...") # for testing purpose, window stays open until ENTER is pressed
