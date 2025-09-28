@@ -6,14 +6,27 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import time
 
-def get_driver():
-    """Start Chrome with options (User-Agent to avoid 403 errors)."""
-    options = Options()
-    options.add_argument("--start-maximized")
-    options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                         "AppleWebKit/537.36 (KHTML, like Gecko) "
-                         "Chrome/140.0.0.0 Safari/537.36")
-    return webdriver.Chrome(options=options)
+user_os = input("Which OS do you use (Windows / Mac):  ")
+
+if user_os == "Mac":
+    def get_driver():
+        """Start Chrome with options (User-Agent to avoid 403 errors)."""
+        options = Options()
+        options.add_argument("--start-maximized")
+        options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                                 "AppleWebKit/537.36 (KHTML, like Gecko) "
+                                 "Chrome/140.0.0.0 Safari/537.36")
+        return webdriver.Chrome(options=options)
+elif user_os == "Windows":
+
+    def get_driver():
+        """Start Chrome with options (User-Agent to avoid 403 errors)."""
+        options = Options()
+        options.add_argument("--start-maximized")
+        options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                                 "AppleWebKit/537.36 (KHTML, like Gecko) "
+                                 "Chrome/140.0.0.0 Safari/537.36")
+        return webdriver.Chrome(options=options)
 
 def accept_cookies_and_close_banner(driver):
     """Accept cookies and close the smart search popup if present."""
