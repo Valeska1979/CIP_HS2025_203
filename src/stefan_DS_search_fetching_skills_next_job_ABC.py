@@ -3,18 +3,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
-# Assuming jobs_ch_base contains get_driver and accept_cookies_and_close_banner
 from jobs_ch_base import get_driver, accept_cookies_and_close_banner
 import time
 import pandas as pd
 
 # --- CONFIGURATION ---
-MAX_JOBS_TO_SCRAPE = 30  # Set your desired limit here (e.g., 50, 100, etc.)
+MAX_JOBS_TO_SCRAPE = 10  # Set desired job ads scraping limit here
 JOB_LINK_XPATH = "//a[@data-cy='job-link']"
 JOB_TITLE_XPATH = ".//div/span[contains(@class, 'textStyle_h6')]"
 REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
 
-# 🔥 FIX: Use the reliable data-cy attribute for the Next Page button
+# Skill Text Normalization and Cleaning
 NEXT_PAGE_XPATH = "//a[@data-cy='paginator-next']"
 
 # CRITICAL XPATH FIX (No change)
@@ -28,7 +27,7 @@ driver.get("https://www.jobs.ch/de/")
 accept_cookies_and_close_banner(driver)
 
 # Search for Data Science in Search bar
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 5)
 try:
     search_bar = wait.until(
         EC.presence_of_element_located((By.XPATH, "//*[@id='synonym-typeahead-text-field']")))
@@ -48,15 +47,13 @@ current_page = 1
 
 # Master loop that continues until the limit is reached or there's no next page
 while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
-    print(f"\n###################### STARTING PAGE {current_page} ######################")
 
-    # 1. SCROLL DOWN TO LOAD ALL JOBS ON THE CURRENT PAGE
-    # The jobs.ch site often loads all jobs on the visible list immediately,
-    # but we scroll once to be safe against lazy loading.
+    # 1. SCROLL DOWN TO LOAD ALL JOBS ON THE CURRENT PAGE AGAINST LAZY LOADING
+
     try:
         print("Scrolling page content to load all job links on this view...")
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(2)
+        time.sleep(3)
     except Exception as e:
         print(f"Error during scrolling: {e}")
 
@@ -98,7 +95,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
                 job_title = f"Job {jobs_scraped_count + 1} (Title not found)"
                 job_details["Job_Title"] = job_title
 
-            print(f"\n--- Scraping Job {jobs_scraped_count + 1}/{MAX_JOBS_TO_SCRAPE}: {job_title[:50]}... ---")
+            print(f"\n--- Scraping Job {jobs_scraped_count + 1}/{MAX_JOBS_TO_SCRAPE}: {job_title[:200]}... ---")
 
             # Click the job link using JavaScript to bypass overlays and wait
             driver.execute_script("arguments[0].click();", current_link)
@@ -109,14 +106,14 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
             jobs_scraped_count += 1
             continue
 
-        # Skill Extraction (The part that works well)
+        # Skill Extraction
         try:
             all_content_lists = wait.until(
                 EC.presence_of_all_elements_located((By.XPATH, REQUIRED_SKILLS_XPATH))
             )
 
             if all_content_lists:
-                skills_list_ul = all_content_lists[-1]
+                skills_list_ul = all_content_lists[-2] #depends which part is the skills in the job ad: rather in the second or in the third part of the job ad.
                 skill_items = skills_list_ul.find_elements(By.TAG_NAME, "li")
 
                 for skill_item in skill_items:
@@ -126,20 +123,20 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
 
             if required_skills:
                 job_details["Skills"] = " | ".join(required_skills)
-                print(f"✅ Skills Found: {len(required_skills)} items, starting with: {required_skills[0]}...")
+                print(f" Skills Found: {len(required_skills)} items, starting with: {required_skills[0]}...")
             else:
-                print("❌ no skills found on this job ad")
+                print(" no skills found on this job ad")
 
         except Exception as e:
             job_details["Skills"] = "no skills found on this job ad"
-            print(f"❌ Error during skill extraction for {job_title}. Error: {e}")
+            print(f" Error during skill extraction for {job_title}. Error: {e}")
 
         scraped_data.append(job_details)
         jobs_scraped_count += 1
 
     # 4. PAGINATE: Check for the Next Page button after scraping the current set
     if jobs_scraped_count >= MAX_JOBS_TO_SCRAPE:
-        print(f"Global limit of {MAX_JOBS_TO_SCRAPE} jobs reached. Stopping.")
+        print(f"Limit of {MAX_JOBS_TO_SCRAPE} jobs reached.")
         break
 
     # Attempt to click the next page button
@@ -147,21 +144,21 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
         next_page_link = wait.until(
             EC.element_to_be_clickable((By.XPATH, NEXT_PAGE_XPATH))
         )
-        # Use JavaScript click for robustness
+        # JavaScript click for robustness
         driver.execute_script("arguments[0].click();", next_page_link)
         print(f"Successfully moved to page {current_page + 1}.")
-        time.sleep(4)  # Give ample time for the new results page to load
+        time.sleep(5)  # Give ample time for the new results page to load
         current_page += 1
 
     except TimeoutException:
-        print("No 'Next Page' link found. All available results scraped.")
+        print("No 'Next Page' found. All available results scraped.")
         break
     except Exception as e:
-        print(f"Error clicking the next page link: {e}. Stopping pagination.")
+        print(f"Error clicking the next page: {e}. Stopping pagination.")
         break
 
-# --- FINAL OUTPUT (UNCHANGED) ---
-pd.set_option('display.max_colwidth', None)
+# --- FINAL OUTPUT ---
+pd.set_option('display.width', 1000)
 df_skills = pd.DataFrame(scraped_data)
 
 # Print comprehensive skill list
@@ -173,7 +170,7 @@ for skills_string in df_skills['Skills']:
 unique_skills_list = sorted(list(set(all_individual_skills)))
 
 print("\n" + "#" * 50)
-print("COMPREHENSIVE LIST OF ALL UNIQUE SCRAPED REQUIRED SKILLS")
+print("LIST OF ALL UNIQUE SCRAPED REQUIRED SKILLS")
 print("#" * 50)
 for i, skill in enumerate(unique_skills_list):
     print(f"  {i + 1}. {skill}")
@@ -184,5 +181,6 @@ print(f"Successfully scraped {len(df_skills)} job ads:")
 print("=" * 50)
 print(df_skills[['Job_Index', 'Job_Title', 'Skills']].to_string())
 print("=" * 50)
+
 
 driver.quit()
