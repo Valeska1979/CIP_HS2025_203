@@ -5,10 +5,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from jobs_ch_base import get_driver, accept_cookies_and_close_banner
 
+#Getting the URL and accepting cookies and close banner
 driver = get_driver()
 driver.get("https://www.jobs.ch/de/")
 accept_cookies_and_close_banner(driver)
 
+#Search for Data Science in Search bar
 wait = WebDriverWait(driver, 5)
 search_bar = wait.until(
     EC.presence_of_element_located((By.XPATH, "//*[@id='synonym-typeahead-text-field']"))
@@ -17,6 +19,7 @@ search_bar.clear()
 search_bar.send_keys("Data Science")
 search_bar.send_keys(Keys.RETURN)
 
+#Fetching the required skills
 wait = WebDriverWait(driver, 15)
 job_cards = wait.until(
     EC.presence_of_all_elements_located((By.XPATH, "//div[@data-cy='vacancy-serp-item']"))
