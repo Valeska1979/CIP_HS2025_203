@@ -9,15 +9,16 @@ import pandas as pd
 from pathlib import Path
 
 # --- CONFIGURATION ---
-MAX_JOBS_TO_SCRAPE = 20  # Set desired job ads scraping limit here
+MAX_JOBS_TO_SCRAPE = 10  # Set desired job ads scraping limit here
 JOB_LINK_XPATH = "//a[@data-cy='job-link']"
 JOB_TITLE_XPATH = ".//div/span[contains(@class, 'textStyle_h6')]"
+COMPANY_NAME_XPATH = "./div/div[4]/p/strong"
 REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
 
 # Skill Text Normalization and Cleaning
 NEXT_PAGE_XPATH = "//a[@data-cy='paginator-next']"
 
-# CRITICAL XPATH FIX (No change)
+# CRITICAL XPATH FIX
 class_conditions = "') and contains(@class, '".join(REQUIRED_SKILLS_CLASSES.split(' '))
 REQUIRED_SKILLS_XPATH = f"//ul[contains(@class, '{class_conditions}')]"
 # ---------------------
@@ -34,6 +35,47 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 # Constructing the final absolute path for the CSV file
 SAVE_FILE_PATH = DATA_DIR / "jobs_ch_data_science_skills.csv"
+
+# --- Resumption Check (Title + Company) ---
+
+last_scraped_id = None  # New variable to store the combination (Title | Company)
+jobs_scraped_count = 0
+scraped_data = []
+
+try:
+    if SAVE_FILE_PATH.exists():
+        df_existing = pd.read_csv(SAVE_FILE_PATH)
+
+        if not df_existing.empty:
+            # Checking for the existence of the new 'Company_Name' column for safety
+            if 'Company_Name' in df_existing.columns:
+                scraped_data = df_existing.to_dict('records')
+                jobs_scraped_count = len(scraped_data)
+
+                # Creating the unique ID from the last row
+                last_row = df_existing.iloc[-1]
+                last_scraped_title = last_row['Job_Title'].strip()
+                last_scraped_company = last_row['Company_Name'].strip()
+
+                # Storing the unique identifier string
+                last_scraped_id = f"{last_scraped_title} | {last_scraped_company}"
+
+                print("-" * 50)
+                print(f"RESUMING SCRAPE: Found {jobs_scraped_count} records.")
+                print(f"Last scraped unique ID: '{last_scraped_id}'")
+                print("Will search for this unique job (Title + Company) and continue.")
+                print("-" * 50)
+            else:
+                print("WARNING: Existing CSV does not contain 'Company_Name'. Starting from scratch for safety.")
+        else:
+            print("Existing save file is empty. Starting from scratch.")
+
+except Exception as e:
+    print(f"WARNING: Error reading existing CSV. Starting from scratch. Error: {e}")
+
+# Initializing variables for the loop start
+current_page = 1
+resume_point_found = (last_scraped_id is None)
 
 
 # Getting the URL and accepting cookies and close banner
@@ -86,13 +128,37 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
 
     print(f"Found {num_jobs_on_page} links. Scraping the next {num_to_scrape_on_page} job(s)...")
 
+    # 2a. Check if the last scraped job ID is on this page
+    if not resume_point_found:
+
+        current_page_ids = []
+
+        # Check all jobs on the page for the unique ID
+        for link in job_links_on_page:
+            try:
+                # Extract both elements to create the ID
+                title = link.find_element(By.XPATH, JOB_TITLE_XPATH).text.strip()
+                company = link.find_element(By.XPATH, COMPANY_NAME_XPATH).text.strip()
+                unique_id = f"{title} | {company}"
+                current_page_ids.append(unique_id)
+            except:
+                # If we fail to get the Title or Company, we skip this entry
+                continue
+
+        if last_scraped_id in current_page_ids:
+            print(f"Found resume point on Page {current_page}! Indexing to last job...")
+            resume_point_found = True
+
+            # Find the starting index for the inner loop
+            start_index_on_page = current_page_ids.index(last_scraped_id) + 1
+
     # 3. ITERATE AND SCRAPE JOBS
     for i in range(num_to_scrape_on_page):
 
         if jobs_scraped_count >= MAX_JOBS_TO_SCRAPE:
             break
 
-        job_details = {"Job_Index": jobs_scraped_count + 1, "Job_Title": "N/A",
+        job_details = {"Job_Index": jobs_scraped_count + 1, "Job_Title": "N/A", "Company_Name": "N/A",
                        "Skills": "no skills found on this job ad"}
         required_skills = []
 
@@ -110,7 +176,14 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
                 job_title = f"Job {jobs_scraped_count + 1} (Title not found)"
                 job_details["Job_Title"] = job_title
 
-            print(f"\n--- Scraping Job {jobs_scraped_count + 1}/{MAX_JOBS_TO_SCRAPE}: {job_title[:200]}... ---")
+            try:
+                company_name = current_link.find_element(By.XPATH, COMPANY_NAME_XPATH).text.strip()
+                job_details["Company_Name"] = company_name
+            except NoSuchElementException:
+                company_name = "Company Not Found"
+                job_details["Company_Name"] = company_name
+
+            print(f"\n--- Scraping Job {jobs_scraped_count + 1}/{MAX_JOBS_TO_SCRAPE}: {job_title[:100]} ({company_name[:50]})... ---")
 
             # Click the job link using JavaScript to bypass overlays and wait
             driver.execute_script("arguments[0].click();", current_link)
