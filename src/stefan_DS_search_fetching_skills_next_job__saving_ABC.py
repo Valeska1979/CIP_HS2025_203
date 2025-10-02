@@ -9,7 +9,7 @@ import pandas as pd
 from pathlib import Path
 
 # --- CONFIGURATION ---
-MAX_JOBS_TO_SCRAPE = 10  # Set desired job ads scraping limit here
+MAX_JOBS_TO_SCRAPE = 20  # Set desired job ads scraping limit here
 JOB_LINK_XPATH = "//a[@data-cy='job-link']"
 JOB_TITLE_XPATH = ".//div/span[contains(@class, 'textStyle_h6')]"
 REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
