@@ -9,7 +9,7 @@ import pandas as pd
 from pathlib import Path
 
 # --- CONFIGURATION ---
-MAX_JOBS_TO_SCRAPE = 10  # Set desired job ads scraping limit here
+MAX_JOBS_TO_SCRAPE = 15  # Set desired job ads scraping limit here
 JOB_LINK_XPATH = "//a[@data-cy='job-link']"
 JOB_TITLE_XPATH = ".//div/span[contains(@class, 'textStyle_h6')]"
 COMPANY_NAME_XPATH = "./div/div[4]/p/strong"
@@ -36,47 +36,39 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 # Constructing the final absolute path for the CSV file
 SAVE_FILE_PATH = DATA_DIR / "jobs_ch_data_science_skills.csv"
 
-# --- Resumption Check (Title + Company) ---
-
-last_scraped_id = None  # New variable to store the combination (Title | Company)
+# --- Checking if resuming script after an error etc ---
 jobs_scraped_count = 0
 scraped_data = []
+unique_job_ids = set()  # Set for fast checking of duplicates
 
 try:
-    if SAVE_FILE_PATH.exists():
+    if SAVE_FILE_PATH.exists() and SAVE_FILE_PATH.stat().st_size > 0:
         df_existing = pd.read_csv(SAVE_FILE_PATH)
 
-        if not df_existing.empty:
-            # Checking for the existence of the new 'Company_Name' column for safety
-            if 'Company_Name' in df_existing.columns:
-                scraped_data = df_existing.to_dict('records')
-                jobs_scraped_count = len(scraped_data)
+        if not df_existing.empty and 'Company_Name' in df_existing.columns:
+            # Load existing records into the in-memory list
+            scraped_data = df_existing.to_dict('records')
+            jobs_scraped_count = len(scraped_data)
 
-                # Creating the unique ID from the last row
-                last_row = df_existing.iloc[-1]
-                last_scraped_title = last_row['Job_Title'].strip()
-                last_scraped_company = last_row['Company_Name'].strip()
+            # Create a set of unique IDs (Title | Company) for O(1) duplicate checks
+            df_existing['Unique_ID'] = df_existing['Job_Title'].astype(str).str.strip() + ' | ' + df_existing[
+                'Company_Name'].astype(str).str.strip()
+            unique_job_ids = set(df_existing['Unique_ID'])
 
-                # Storing the unique identifier string
-                last_scraped_id = f"{last_scraped_title} | {last_scraped_company}"
-
-                print("-" * 50)
-                print(f"RESUMING SCRAPE: Found {jobs_scraped_count} records.")
-                print(f"Last scraped unique ID: '{last_scraped_id}'")
-                print("Will search for this unique job (Title + Company) and continue.")
-                print("-" * 50)
-            else:
-                print("WARNING: Existing CSV does not contain 'Company_Name'. Starting from scratch for safety.")
+            print("-" * 50)
+            print(f"RESUMING SCRAPE: Loaded {jobs_scraped_count} existing records from CSV.")
+            print(f"Total unique IDs loaded for duplication check: {len(unique_job_ids)}")
+            print("-" * 50)
         else:
-            print("Existing save file is empty. Starting from scratch.")
+            print("Existing save file is empty or missing necessary columns. Starting from scratch.")
+    else:
+        print("Starting fresh: CSV file not found or is empty.")
 
 except Exception as e:
     print(f"WARNING: Error reading existing CSV. Starting from scratch. Error: {e}")
+    # Variables are already initialized for a fresh start
 
-# Initializing variables for the loop start
 current_page = 1
-resume_point_found = (last_scraped_id is None)
-
 
 # Getting the URL and accepting cookies and close banner
 driver = get_driver()
@@ -97,10 +89,6 @@ except Exception as e:
     driver.quit()
     exit()
 
-# --- JOB ITERATION AND SCRAPING MASTER LOOP (PAGINATION) ---
-scraped_data = []
-jobs_scraped_count = 0
-current_page = 1
 
 # Master loop that continues until the limit is reached or there's no next page
 while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
@@ -128,107 +116,72 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
 
     print(f"Found {num_jobs_on_page} links. Scraping the next {num_to_scrape_on_page} job(s)...")
 
-    # 2a. Check if the last scraped job ID is on this page
-    if not resume_point_found:
-
-        current_page_ids = []
-
-        # Check all jobs on the page for the unique ID
-        for link in job_links_on_page:
-            try:
-                # Extract both elements to create the ID
-                title = link.find_element(By.XPATH, JOB_TITLE_XPATH).text.strip()
-                company = link.find_element(By.XPATH, COMPANY_NAME_XPATH).text.strip()
-                unique_id = f"{title} | {company}"
-                current_page_ids.append(unique_id)
-            except:
-                # If we fail to get the Title or Company, we skip this entry
-                continue
-
-        if last_scraped_id in current_page_ids:
-            print(f"Found resume point on Page {current_page}! Indexing to last job...")
-            resume_point_found = True
-
-            # Find the starting index for the inner loop
-            start_index_on_page = current_page_ids.index(last_scraped_id) + 1
 
     # 3. ITERATE AND SCRAPE JOBS
-    for i in range(num_to_scrape_on_page):
+    # Starting  from the first job (index 0) and check for duplicates
+    for i in range(num_jobs_on_page):
 
         if jobs_scraped_count >= MAX_JOBS_TO_SCRAPE:
             break
 
-        job_details = {"Job_Index": jobs_scraped_count + 1, "Job_Title": "N/A", "Company_Name": "N/A",
+        job_details = {"Job_Index": jobs_scraped_count + 1,
+                       "Job_Title": "N/A",
+                       "Company_Name": "N/A",
                        "Skills": "no skills found on this job ad"}
         required_skills = []
+        unique_id = None  # Initialize unique_id
 
-        # RE-LOCATE the job links list in every loop to avoid StaleElementReferenceException
+        # --- NAVIGATION AND INITIAL EXTRACTION ---
         try:
-            # Re-fetch the list every time as the detail panel messes up the DOM
             job_links = wait.until(EC.presence_of_all_elements_located((By.XPATH, JOB_LINK_XPATH)))
             current_link = job_links[i]
 
-            # Extract Job Title
-            try:
-                job_title = current_link.find_element(By.XPATH, JOB_TITLE_XPATH).text.strip()
-                job_details["Job_Title"] = job_title
-            except NoSuchElementException:
-                job_title = f"Job {jobs_scraped_count + 1} (Title not found)"
-                job_details["Job_Title"] = job_title
+            # Extract Title and Company Name (required for unique ID)
+            job_title = current_link.find_element(By.XPATH, JOB_TITLE_XPATH).text.strip()
+            company_name = current_link.find_element(By.XPATH, COMPANY_NAME_XPATH).text.strip()
 
-            try:
-                company_name = current_link.find_element(By.XPATH, COMPANY_NAME_XPATH).text.strip()
-                job_details["Company_Name"] = company_name
-            except NoSuchElementException:
-                company_name = "Company Not Found"
-                job_details["Company_Name"] = company_name
+            unique_id = f"{job_title} | {company_name}"
 
-            print(f"\n--- Scraping Job {jobs_scraped_count + 1}/{MAX_JOBS_TO_SCRAPE}: {job_title[:100]} ({company_name[:50]})... ---")
+        except Exception as e:
+            # Failed to get basic info (Title/Company). Skip this link.
+            print(f"Could not extract basic info for job link at index {i}. Skipping. Error: {e}")
+            continue
 
-            # Click the job link using JavaScript to bypass overlays and wait
+        # --- DUPLICATE CHECK ---
+        if unique_id in unique_job_ids:
+            print(f"  -> Duplicate found: '{job_title[:50]} | {company_name[:30]}' (Skipping)")
+            continue
+
+        # Job is unique. Set details and proceed to click.
+        job_details["Job_Title"] = job_title
+        job_details["Company_Name"] = company_name
+
+        print(
+            f"\n--- Scraping UNIQUE Job {jobs_scraped_count + 1}/{MAX_JOBS_TO_SCRAPE}: {job_title[:100]} ({company_name[:50]})... ---")
+
+        try:
+            # Click the job link
             driver.execute_script("arguments[0].click();", current_link)
             time.sleep(3)  # Wait for the detail pane content to update
 
         except Exception as e:
-            print(f"Could not navigate to job ad {jobs_scraped_count + 1}. Skipping. Error: {e}")
-            jobs_scraped_count += 1
+            print(f"Could not navigate to unique job ad. Skipping. Error: {e}")
+            # If navigation fails, we DON'T increment the count or save, just continue
             continue
 
-        # Skill Extraction
-        try:
-            all_content_lists = wait.until(
-                EC.presence_of_all_elements_located((By.XPATH, REQUIRED_SKILLS_XPATH))
-            )
 
-            if all_content_lists:
-                skills_list_ul = all_content_lists[-2] #depends which part is the skills in the job ad: rather in the second or in the third part of the job ad.
-                skill_items = skills_list_ul.find_elements(By.TAG_NAME, "li")
-
-                for skill_item in skill_items:
-                    skill_text = ' '.join(skill_item.get_attribute('textContent').split())
-                    if skill_text:
-                        required_skills.append(skill_text)
-
-            if required_skills:
-                job_details["Skills"] = " | ".join(required_skills)
-                print(f" Skills Found: {len(required_skills)} items, starting with: {required_skills[0]}...")
-            else:
-                print(" no skills found on this job ad")
-
-        except Exception as e:
-            job_details["Skills"] = "no skills found on this job ad"
-            print(f" Error during skill extraction for {job_title}. Error: {e}")
-
+        # --- SAVE UNIQUE JOB ---
         scraped_data.append(job_details)
+        unique_job_ids.add(unique_id)  # Add new ID to the set
         jobs_scraped_count += 1
 
-
-        # Intermediate Save after every job
-
         try:
-            df_current = pd.DataFrame(scraped_data)
-            df_current.to_csv(SAVE_FILE_PATH, index=False)
-            print(f"    -> Data saved successfully to {SAVE_FILE_PATH.name}. Total records: {len(df_current)}")
+            # CRITICAL CHANGE: Save the single new job in APPEND MODE ('a')
+            # Only include headers if the file is new (jobs_scraped_count == 1)
+            df_new_job = pd.DataFrame([job_details])
+            df_new_job.to_csv(SAVE_FILE_PATH, mode='a', header=(jobs_scraped_count == 1), index=False)
+
+            print(f"    -> UNIQUE Data Appended to CSV. Total records: {jobs_scraped_count}")
         except Exception as e:
             print(f"WARNING: Could not save intermediate data to CSV. Error: {e}")
 
