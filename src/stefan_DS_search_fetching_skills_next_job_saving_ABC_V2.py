@@ -9,7 +9,7 @@ import pandas as pd
 from pathlib import Path
 
 # --- CONFIGURATION ---
-MAX_JOBS_TO_SCRAPE = 30  # Set desired job ads scraping limit here
+MAX_JOBS_TO_SCRAPE = 10  # Set desired job ads scraping limit here
 JOB_LINK_XPATH = "//a[@data-cy='job-link']"
 JOB_TITLE_XPATH = ".//div/span[contains(@class, 'textStyle_h6')]"
 COMPANY_NAME_XPATH = "./div/div[4]/p/strong"
@@ -19,8 +19,8 @@ REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
 NEXT_PAGE_XPATH = "//a[@data-cy='paginator-next']"
 
 # CRITICAL XPATH FIX
-class_conditions = "') and contains(@class, '".join(REQUIRED_SKILLS_CLASSES.split(' '))
-REQUIRED_SKILLS_XPATH = f"//ul[contains(@class, '{class_conditions}')]"
+REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
+REQUIRED_SKILLS_XPATH = f"//ul[contains(@class, 'li-t_disc')]//li"
 # ---------------------
 
 # Dynamic Path Configuration for Cross-Platform/GitHub Compatibility
@@ -168,7 +168,34 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
             print(f"Could not navigate to unique job ad. Skipping. Error: {e}")
             # If navigation fails, we DON'T increment the count or save, just continue
             continue
+        required_skills = []
+        try:
+            # Step 1: Find all individual skill <li> elements using the robust XPath
+            skill_elements = WebDriverWait(driver, 5).until(
+                EC.presence_of_all_elements_located((By.XPATH, REQUIRED_SKILLS_XPATH))
+            )
 
+            if skill_elements:
+                for element in skill_elements:
+                    # Step 2: Extract text and clean up
+                    skill_text = element.text.strip()
+                    if skill_text:
+                        required_skills.append(skill_text)
+
+            if required_skills:
+                # Join the extracted skills with the chosen delimiter
+                job_details["Skills"] = " | ".join(required_skills)
+                print(f"    -> Extracted {len(required_skills)} skills: {required_skills[0][:30]}...")
+            else:
+                job_details["Skills"] = "no skills found on this job ad"
+                print("    -> No skills list found (empty or only generic content)")
+
+        except TimeoutException:
+            job_details["Skills"] = "no skills found on this job ad"
+            print("    -> Warning: Skills list timed out (5s). Saving 'no skills found'.")
+        except Exception as e:
+            job_details["Skills"] = "no skills found on this job ad"
+            print(f"    -> Error during skill extraction: {e}")
 
         # --- SAVE UNIQUE JOB ---
         scraped_data.append(job_details)
