@@ -13,6 +13,7 @@ MAX_JOBS_TO_SCRAPE = 10  # Set desired job ads scraping limit here
 JOB_LINK_XPATH = "//a[@data-cy='job-link']"
 JOB_TITLE_XPATH = ".//div/span[contains(@class, 'textStyle_h6')]"
 COMPANY_NAME_XPATH = "./div/div[4]/p/strong"
+JOB_LOCATION_XPATH = "./div/div[3]/div[1]/p"
 REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
 
 # Skill Text Normalization and Cleaning
@@ -130,12 +131,13 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
         if jobs_scraped_count >= MAX_JOBS_TO_SCRAPE:
             break
 
+        # Initialize with Location field
         job_details = {"Job_Index": jobs_scraped_count + 1,
                        "Job_Title": "N/A",
                        "Company_Name": "N/A",
+                       "Job_Location": "N/A",
                        "Tasks": "no tasks found on this job ad",
                        "Skills": "no skills found on this job ad"}
-        required_skills = []
         unique_id = None  # Initialize unique_id
 
         # --- NAVIGATION AND INITIAL EXTRACTION ---
@@ -147,10 +149,19 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
             job_title = current_link.find_element(By.XPATH, JOB_TITLE_XPATH).text.strip()
             company_name = current_link.find_element(By.XPATH, COMPANY_NAME_XPATH).text.strip()
 
+            # Extract Location from the search result container
+            try:
+                location_element = current_link.find_element(By.XPATH, JOB_LOCATION_XPATH)
+                job_location = location_element.text.strip()
+                job_details["Job_Location"] = job_location
+            except NoSuchElementException:
+                # Location often moves or is missing; handle gracefully
+                job_details["Job_Location"] = "Location N/A (Search View)"
+
             unique_id = f"{job_title} | {company_name}"
 
         except Exception as e:
-            # Failed to get basic info (Title/Company). Skip this link.
+            # Failed to get basic info (Title/Company/Location). Skip this link.
             print(f"Could not extract basic info for job link at index {i}. Skipping. Error: {e}")
             continue
 
@@ -254,6 +265,9 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
         break
 
 # --- FINAL OUTPUT ---
+pd.set_option('display.width', 1000)
+
+df_skills = pd.DataFrame(scraped_data)
 
 print("\n" + "=" * 50)
 print(f"Successfully scraped {len(df_skills)} job ads:")
