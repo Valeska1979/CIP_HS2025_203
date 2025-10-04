@@ -179,7 +179,8 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
                        "Company_Name": "N/A",
                        "Job_Location": "N/A",
                        "Tasks": "no tasks found on this job ad",
-                       "Skills": "no skills found on this job ad"}
+                       "Skills": "no skills found on this job ad",
+                       "Job_Search_Term": job_search_term}
         unique_id = None
 
         # --- NAVIGATION AND INITIAL EXTRACTION (FROM SEARCH RESULTS) ---
