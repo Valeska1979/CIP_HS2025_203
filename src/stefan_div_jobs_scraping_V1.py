@@ -217,6 +217,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
         job_details["Job_Title"] = job_title
         job_details["Company_Name"] = company_name
 
+
         print(
             f"\n--- Scraping UNIQUE Job {jobs_scraped_count + 1}/{MAX_JOBS_TO_SCRAPE}: {job_title[:100]} ({company_name[:50]})... ---")
 
@@ -250,7 +251,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
                               index=False,
                               sep=';')
 
-            print(f"    -> UNIQUE Data Appended to Session and Master CSVs. Total records: {jobs_scraped_count}")
+            print(f"    -> UNIQUE Data Appended to Session CSVs. Total records: {jobs_scraped_count}")
         except Exception as e:
             print(f"WARNING: Could not save intermediate data to CSV. Error: {e}")
 
