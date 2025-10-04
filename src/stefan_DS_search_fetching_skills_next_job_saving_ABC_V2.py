@@ -19,7 +19,7 @@ REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
 # Skill Text Normalization and Cleaning
 NEXT_PAGE_XPATH = "//a[@data-cy='paginator-next']"
 
-# CRITICAL XPATH FIX
+# CRITICAL XPATH
 SHARED_LIST_CLASS = "li-t_disc"
 
 #XPath for TASKS (Assumed to be the first list with the shared class)

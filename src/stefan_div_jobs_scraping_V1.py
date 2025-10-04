@@ -14,7 +14,7 @@ import re
 # 1. Ask for the job search term
 job_search_term = input("Enter the job title you want to scrape (e.g., Data Scientist): ")
 
-# 2. Ask for the maximum number of jobs to scrape (NEW ADDITION)
+# 2. Ask for the maximum number of jobs to scrape
 while True:
     try:
         max_jobs_input = input("Enter the maximum number of jobs to scrape (e.g., 50): ")
@@ -31,20 +31,19 @@ safe_job_name = re.sub(r'\s+', '_', job_search_term.strip().lower())
 safe_job_name = re.sub(r'[^a-z0-9_]', '', safe_job_name)
 
 # --- CONFIGURATION ---
-# MAX_JOBS_TO_SCRAPE is now defined by user input above 👆
 JOB_LINK_XPATH = "//a[@data-cy='job-link']"
 JOB_TITLE_XPATH = ".//div/span[contains(@class, 'textStyle_h6')]"
 COMPANY_NAME_XPATH = "./div/div[4]/p/strong"
 JOB_LOCATION_XPATH = "./div/div[3]/div[1]/p"
 NEXT_PAGE_XPATH = "//a[@data-cy='paginator-next']"
 
-# CRITICAL XPATH FIX for dual scraping
+# CRITICAL XPATH for dual scraping
 SHARED_LIST_CLASS = "li-t_disc"
-TASKS_XPATH = f"//ul[contains(@class, '{SHARED_LIST_CLASS}')][1]//li"
-SKILLS_XPATH = f"//ul[contains(@class, '{SHARED_LIST_CLASS}')][2]//li"
+TASKS_XPATH = f"//ul[contains(@class, '{SHARED_LIST_CLASS}')][1]//li" #assuming tasks being at the first place in a job ad
+SKILLS_XPATH = f"//ul[contains(@class, '{SHARED_LIST_CLASS}')][2]//li" #assuming skills being at the second place in a job ad
 # ---------------------
 
-# Dynamic Path Configuration
+# Dynamic Path Configuration TO THE CSV FILE
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR.parent / "data" / "raw"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -243,19 +242,11 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
         try:
             df_new_job = pd.DataFrame([job_details])
 
-            # 1. Save to Session-Specific CSV
+            # Save to Session-Specific CSV
             session_file_exists = SAVE_FILE_PATH.exists() and SAVE_FILE_PATH.stat().st_size > 0
             df_new_job.to_csv(SAVE_FILE_PATH,
                               mode='a',
                               header=not session_file_exists,
-                              index=False,
-                              sep=';')
-
-            # 2. Save to Master CSV (jobs_ch_skills_all.csv)
-            master_file_exists = MASTER_FILE_PATH.exists() and MASTER_FILE_PATH.stat().st_size > 0
-            df_new_job.to_csv(MASTER_FILE_PATH,
-                              mode='a',
-                              header=not master_file_exists,
                               index=False,
                               sep=';')
 
