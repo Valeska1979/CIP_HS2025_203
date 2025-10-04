@@ -1,31 +1,31 @@
-Job_Index,Job_Title,Company_Name,Skills
-1,Business Analyst Material Science,Omya (Schweiz) AG,"Analyze business, market, customer, and competitor data to provide basis for actionable recommendations in terms of portfolio and/or business opportunities or gaps. | Provide input to establish targets for sales performance for Market/Segment portfolio, such as product mix, sales volume, market share, or business development. | Develop dashboards and reports to monitor market trends, segment performance, and campaign effectiveness. | Collaborate with Sales Excellence team to ensure robust and scalable insight generation. | Measure and report segment growth vs. previous years and strategic plans. | Analyze business metrics for strategic ""solutions"" and provide actionable insights, especially on product mix gaps. | Track sales performance including profitability, volumes, market share, and cross-selling scores. | Support gap analysis for global Key Accounts and vs. target account plans as needed. | Develop and monitor KPIs for strategic projects and target market opportunities. | Deliver timely, accurate reports and recommendations to Segment Head, Portfolio Directors, and Key Account Managers. | Provide competitive intelligence (imports, market benchmarks, competitor activity). | Build and maintain predictive analytics tools. | Leverage AI and CRM (Salesforce) data to uncover trends and opportunities."
-2,Data Scientist Generative AI,Pro Informatik AG,"Mehrjährige Erfahrung als Data Scientist | Verständnis von GenAI-Technologien (RAG, Agents) und Erfahrung in der Optimierung von GenAI-Anwendungsfällen | Fundierte Kenntnisse in ML-Frameworks (TensorFlow, PyTorch) und fortgeschrittenen Algorithmen, insbesondere im Bereich NLP und generative Modelle | Solide Programmierkenntnisse in Python, inkl. Versionskontrolle | Kenntnisse im Einsatz von ML-Pipeline-Tools (z. B. MLflow, Kubeflow oder Azure ML) | Vertrautheit mit Bankprozessen und bankenspezifischen Vorschriften, die Einfluss auf Modellierungen haben | Starkes Verständnis von Modellevaluation, Optimierungstechniken sowie dem Umgang mit Modellabweichungen oder -verzerrungen | Erfahrung in der Übersetzung von Business-Logiken in technische Spezifikationen und Erkennen von Optimierungspotenzialen | Fliessende Englischkenntnisse und gute Deutschkenntnisse (mind. B2)"
-3,Working Student in Data Science (all genders),AXA,Hands-on experience in Python and SQL. | Enthusiasm for new technical developments and a willingness to continually evolve in a dynamic environment. | Good English skills.
-4,Praktikant/in Lage- und Nachrichtenzentrum mit Fokus in Data Science (m/w/d) - befristet für 6 - 12 Monate,Kanton St. Gallen,"Studium mit Bezug zur Aufbereitung und Auswertung von Daten (z.B. Data Science, Data Analytics, Data Engineering, Wirtschaftsingenieurswesen mit Vertiefung Datenanalyse, usw.) | Oder anderweitige Aus- oder Weiterbildung mit starkem Interesse an der Arbeit im Sicherheitsbereich bzw. in den polizeilichen Tätigkeiten in Kombination mit ausgeprägtem technischem Verständnis | Idealerweise Kenntnisse von Workflowsoftware, Pipeline- und Analysetools sowie versierter Umgang mit Docker | Freude an der Verbesserung von Arbeitsabläufen | Hohe Eigenmotivation und Selbständigkeit"
-5,Data Scientist (m/w/d),Sympany,"Flexible Arbeitszeiten auf Basis der 41-Stunden-Woche | 5 Wochen Ferien, ab 51 Jahren sogar noch mehr | Mobiles Arbeiten, zum Beispiel im Home-Office"
-6,Senior Data & Analytics Architect (m/w/d),Nexplore AG,"Du hast mehrjährige Erfahrung in der Umsetzung von Data Analytics/Science oder Machine Learning Projekten. | Du verfügst über praktische Kenntnisse in Data Engineering / Data Science (z.B. mit SQL, Python, R). | Du kommunizierst sehr gut in deutscher Sprache mit dem Team und unseren Kund:innen. | Du verfügst über eine abgeschlossene Ausbildung oder ein abgeschlossenes Studium (Informatik, Wirtschaftsinformatik, Physik, Statistik, etc.), idealerweise mit Bezug zu Data Engineering oder Data Science. | Für diese Rolle suchen wir eine erfahrene Persönlichkeit, die ihre Expertise in komplexen Data- und Analytics-Projekten einbringen will. | Du findest immer die richtigen Worte – sei es für Entwickler:innen, Business-User oder Entscheider:innen. | Du sprichst sehr gut Deutsch und gut Englisch und hast einen Wohnsitz in der Schweiz"
-7,Research Software Engineer,ETH Zürich,"experience in application deployment, operation and maintenance on Kubernetes clusters, virtual machines or cloud environments; | hands-on experience with HPC clusters (e.g. Slurm), optimization and parallelization or GPU computing (e.g., Dask, ipyparallel) and with the usage of workflow managers (e.g., Snakemake, Nextflow, etc.)."
-8,Machine Learning Engineer – Personalization & Recommendations (a),Consult & Pepper AG,"Application Layer Development Design and build the foundation of Aktiia’s next-generation recommendation engine together with a cross-functional software team (~20 engineers). | Dynamic User Modeling Develop evolving user profiles that adapt continuously as new data and interactions are integrated. | Insight Generation Transform raw signals into clear, personalized, and engaging user-facing experiences. | Cross-Domain Adaptation Leverage proven methods from recommendation-heavy domains (e.g. travel, streaming, commerce) and adapt them to digital health. | End-to-End Ownership Drive projects from prototyping and experimentation through testing, deployment, and iteration in production. | Collaboration Work closely with product, data science, and engineering teams to ensure solutions are robust, user-friendly, and aligned with business goals. | Pioneering Role Help Aktiia apply recommender system principles in a new domain, shaping something that has not been built before."
-9,Supply Chain Analyst,Vorwerk International & Co. KmG,"Completed degree in Business, SCM, Data Science, or a related field | Experience in KPI and BI environments with strong analytical skills | Excellent understanding of end-to-end supply chain processes | Knowledge of SAP IBP/S/4HANA and BI tools such as Qlik is a plus | Basic SQL skills for working with data sources and creating efficient analyses (e.g., for | Qlik dashboards) | Experience in process management (Lean, Six Sigma, BPMN desirable) | Structured and conceptual way of working, with strong presentation skills | High self-motivation and potential, with willingness to take on leadership responsibilities in the medium term"
-10,Data & AI Lakehouse Engineer 80-100% m/w/d,Victorinox AG,"Abgeschlossenes Studium in Informatik, Data Science oder vergleichbare Qualifikation | Erfahrung im Bereich Data-/BI-Engineering auf dem Microsoft Stack, davon mindestens 2 Jahre mit Azure und/oder Microsoft Fabric | Sehr gute Kenntnisse in DAX, Power Query, SQL, SparkSQL, Phython | Erfahrung mit modernen Data-Engineering-Tools | Interesse an AI-Technologien und deren praktischer Anwendung | Sehr gute Deutsch (C1/C2) - und Englischkenntnisse (C1/B2) | Analytisches Denken, Eigeninitiative und Freude an der Zusammenarbeit mit Fachbereich"
-11,Teamleiter/in Data Engineering,Diartis AG,no skills found on this job ad
-12,Einkäufer:in als Datenanalyst:in,Stadler Rail Schweiz AG,no skills found on this job ad
-13,Data Analyst/in Paid Media,Emil Frey Gruppe Schweiz,no skills found on this job ad
-14,Junior Quantitativer Analyst (w/m/d),Raiffeisen Schweiz,no skills found on this job ad
-15,Data/BI Engineer 80-100% (m/w),Komax Group,no skills found on this job ad
-16,Data & Business Performance Analyst (m/w/d),Sympany,no skills found on this job ad
-17,Business Analyst Finanzsysteme (m/w/d),Naturenergie Hochrhein AG,no skills found on this job ad
-18,Scientist – DNA Nanotechnology (m/f/d),arcoris bio AG,no skills found on this job ad
-19,Senior Data Developer (all),BKW Energie AG,no skills found on this job ad
-20,UAS Professor in Food process engineering and technology (80-100%),Haute Ecole d'Ingénierie,no skills found on this job ad
-21,Application Scientist – Assay Development & Technical Support,arcoris bio AG,no skills found on this job ad
-22,Data & Analytics Engineer (Jr/Mid-Level) (f|m|d) | 100% | Zurich - Hybrid Work,SMG Swiss Marketplace Group,no skills found on this job ad
-23,Assistenz- oder Fachpsychologe/in 80%,RSV Hôpital du Valais / Spital Wallis,no skills found on this job ad
-24,HR-Controller/in,Kantonale Verwaltung Zürich,no skills found on this job ad
-25,Student Support - Private Markets ESG 60-80%,LGT Capital Partners AG,no skills found on this job ad
-26,Marketing Technology & Automation Specialist (m/w/d) 80-100%,Spotted by jobs.ch,no skills found on this job ad
-27,Internal Auditor (Senior/Manager),SICPA,no skills found on this job ad
-28,Data Scientist 80 - 100 % (w/m/d),Hamilton Bonaduz AG,no skills found on this job ad
-29,Data Architekt,Safeguard Global,no skills found on this job ad
-30,Wissenschaftliche:r Mitarbeiter:in Verkehrsmodellierung 80 %,ZHAW,no skills found on this job ad
+Job_Index;Job_Title;Company_Name;Skills
+1;Wissenschaftliche*r Mitarbeiter*in oder Assistent*in Information Security und Privacy 50-100%;Hochschule Luzern;no skills found on this job ad
+2;Data/BI Engineer 80-100% (m/w);Komax Group;no skills found on this job ad
+3;Praktikant/in Lage- und Nachrichtenzentrum mit Fokus in Data Science (m/w/d) - befristet für 6 - 12 Monate;Kanton St. Gallen;no skills found on this job ad
+4;Software Development Engineer;Bühler AG;no skills found on this job ad
+5;Assistenzärztin:arzt Radio-Onkologie/Strahlentherapie;INSELSPITAL;no skills found on this job ad
+6;Research Software Engineer;ETH Zürich;no skills found on this job ad
+7;Machine Learning Engineer – Personalization & Recommendations (a);Consult & Pepper AG;no skills found on this job ad
+8;Supply Chain Analyst;Vorwerk International & Co. KmG;no skills found on this job ad
+9;Data & AI Lakehouse Engineer 80-100% m/w/d;Victorinox AG;no skills found on this job ad
+10;Einkäufer:in als Datenanalyst:in;Stadler Rail Schweiz AG;no skills found on this job ad
+11;Junior Quantitativer Analyst (w/m/d);Raiffeisen Schweiz;no skills found on this job ad
+12;Teamleiter/in Data Engineering;Diartis AG;no skills found on this job ad
+13;Business Analyst Finanzsysteme (m/w/d);Naturenergie Hochrhein AG;no skills found on this job ad
+14;UAS Professor in Food process engineering and technology (80-100%);Haute Ecole d'Ingénierie;no skills found on this job ad
+15;Scientist – DNA Nanotechnology (m/f/d);arcoris bio AG;no skills found on this job ad
+16;Senior Data Developer (all);BKW Energie AG;no skills found on this job ad
+17;Application Scientist – Assay Development & Technical Support;arcoris bio AG;no skills found on this job ad
+18;Marketing Technology & Automation Specialist (m/w/d) 80-100%;Spotted by jobs.ch;no skills found on this job ad
+19;Risk Manager (m/w/d);MF Group AG;no skills found on this job ad
+20;HR-Controller/in;Kantonale Verwaltung Zürich;no skills found on this job ad
+21;Data Scientist 80 - 100 % (w/m/d);Hamilton Bonaduz AG;no skills found on this job ad
+22;Web Analytics & Insights Specialist (60-100%);Gonser AG;no skills found on this job ad
+23;Doktorandin / Doktorand Investment Management 70%;Hochschule Luzern;no skills found on this job ad
+24;Consultant - Forensic Technology and eDiscovery;EY (Ernst & Young AG);no skills found on this job ad
+25;Wissenschaftliche:n Projektmitarbeiter:in Multimedia Production;Fachhochschule Graubünden;no skills found on this job ad
+26;Internal Auditor (Senior/Manager);SICPA;no skills found on this job ad
+27;Data Architekt;Safeguard Global;no skills found on this job ad
+28;Director Engineering & Technology;Brack.Alltron AG;no skills found on this job ad
+29;Wissenschaftliche:r Mitarbeiter:in Verkehrsmodellierung 80 %;ZHAW;no skills found on this job ad
+30;MLOps Engineer 80 - 100% (w/m/d);LGT;no skills found on this job ad
