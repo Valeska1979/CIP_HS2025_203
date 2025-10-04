@@ -19,8 +19,14 @@ REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
 NEXT_PAGE_XPATH = "//a[@data-cy='paginator-next']"
 
 # CRITICAL XPATH FIX
-REQUIRED_SKILLS_CLASSES = "li-t_disc pl_s16 mb_s40 mt_s16"
-REQUIRED_SKILLS_XPATH = f"//ul[contains(@class, 'li-t_disc')]//li"
+SHARED_LIST_CLASS = "li-t_disc"
+
+#XPath for TASKS (Assumed to be the first list with the shared class)
+TASKS_XPATH = f"//ul[contains(@class, '{SHARED_LIST_CLASS}')][1]//li"
+
+#XPath for SKILLS (Assumed to be the second list with the shared class)
+SKILLS_XPATH = f"//ul[contains(@class, '{SHARED_LIST_CLASS}')][2]//li"
+
 # ---------------------
 
 # Dynamic Path Configuration for Cross-Platform/GitHub Compatibility
@@ -127,6 +133,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
         job_details = {"Job_Index": jobs_scraped_count + 1,
                        "Job_Title": "N/A",
                        "Company_Name": "N/A",
+                       "Tasks": "no tasks found on this job ad",
                        "Skills": "no skills found on this job ad"}
         required_skills = []
         unique_id = None  # Initialize unique_id
@@ -168,34 +175,45 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
             print(f"Could not navigate to unique job ad. Skipping. Error: {e}")
             # If navigation fails, we DON'T increment the count or save, just continue
             continue
-        required_skills = []
-        try:
-            # Step 1: Find all individual skill <li> elements using the robust XPath
-            skill_elements = WebDriverWait(driver, 5).until(
-                EC.presence_of_all_elements_located((By.XPATH, REQUIRED_SKILLS_XPATH))
-            )
 
-            if skill_elements:
-                for element in skill_elements:
-                    # Step 2: Extract text and clean up
-                    skill_text = element.text.strip()
-                    if skill_text:
-                        required_skills.append(skill_text)
 
-            if required_skills:
-                # Join the extracted skills with the chosen delimiter
-                job_details["Skills"] = " | ".join(required_skills)
-                print(f"    -> Extracted {len(required_skills)} skills: {required_skills[0][:30]}...")
-            else:
-                job_details["Skills"] = "no skills found on this job ad"
-                print("    -> No skills list found (empty or only generic content)")
+        # --- Function to handle extraction and error management ---
+        def extract_list(xpath, field_name):
+            extracted_items = []
+            job_details[field_name] = f"no {field_name.lower()} found on this job ad"
 
-        except TimeoutException:
-            job_details["Skills"] = "no skills found on this job ad"
-            print("    -> Warning: Skills list timed out (5s). Saving 'no skills found'.")
-        except Exception as e:
-            job_details["Skills"] = "no skills found on this job ad"
-            print(f"    -> Error during skill extraction: {e}")
+            try:
+                # Use the specific XPath for the target list (Tasks or Skills)
+                elements = WebDriverWait(driver, 5).until(
+                    EC.presence_of_all_elements_located((By.XPATH, xpath))
+                )
+
+                for element in elements:
+                    item_text = element.text.strip()
+                    if item_text:
+                        extracted_items.append(item_text)
+
+                if extracted_items:
+                    job_details[field_name] = " | ".join(extracted_items)
+                    print(f"    -> Extracted {len(extracted_items)} {field_name}.")
+                else:
+                    print(f"    -> No {field_name} list found.")
+
+            except TimeoutException:
+                print(f"    -> Warning: {field_name} list timed out (5s).")
+            except Exception as e:
+                print(f"    -> Error during {field_name} extraction: {e}")
+
+
+        # 1. Extract Tasks
+        extract_list(TASKS_XPATH, "Tasks")
+
+        # 2. Extract Skills
+        extract_list(SKILLS_XPATH, "Skills")
+
+
+
+
 
         # --- SAVE UNIQUE JOB ---
         scraped_data.append(job_details)
@@ -236,23 +254,6 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:
         break
 
 # --- FINAL OUTPUT ---
-pd.set_option('display.width', 1000)
-df_skills = pd.DataFrame(scraped_data)
-
-# Print comprehensive skill list
-all_individual_skills = []
-for skills_string in df_skills['Skills']:
-    if skills_string and skills_string != "no skills found on this job ad":
-        individual_skills = [s.strip() for s in skills_string.split(' | ')]
-        all_individual_skills.extend(individual_skills)
-unique_skills_list = sorted(list(set(all_individual_skills)))
-
-print("\n" + "#" * 50)
-print("LIST OF ALL UNIQUE SCRAPED REQUIRED SKILLS")
-print("#" * 50)
-for i, skill in enumerate(unique_skills_list):
-    print(f"  {i + 1}. {skill}")
-print("#" * 50)
 
 print("\n" + "=" * 50)
 print(f"Successfully scraped {len(df_skills)} job ads:")
