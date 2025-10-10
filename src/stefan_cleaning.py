@@ -45,6 +45,8 @@ print(f"Total rows in original data: {len(df)}")
 print(f"Rows excluded (Missing Tasks AND Missing Skills): {rows_excluded}")
 print(f"Total rows in cleaned data: {len(df_cleaned_and)}")
 
+"The filter shows most of the jobs having both no Tasks and no Skills are jobs which are not relevant for us because they are not Data Science related jobs. So they can be excluded from the dataset"
+
 #Creating a new CSV with the cleaned dataset
 os.makedirs(PROCESSED_DIR, exist_ok=True) # Ensure the output directory exists before saving
 
@@ -75,31 +77,15 @@ else:
 print("-" * 30)
 
 
+# --- Filtering No Tasks ---
+df_cleaned = df_cleaned_and #reasigning variable for better understanding
+
+#1. Applying the filter and inspection
+
+df_subset_notasks = df_cleaned[(df_cleaned["Tasks"] == MISSING_TASK_STRING)]
+
+print(f"Rows with misssing Tasks in the cleaned dataset: {len(df_subset_notasks)}")
 
 
 
-
-
-
-
-
-
-# --- Filtering No Tasks OR No Skills ---
-# 1. Create a boolean Series for rows where the 'Tasks' and 'Skills' column matches the missing string.
-missing_tasks_mask = (df["Tasks"] == MISSING_TASK_STRING)
-missing_skills_mask = (df["Skills"]) == MISSING_SKILL_STRING
-
-#2. Combine the masks using the OR operator (|) to select rows where *either* condition is True.
-combined_filter = missing_tasks_mask | missing_skills_mask
-
-#4. Applying the filter and creating a subset
-
-df_subset = df[combined_filter].copy()
-
-# --- Output ---
-print("\n--- Filtered Subset Summary ---")
-print(f"Rows with missing Tasks: {missing_tasks_mask.sum()}, {round(missing_tasks_mask.sum() / len(df)*100, 2)}% of the dataset ")
-print(f"Rows with missing Skills: {missing_skills_mask.sum()}, {round(missing_skills_mask.sum() / len(df)*100, 2)}% of the dataset")
-
-"22% of the 'Skills' seems to miss. However, this is not a big issue because 'Skills' could also be in the 'Tasks' column. We proceede further with cleaning"
-
+#Filtering No Tasks ---
