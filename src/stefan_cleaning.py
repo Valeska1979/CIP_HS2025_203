@@ -80,7 +80,7 @@ print("-" * 30)
 # --- Filtering No Tasks ---
 df_cleaned = df_cleaned_and #reasigning variable for better understanding
 
-#1. Applying the filter and inspection
+#Applying the filter and inspection
 
 df_subset_notasks = df_cleaned[(df_cleaned["Tasks"] == MISSING_TASK_STRING)]
 
@@ -88,4 +88,10 @@ print(f"Rows with misssing Tasks in the cleaned dataset: {len(df_subset_notasks)
 
 
 
-#Filtering No Tasks ---
+#Filtering No Skills ---
+
+#1. Applying the filter and inspection
+
+df_subset_noskills = df_cleaned[(df_cleaned["Skills"] == MISSING_SKILL_STRING)]
+
+print(f"Rows with misssing Tasks in the cleaned dataset: {len(df_subset_noskills)}")
