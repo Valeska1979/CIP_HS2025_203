@@ -86,7 +86,7 @@ print(f"Rows with misssing Tasks in the cleaned dataset: {len(df_subset_notasks)
 "No rows with only missing Tasks in the cleaned dataset"
 
 
-#Filtering No Skills ---
+# --- Filtering No Skills ---
 
 #1. Applying the filter and inspection
 
@@ -97,9 +97,7 @@ print(f"Rows with misssing Skills in the cleaned dataset: {len(df_subset_noskill
 "df_subset_noskills was inspected in View mode. Jobs unrelated to Data Science were identified and removed. It was also checked whether any skills appeared in the Tasks column instead of Skills — if so, they were kept as-is. After review, jobs were removed from the cleaned dataset based on their Job Index."
 
 
-
-##############################################
-# --- Exclusion of Specific Jobs by Job_Index ---
+#Exclusion of Specific Jobs by Job_Index
 # The list of Job_Index values to be excluded
 JOB_INDICES_TO_EXCLUDE = [
     24, 43, 49, 58, 62, 64, 77, 80, 82, 90, 91, 95, 103, 104,
@@ -134,56 +132,3 @@ print(f"\nFinal cleaned dataset saved to: {FINAL_CLEANED_DATASET_FILE_PATH}")
 
 
 
-
-
-
-########################################################
-
-
-# --- Configuration ---
-EXCEL_FILE_PATH = r"C:\Users\stefa\Pycharm_CIP_Jobs_Project_Github\data\raw\df_subset_noskills.xlsx"
-PROCESSED_DIR = '../data/processed/' # Output directory from previous code
-DELIMITER = ';'
-
-# --- Load Excel File Review Data ---
-
-#Column names needed to sort out the jobs
-ID_COLUMN = 'Job_Index'  # The unique identifier column (e.g., 'job_id', 'index')
-REASON_COLUMN = 'Exclusion_Reason' # The column you added in Excel
-
-#Categories which indicate the jobs being sorted out and loading the Excel file
-EXCLUSION_CRITERIA = [
-    'No Data Science Jobs',
-    'No Skills',
-    'No Data Science Jobs / No Skills',
-    'No Data Science Job / Ad in French'
-]
-
-df_subset_noskills_excel = pd.read_excel(EXCEL_FILE_PATH)
-
-df_exclusion = df_subset_noskills_excel[[ID_COLUMN, REASON_COLUMN]].copy()
-
-# --- Merge and Filter ---
-#Left join df_cleaned with Excel file in order to be able to add the new column Exclusion_Reason
-df_merged = pd.merge(
-    df_cleaned,
-    df_exclusion,
-    on=ID_COLUMN,
-    how='left'
-)
-
-# Create a mask: True for rows to EXCLUDE
-exclusion_mask = df_merged[REASON_COLUMN].isin(EXCLUSION_CRITERIA)
-
-# Invert the mask (~) to select rows to KEEP
-df_merged = df_merged[~exclusion_mask]
-
-# Drop the temporary reason column
-df_cleaned = df_merged.drop(columns=[REASON_COLUMN])
-
-#Saving the the dataframe (overwritting the existing cleaned dataset)
-df_cleaned.to_csv(CLEANED_DATASET_FILE_PATH, sep=DELIMITER, index=False)
-
-print("-" * 30)
-print(f"Total rows saved: {len(df_cleaned)}")
-print("-" * 30)
