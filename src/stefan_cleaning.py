@@ -130,4 +130,44 @@ df_cleaned.to_csv(FINAL_CLEANED_DATASET_FILE_PATH, sep=DELIMITER, index=False)
 print(f"\nFinal cleaned dataset saved to: {FINAL_CLEANED_DATASET_FILE_PATH}")
 
 
+# --- Filtering Job Titles---
+
+"As the next step, job titles unrelated to Data Science were removed. Jobs were also excluded where the listed skills had on a first glimpse no clear connection to Data Science or our degree — e.g., technical trades, engineering, life sciences, or PhD-level roles."
+
+#Exclusion of Specific Jobs by Job_Index
+# The list of Job_Index values to be included
+JOB_INDICES_TO_INCLUDE = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 18, 19, 20, 25, 27, 28, 29, 30,
+    31, 32, 33, 34, 35, 36, 37, 38, 40, 44, 48, 50, 53, 65, 359, 360, 361, 365,
+    367, 369, 371, 373, 375, 376, 381, 383, 384, 386, 387, 388, 391, 395, 398,
+    399, 403, 302, 303, 304, 305, 306, 312, 313, 314, 316, 319, 320, 322, 323,
+    325, 331, 332, 338, 339, 340, 341, 344, 346, 350, 352, 357, 172, 174, 83,
+    84, 92, 93, 196, 200, 226, 133, 135, 137, 150, 248, 156, 288, 301, 309, 321,
+    324, 326, 328, 223, 334, 230, 358, 251, 263, 374, 397, 408
+]
+
+# Create a boolean mask: True for rows where Job_Index is IN the including list
+inclusion_mask = df_cleaned['Job_Index'].isin(JOB_INDICES_TO_INCLUDE)
+
+# Apply the filter to keep only the rows where the mask is TRUE and create a new subset
+df_cleaned_final = df_cleaned[inclusion_mask].copy()
+
+print("-" * 30)
+print(f"Total rows in cleaned data: {len(df_cleaned_final)}")
+print("-" * 30)
+
+
+# --- Saving the Cleaned Dataset as a new CSV---
+
+# Build the path relative to the project root
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+output_path = os.path.join(project_root, "data", "processed", "jobs_ch_skills_all_cleaned_final_V1.csv")
+
+# Create the directory if it doesn't exist
+os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+# Save to CSV (without the index column)
+df_cleaned_final.to_csv(output_path, index=False)
+
+print(f"File saved successfully at: {output_path}")
 
