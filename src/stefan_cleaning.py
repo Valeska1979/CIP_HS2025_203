@@ -98,6 +98,43 @@ print(f"Rows with misssing Skills in the cleaned dataset: {len(df_subset_noskill
 
 
 
+##############################################
+# --- Exclusion of Specific Jobs by Job_Index ---
+# The list of Job_Index values to be excluded
+JOB_INDICES_TO_EXCLUDE = [
+    24, 43, 49, 58, 62, 64, 77, 80, 82, 90, 91, 95, 103, 104,
+    116, 117, 119, 126, 132, 146, 148, 167, 182, 185, 186, 189,
+    202, 210, 220, 221, 224, 237, 241, 243, 249, 250, 259, 260,
+    274, 276, 283, 287, 290, 293, 294, 298, 308, 310, 327, 342,
+    348, 351
+]
+
+# Create a boolean mask: True for rows where Job_Index is IN the exclusion list
+exclusion_mask = df_cleaned['Job_Index'].isin(JOB_INDICES_TO_EXCLUDE)
+
+# Apply the filter to keep only the rows where the mask is False (i.e., NOT in the exclusion list)
+df_cleaned = df_cleaned[~exclusion_mask]
+
+print("-" * 30)
+print(f"Rows excluded (Specific Job_Indices): {rows_excluded_specific}")
+print(f"Total rows in cleaned data: {len(df_cleaned)}")
+print("-" * 30)
+
+
+# --- Saving the Cleaned Dataset ---
+
+# Overwrite CSV with the final cleaned dataset
+FINAL_CLEANED_DATASET = 'jobs_ch_skills_all_final_cleaned.csv'
+FINAL_CLEANED_DATASET_FILE_PATH = os.path.join(PROCESSED_DIR, FINAL_CLEANED_DATASET)
+
+# Saving the cleaned DataFrame to the specified path
+df_cleaned.to_csv(FINAL_CLEANED_DATASET_FILE_PATH, sep=DELIMITER, index=False)
+
+print(f"\nFinal cleaned dataset saved to: {FINAL_CLEANED_DATASET_FILE_PATH}")
+
+
+
+
 
 
 ########################################################
