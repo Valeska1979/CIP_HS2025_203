@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import os
 
 # --- Configuration ---
@@ -18,26 +17,24 @@ MISSING_SKILL_STRING = 'no skills found on this job ad'
 
 # --- Data Loading ---
 df = pd.read_csv(FILE_PATH, sep=DELIMITER)
-print(f"Data loaded successfully. Total rows: {len(df)}")
+print(f"Data loaded. Total rows: {len(df)}")
 
 
 
 # --- Filtering No Tasks AND No Skills ---
-# 1. Create a boolean Series for rows where the 'Tasks' and 'Skills' column matches the missing string.
+# 1. Create a boolean Series for rows where the Tasks and Skills column matches the missing string.
 missing_tasks_mask = (df["Tasks"] == MISSING_TASK_STRING)
 missing_skills_mask = (df["Skills"]) == MISSING_SKILL_STRING
 
 #2. Combine the masks using the AND (&) operator to select rows where both condition is True.
 combined_filter_and = missing_tasks_mask & missing_skills_mask
 
-#4. Applying the filter and creating a subset
-
+#3. Applying the filter and creating a subset
 df_subset_and = df[combined_filter_and].copy()
 
 print(f"Rows with missing Tasks and Skills: {len(df_subset_and)}")
 
 #Excluding rows where there are no tasks AND no skills
-
 df_cleaned_and = df[~combined_filter_and].copy()
 
 rows_excluded = len(df) - len(df_cleaned_and)
@@ -52,7 +49,7 @@ os.makedirs(PROCESSED_DIR, exist_ok=True) # Ensure the output directory exists b
 
 df_cleaned_and.to_csv(CLEANED_DATASET_FILE_PATH, sep=DELIMITER, index=False) # Save the cleaned DataFrame to the specified path
 
-#Small test if the dataset df_cleaned_and doesnt have rows with both missing Tasks AND Skills
+#Small test if the dataset df_cleaned_and does not have rows with both missing Tasks AND Skills
 # 1. Create a boolean Series for rows in the cleaned data that still match the exclusion criteria.
 # Checking if the exclusion condition is met in the cleaned dataframe.
 verification_tasks_mask = (df_cleaned_and["Tasks"] == MISSING_TASK_STRING)
@@ -70,9 +67,9 @@ print("--- Verification Check ---")
 
 if rows_to_check_count == 0:
     print(f"SUCCESS: The 'df_cleaned_and' DataFrame contains **{rows_to_check_count}** rows with both missing Tasks AND missing Skills.")
-    print("The exclusion was successful, as expected.")
+    print("The exclusion was successful.")
 else:
-    print(f"WARNING: The 'df_cleaned_and' DataFrame unexpectedly contains **{rows_to_check_count}** rows that should have been excluded.")
+    print(f"WARNING: The 'df_cleaned_and' DataFrame contains **{rows_to_check_count}** rows that should have been excluded.")
 
 print("-" * 30)
 
@@ -86,6 +83,7 @@ df_subset_notasks = df_cleaned[(df_cleaned["Tasks"] == MISSING_TASK_STRING)]
 
 print(f"Rows with misssing Tasks in the cleaned dataset: {len(df_subset_notasks)}")
 
+"No rows with only missing Tasks in the cleaned dataset"
 
 
 #Filtering No Skills ---
@@ -94,9 +92,16 @@ print(f"Rows with misssing Tasks in the cleaned dataset: {len(df_subset_notasks)
 
 df_subset_noskills = df_cleaned[(df_cleaned["Skills"] == MISSING_SKILL_STRING)]
 
-print(f"Rows with misssing Tasks in the cleaned dataset: {len(df_subset_noskills)}")
+print(f"Rows with misssing Skills in the cleaned dataset: {len(df_subset_noskills)}")
 
-"The df_subset_noskills was exported in a Excel File to sort out what Jobs are not related to Data Science or dont have Skills in the Tasks column. The following steps will sort out those jobs from the df_cleaned dataset."
+"df_subset_noskills was inspected in View mode. Jobs unrelated to Data Science were identified and removed. It was also checked whether any skills appeared in the Tasks column instead of Skills — if so, they were kept as-is. After review, jobs were removed from the cleaned dataset based on their Job Index."
+
+
+
+
+
+########################################################
+
 
 # --- Configuration ---
 EXCEL_FILE_PATH = r"C:\Users\stefa\Pycharm_CIP_Jobs_Project_Github\data\raw\df_subset_noskills.xlsx"
