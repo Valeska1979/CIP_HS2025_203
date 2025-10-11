@@ -114,7 +114,6 @@ exclusion_mask = df_cleaned['Job_Index'].isin(JOB_INDICES_TO_EXCLUDE)
 df_cleaned = df_cleaned[~exclusion_mask]
 
 print("-" * 30)
-print(f"Rows excluded (Specific Job_Indices): {rows_excluded_specific}")
 print(f"Total rows in cleaned data: {len(df_cleaned)}")
 print("-" * 30)
 
