@@ -8,3 +8,4 @@ selenium webdriver-manager
 # Data analysis
 pandas
 matplotlib
+
