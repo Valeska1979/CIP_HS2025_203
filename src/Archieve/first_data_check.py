@@ -64,7 +64,7 @@ if not jobs_missing_tasks.empty and len(jobs_missing_tasks) != len(df):
     # --- CONFIGURATION ---
     # Using the absolute path provided in the initial query for reliability.
     # We convert the raw string path to a Path object for better cross-platform handling.
-    FILE_PATH = Path(r"C:\Users\stefa\Pycharm_CIP_Jobs_Project_Github\data\raw\jobs_ch_skills_all.csv")
+    FILE_PATH = Path(r"/data/raw/jobs_ch_skills_all.csv")
     CSV_SEPARATOR = ';'
 
     # Define the specific string values used by the scraper when content was not found

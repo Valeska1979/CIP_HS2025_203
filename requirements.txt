@@ -3,7 +3,13 @@ requests
 beautifulsoup4
 selenium
 mechanicalsoup
+webdriver-manager
 
 # Data analysis
 pandas
 matplotlib
+
+#Natural language processing
+nltk
+
+
