@@ -9,3 +9,7 @@ webdriver-manager
 pandas
 matplotlib
 
+#Natural language processing
+nltk
+
+
