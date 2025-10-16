@@ -3,7 +3,7 @@ requests
 beautifulsoup4
 selenium
 mechanicalsoup
-selenium webdriver-manager
+webdriver-manager
 
 # Data analysis
 pandas
