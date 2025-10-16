@@ -27,6 +27,7 @@ else:
     detected_os = "Windows"
 
 # --- DRIVER CONFIGURATION (get_driver) ---
+# Driver Configuration and OS Detection
 def get_driver(os_type="Windows"):  # os_type parameter can be used for User-Agent selection
     """Start Chrome with options using webdriver-manager for automatic driver management."""
     options = Options()
@@ -49,9 +50,7 @@ def get_driver(os_type="Windows"):  # os_type parameter can be used for User-Age
     return webdriver.Chrome(service=service, options=options)
 
 
-
-#Cookie and Banner Management
-
+# --- Cookie and Banner Management ---
 def accept_cookies_and_close_banner(driver):
     """Accept cookies and close the smart search popup if present."""
     wait = WebDriverWait(driver, 10)
