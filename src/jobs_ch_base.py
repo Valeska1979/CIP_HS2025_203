@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import time
 
-user_os = input("Which OS do you use (Windows / Mac):  ")
+user_os = input("Which OS do you use (Windows / Mac / Linux):  ")
 
 if user_os == "Mac":
     def get_driver():
@@ -21,6 +21,32 @@ elif user_os == "Windows":
 
     def get_driver():
         """Start Chrome with options (User-Agent to avoid 403 errors)."""
+        options = Options()
+        options.add_argument("--start-maximized")
+        options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                                 "AppleWebKit/537.36 (KHTML, like Gecko) "
+                                 "Chrome/140.0.0.0 Safari/537.36")
+        return webdriver.Chrome(options=options)
+
+elif user_os == "Linux":
+
+    def get_driver():
+        """Start Chrome with options (User-Agent to avoid 403 errors)."""
+        options = Options()
+        options.add_argument("--start-maximized")
+        options.add_argument("--no-sandbox") #options often required for headless/server Linux environments
+        options.add_argument("--disable-dev-shm-usage") #options often required for headless/server Linux environments
+
+        options.add_argument("--user-agent=Mozilla/5.0 (X11; Linux x86_64) "
+                             "AppleWebKit/537.36 (KHTML, like Gecko) "
+                             "Chrome/140.0.0.0 Safari/537.36")
+        return webdriver.Chrome(options=options)
+
+else:
+    # CATCH-ALL for typos or unknown OS
+    print(f"WARNING: Unknown OS '{user_os}'. Falling back to default Windows configuration.")
+    def get_driver():
+        """Fallback driver setup."""
         options = Options()
         options.add_argument("--start-maximized")
         options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
