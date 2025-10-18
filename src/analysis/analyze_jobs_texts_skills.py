@@ -183,9 +183,9 @@ print(geo_counts.head(30).to_string(index=False))
 # Define output directory and filenames
 output_dir = "data/processed/"
 
-phrases_out = output_dir + "jobs_ch_phrases_analysis.csv"
-skills_out  = output_dir + "jobs_ch_single_skills_analysis.csv"
-locations_out = output_dir + "jobs_ch_location_counts.csv"
+phrases_out = output_dir + "jobs_ch_phrases_analysis_old.csv"
+skills_out  = output_dir + "jobs_ch_single_skills_analysis_old.csv"
+locations_out = output_dir + "jobs_ch_location_counts_old.csv"
 
 # Save DataFrames to CSV (without index)
 df_phrases.to_csv(phrases_out, index=False, sep=";")
