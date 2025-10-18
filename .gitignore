@@ -20,3 +20,5 @@ data/processed/*
 # IDE/editor settings
 .vscode/        # VS Code
 .idea/          # PyCharm
+
+tempCodeRunnerFile.py
