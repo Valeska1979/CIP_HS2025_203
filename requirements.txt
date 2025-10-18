@@ -5,11 +5,14 @@ selenium
 mechanicalsoup
 webdriver-manager
 
-# Data analysis
+# Data analysis & visualization
 pandas
 matplotlib
 
-#Natural language processing
+# Natural language processing
 nltk
+sentence-transformers
 
-
+# Machine learning & clustering
+scikit-learn
+umap-learn
