@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 import os
 
-# --- CONFIGURATION (Fixed for your file path) ---
+# --- CONFIGURATION ---
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent
@@ -33,7 +33,7 @@ if not SESSION_FILE_PATH.exists():
     exit()
 
 try:
-    # 1. Load the session data
+    # Load the session data
     df_session = pd.read_csv(SESSION_FILE_PATH, sep=';')
     records_to_append = len(df_session)
 
@@ -41,7 +41,7 @@ try:
         print("Warning: Session file is empty. No data to consolidate.")
         exit()
 
-    # 2. Determine the starting index for the new data
+    # Determine the starting index for the new data
     master_file_exists = MASTER_FILE_PATH.exists() and MASTER_FILE_PATH.stat().st_size > 0
 
     if master_file_exists:
@@ -55,12 +55,10 @@ try:
 
     print(f"Starting index for new records will be: {start_index}")
 
-    # 3. Recalculate the Job_Index column in the session data
+    # Recalculate the Job_Index column in the session data
     df_session['Job_Index'] = range(start_index, start_index + records_to_append)
 
-    # 4. Save the session data to the Master CSV
-
-    # Append the data
+    # Save the session data to the Master CSV
     df_session.to_csv(MASTER_FILE_PATH,
                       mode='a',
                       header=not master_file_exists,
