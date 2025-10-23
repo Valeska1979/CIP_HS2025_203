@@ -11,8 +11,10 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
-from nltk.corpus import stopwords
 import nltk
+from nltk.corpus import stopwords
+from umap import UMAP
+import matplotlib.pyplot as plt
 
 # ----------------------------------------------------------
 # Setup & Stopwords
@@ -137,8 +139,6 @@ print(f"\nLabeled cluster file saved to: {output_path}")
 # ==========================================================
 # Visualize Semantic Clusters with UMAP
 # ==========================================================
-from umap import UMAP
-import matplotlib.pyplot as plt
 
 # --- Reduce embeddings to 2D with UMAP ---
 umap_model = UMAP(
