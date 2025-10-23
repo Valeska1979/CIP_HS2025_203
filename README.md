@@ -59,3 +59,5 @@ CIP_HS2025_203/
 3. Keep dependencies up to date by refreshing requirements.txt:
 pip freeze > requirements.txt
 
+4. Run all scripts from the project root to ensure relative paths work correctly.
+
