@@ -3,11 +3,11 @@ import os
 
 # --- Configuration ---
 # Relative path to the raw dataset.
-FILE_PATH = '../data/raw/jobs_ch_skills_all.csv'
+FILE_PATH = '../../data/raw/jobs_ch_skills_all.csv'
 DELIMITER = ';'
 
 #Relative path for cleaned dataset
-PROCESSED_DIR = '../data/processed/'
+PROCESSED_DIR = '../../data/processed/'
 OUTPUT_CLEANED_DATASET = 'jobs_ch_skills_all_cleaned.csv'
 CLEANED_DATASET_FILE_PATH = os.path.join(PROCESSED_DIR, OUTPUT_CLEANED_DATASET)
 

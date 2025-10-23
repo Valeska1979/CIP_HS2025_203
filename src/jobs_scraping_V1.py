@@ -11,10 +11,10 @@ import re
 
 # --- USER INPUT AND DYNAMIC CONFIGURATION ---
 
-# 1. Ask for the job search term
+# Ask for the job search term
 job_search_term = input("Enter the job title you want to scrape (e.g., Data Scientist): ")
 
-# 2. Ask for the maximum number of jobs to scrape
+# Ask for the maximum number of jobs to scrape
 while True:
     try:
         max_jobs_input = input("Enter the maximum number of jobs to scrape (e.g., 50): ")
@@ -26,7 +26,7 @@ while True:
     except ValueError:
         print("Invalid input. Please enter a whole number.")
 
-# 3. Clean the job name for file naming (e.g., 'Data Scientist' -> 'data_scientist')
+# Clean the job name for file naming (e.g., 'Data Scientist' -> 'data_scientist')
 safe_job_name = re.sub(r'\s+', '_', job_search_term.strip().lower())
 safe_job_name = re.sub(r'[^a-z0-9_]', '', safe_job_name)
 
@@ -48,10 +48,10 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR.parent / "data" / "raw"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-# 4. Dynamic output file path
+# Dynamic output file path
 SAVE_FILE_PATH = DATA_DIR / f"jobs_ch_{safe_job_name}_skills.csv"
 
-# 5. Master file path
+# Master file path
 MASTER_FILE_PATH = DATA_DIR / "jobs_ch_skills_all.csv"
 
 
@@ -144,10 +144,9 @@ def extract_list(driver, wait, xpath, field_name, job_details):
 
 
 # --- JOB ITERATION AND SCRAPING MASTER LOOP (PAGINATION) ---
-
 while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS_TO_SCRAPE
 
-    # 1. SCROLL DOWN TO LOAD ALL JOBS ON THE CURRENT PAGE
+    # SCROLL DOWN TO LOAD ALL JOBS ON THE CURRENT PAGE
     try:
         print("Scrolling page content to load all job links on this view...")
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -155,7 +154,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
     except Exception as e:
         print(f"Error during scrolling: {e}")
 
-    # 2. LOCATE ALL JOB LINKS
+    # LOCATE ALL JOB LINKS
     try:
         wait.until(EC.presence_of_element_located((By.XPATH, JOB_LINK_XPATH)))
         job_links_on_page = driver.find_elements(By.XPATH, JOB_LINK_XPATH)
@@ -168,7 +167,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
 
     print(f"Found {num_jobs_on_page} links. Checking the next {num_to_scrape_on_page} job(s)...")
 
-    # 3. ITERATE AND SCRAPE JOBS
+    # ITERATE AND SCRAPE JOBS
     for i in range(num_jobs_on_page):
 
         if jobs_scraped_count >= MAX_JOBS_TO_SCRAPE:
@@ -183,7 +182,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
                        "Job_Search_Term": job_search_term}
         unique_id = None
 
-        # --- NAVIGATION AND INITIAL EXTRACTION (FROM SEARCH RESULTS) ---
+        # NAVIGATION AND INITIAL EXTRACTION (FROM SEARCH RESULTS)
         try:
             job_links = wait.until(EC.presence_of_all_elements_located((By.XPATH, JOB_LINK_XPATH)))
             current_link = job_links[i]
@@ -205,7 +204,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
             print(f"Could not extract basic info for job link at index {i}. Skipping. Error: {e}")
             continue
 
-        # --- DUPLICATE CHECKS ---
+        # DUPLICATE CHECKS
         if unique_id in unique_job_ids_session:
             print(f"  -> Duplicate found in SESSION FILE: '{job_title[:50]}...' (Skipping)")
             continue
@@ -231,11 +230,11 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
             print(f"Could not navigate to unique job ad. Skipping. Error: {e}")
             continue
 
-        # --- DUAL EXTRACTION LOGIC (TASKS and SKILLS) ---
+        # DUAL EXTRACTION LOGIC (TASKS and SKILLS)
         extract_list(driver, wait, TASKS_XPATH, "Tasks", job_details)
         extract_list(driver, wait, SKILLS_XPATH, "Skills", job_details)
 
-        # --- SAVE UNIQUE JOB ---
+        # SAVE UNIQUE JOB
         scraped_data.append(job_details)
         unique_job_ids_session.add(unique_id)
         unique_job_ids_master.add(unique_id)
@@ -256,7 +255,7 @@ while jobs_scraped_count < MAX_JOBS_TO_SCRAPE:  # Uses the user-defined MAX_JOBS
         except Exception as e:
             print(f"WARNING: Could not save intermediate data to CSV. Error: {e}")
 
-    # 4. PAGINATE
+    # PAGINATE
     if jobs_scraped_count >= MAX_JOBS_TO_SCRAPE:
         print(f"Limit of {MAX_JOBS_TO_SCRAPE} jobs reached.")
         break
