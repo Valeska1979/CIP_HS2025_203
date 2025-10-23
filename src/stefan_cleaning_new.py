@@ -3,14 +3,16 @@ import os
 import re
 
 # --- Configuration ---
-# Relative path to the raw dataset.
-FILE_PATH = '../data/raw/jobs_ch_skills_all.csv'
-DELIMITER = ';'
+# Base Directory Setup
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROCESSED_DIR = os.path.join(project_root, 'data', 'processed')
+RAW_DIR = os.path.join(project_root, 'data', 'raw')
 
-#Relative path for cleaned dataset
-PROCESSED_DIR = '../data/processed/'
-OUTPUT_CLEANED_DATASET = 'jobs_ch_skills_all_cleaned.csv'
-CLEANED_DATASET_FILE_PATH = os.path.join(PROCESSED_DIR, OUTPUT_CLEANED_DATASET)
+
+# File Path Definition
+FILE_PATH = os.path.join(RAW_DIR, 'jobs_ch_skills_all.csv') # Input
+INTERMEDIATE_FILE_PATH = os.path.join(PROCESSED_DIR, 'jobs_ch_skills_all_cleaned.csv')
+FINAL_FILE_PATH = os.path.join(PROCESSED_DIR, 'jobs_ch_skills_all_cleaned_final_V1.csv')
 
 # Define the specific strings to filter for, indicating missing data
 MISSING_TASK_STRING = 'no tasks found on this job ad'
@@ -47,9 +49,7 @@ print(f"Total rows in cleaned data: {len(df_cleaned_and)}")
 
 #Creating a new CSV with the cleaned dataset
 os.makedirs(PROCESSED_DIR, exist_ok=True) # Ensure the output directory exists before saving
-
-df_cleaned_and.to_csv(CLEANED_DATASET_FILE_PATH, sep=DELIMITER, index=False) # Save the cleaned DataFrame to the specified path
-
+df_cleaned_and.to_csv(INTERMEDIATE_FILE_PATH, sep=DELIMITER, index=False) # Save the cleaned DataFrame to the specified path
 
 #Small test if the dataset df_cleaned_and does not have rows with both missing Tasks AND Skills
 # 1. Create a boolean Series for rows in the cleaned data that still match the exclusion criteria.
@@ -203,17 +203,11 @@ print("-" * 30)
 
 
 
-# --- Saving the Cleaned Dataset as final CSV---
+#Creating final CSV with the cleaned dataset
+os.makedirs(os.path.dirname(FINAL_FILE_PATH), exist_ok=True)
 
-# Build the path relative to the project root
-project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-output_path = os.path.join(project_root, "data", "processed", "jobs_ch_skills_all_cleaned_final_V1.csv")
+df_cleaned_final.to_csv(FINAL_FILE_PATH, index=False) # Save to CSV (without the index column)
 
-# Create the directory if it doesn't exist
-os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-# Save to CSV (without the index column)
-df_cleaned_final.to_csv(output_path, index=False)
-
-print(f"File saved successfully at: {output_path}")
+print(f"File saved successfully at: {FINAL_FILE_PATH}")
 
