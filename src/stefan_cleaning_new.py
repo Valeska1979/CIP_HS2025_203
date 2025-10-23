@@ -123,19 +123,6 @@ print("-" * 30)
 print(f"Total rows in cleaned data after exclusion of specific jobs by Job_Index: {len(df_cleaned)}")
 
 
-# --- Saving the Cleaned Dataset ---
-
-# Overwrite CSV with the cleaned dataset
-FINAL_CLEANED_DATASET = 'jobs_ch_skills_all_final_cleaned.csv'
-FINAL_CLEANED_DATASET_FILE_PATH = os.path.join(PROCESSED_DIR, FINAL_CLEANED_DATASET)
-
-# Saving the cleaned DataFrame to the specified path
-df_cleaned.to_csv(FINAL_CLEANED_DATASET_FILE_PATH, sep=DELIMITER, index=False)
-
-print("-" * 30)
-print(f"\nFile saved successfully at: {FINAL_CLEANED_DATASET_FILE_PATH}")
-print("-" * 30)
-
 # --- Filtering by Keywords---
 "As the further step, a keyword-based exclusion filter was applied across the job Title, Tasks, and Skills columns to remove roles that clearly fell outside the scope of Data Science, such as those explicitly mentioning Lager, Recht, or Chemie. The keywords were indentified meanwhile going through the data set"
 
