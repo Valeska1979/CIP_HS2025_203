@@ -7,13 +7,13 @@ def merge_session_to_master(session_file_path: Path, master_file_path: Path, del
 
     # --- CORE CONSOLIDATION LOGIC ---
     print("-" * 50)
-    print(f"Attempting to consolidate data from: {SESSION_FILE_NAME}")
+    print(f"Attempting to consolidate data from: {session_file_path}")
     print("-" * 50)
 
     if not session_file_path.exists():
         print(f"Error: Session file not found at path: {session_file_path}")
         print(f"Expected location: {session_file_path.resolve()}")
-        exit()
+        return False
 
     try:
         # Load the session data
@@ -22,7 +22,7 @@ def merge_session_to_master(session_file_path: Path, master_file_path: Path, del
 
         if records_to_append == 0:
             print("Warning: Session file is empty. No data to consolidate.")
-            exit()
+            return False
 
         # Determine the starting index for the new data
         master_file_exists = master_file_path.exists() and master_file_path.stat().st_size > 0
@@ -49,24 +49,21 @@ def merge_session_to_master(session_file_path: Path, master_file_path: Path, del
                           sep=';')
 
         print(
-            f"SUCCESS! {records_to_append} records from '{SESSION_FILE_NAME}' successfully copied to '{MASTER_FILE_NAME}'.")
+            f"SUCCESS! {records_to_append} records from '{session_file_path}' successfully copied to '{master_file_path}'.")
 
     except Exception as e:
         print(f"A critical error occurred during consolidation: {e}")
         exit()
 
-    print("-" * 50)
-    print("Consolidation script finished.")
-
     # --- Clean up Session File ---
     if delete_session:
         try:
             os.remove(session_file_path)
-            print(f"Successfully deleted session file: '{session_file_name}'")
+            print(f"Successfully deleted session file: '{session_file_path}'")
         except OSError as e:
-            print(f"Error deleting file {session_file_name}: {e}")
+            print(f"Error deleting file {session_file_path}: {e}")
     else:
-        print(f"Session file '{session_file_name}' retained (delete_session=False).")
+        print(f"Session file '{session_file_path}' retained (delete_session=False).")
 
     print("-" * 50)
     print("Consolidation script finished.")
@@ -96,4 +93,4 @@ if __name__ == "__main__":
     SHOULD_DELETE_TEST = (delete_choice == 'y')
 
     # Call the main function
-    merge_session_to_master(TEST_SESSION_FILE_PATH, TEST_MASTER_FILE_PATH, SHOULD_DELETE_SESSION)
+    merge_session_to_master(TEST_SESSION_FILE_PATH, TEST_MASTER_FILE_PATH, SHOULD_DELETE_TEST)
