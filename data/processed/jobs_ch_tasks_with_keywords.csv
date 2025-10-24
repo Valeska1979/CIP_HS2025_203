@@ -1,0 +1,87 @@
+Topic;Keyword;Total_Mentions;Unique_Ads
+Collaboration;business;73;44
+Collaboration;zusammenarbeit;55;44
+Collaboration;team;50;38
+Collaboration;support;32;26
+Collaboration;stakeholder;25;23
+Collaboration;unterstützen;13;12
+Collaboration;collaborate;7;7
+Collaboration;équipe;6;4
+Collaboration;coordinate;4;3
+Collaboration;kommunizieren;3;3
+Collaboration;präsentation;3;3
+Collaboration;collaborer;2;2
+Collaboration;communicate;1;1
+Collaboration;teamarbeit;1;1
+Collaboration;communiquer;1;1
+Collaboration;soutenir;1;1
+Collaboration;coordonner;1;1
+Data Engineering;integration;20;16
+Data Engineering;build;8;8
+Data Engineering;etl;5;5
+Data Engineering;etl;5;5
+Data Engineering;warehouse;3;3
+Data Engineering;intégration;2;2
+Data Engineering;pipeline;1;1
+Data Engineering;database;1;1
+Data Engineering;datenfluss;1;1
+Data Engineering;aufbauen;1;1
+Data Engineering;integrieren;1;1
+Data Engineering;pipeline;1;1
+Data Engineering;base;1;1
+Data Engineering;construire;1;1
+Data Preparation;sammeln;5;5
+Data Preparation;prepare;2;2
+Data Preparation;clean;1;1
+Data Preparation;transform;1;1
+Data Preparation;collect;1;1
+Data Preparation;vorbereiten;1;1
+Data Preparation;aufbereiten;1;1
+Data Preparation;transformer;1;1
+Data Preparation;collecter;1;1
+Deployment / MLOps;ci;18;14
+Deployment / MLOps;cd;18;14
+Deployment / MLOps;production;8;5
+Deployment / MLOps;production;8;5
+Deployment / MLOps;monitor;7;6
+Deployment / MLOps;container;4;3
+Deployment / MLOps;produktion;4;4
+Deployment / MLOps;deploy;3;3
+Deployment / MLOps;automate;3;3
+Deployment / MLOps;überwachen;2;2
+Deployment / MLOps;pipeline;1;1
+Deployment / MLOps;api;1;1
+Exploratory Analysis;analyse;38;35
+Exploratory Analysis;analyze;11;8
+Exploratory Analysis;analysieren;11;11
+Exploratory Analysis;verstehen;5;5
+Exploratory Analysis;understand;3;3
+Exploratory Analysis;insight;2;2
+Exploratory Analysis;interpretieren;2;2
+Exploratory Analysis;comprendre;2;2
+Exploratory Analysis;investigate;1;1
+Exploratory Analysis;einsicht;1;1
+Exploratory Analysis;analyser;1;1
+Exploratory Analysis;explorer;1;1
+Exploratory Analysis;interpréter;1;1
+Modeling;model;8;5
+Modeling;modellieren;3;3
+Modeling;train;2;2
+Modeling;regression;2;2
+Modeling;classification;1;1
+Modeling;trainieren;1;1
+Modeling;clustern;1;1
+Statistics;test;8;7
+Statistics;testen;8;8
+Statistics;expérience;4;2
+Statistics;metrics;3;3
+Statistics;bewerten;3;3
+Statistics;evaluate;2;2
+Statistics;inference;1;1
+Visualization;power bi;9;8
+Visualization;tableau;4;4
+Visualization;tableau;4;4
+Visualization;present;2;2
+Visualization;visualize;1;1
+Visualization;report;1;1
+Visualization;präsentieren;1;1
