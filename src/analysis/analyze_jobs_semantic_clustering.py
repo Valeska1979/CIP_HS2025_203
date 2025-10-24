@@ -4,8 +4,9 @@
 # Goal:
 #   Group similar job ads based on semantic content
 #   (Tasks + Skills) using sentence embeddings.
-#   Then identify top keywords per cluster and assign labels.
-# ----------------------------------------------------------
+#   Identify top keywords per cluster and assign labels.
+# Author: Valeska Blank
+# ==========================================================
 
 import pandas as pd
 from sentence_transformers import SentenceTransformer
@@ -136,9 +137,9 @@ output_path = "data/processed/jobs_ch_semantic_clusters_labeled.csv"
 df.to_csv(output_path, index=False, sep=";")
 print(f"\nLabeled cluster file saved to: {output_path}")
 
-# ==========================================================
+# ----------------------------------------------------------
 # Visualize Semantic Clusters with UMAP
-# ==========================================================
+# ----------------------------------------------------------
 
 # --- Reduce embeddings to 2D with UMAP ---
 umap_model = UMAP(

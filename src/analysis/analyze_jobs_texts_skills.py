@@ -3,6 +3,7 @@
 # identify the most frequent Data Science skills and concepts
 # (Python, SQL, Machine Learning, BI, Cloud, etc.) across
 # multiple languages (DE/EN/FR).
+# Author: Valeska Blank
 # ==========================================================
 
 import pandas as pd

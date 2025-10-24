@@ -1,13 +1,13 @@
 # ----------------------------------------------------------
 # This script analyzes the 'Tasks' column from jobs.ch ads
-# to identify key thematic areas
-# describing what Data Scientists actually do.
+# to identify key thematic areas describing
+# what Data Scientists actually do.
+# Author: Valeska Blank
 # ==========================================================
 
 import pandas as pd
 import re
 import nltk
-from collections import Counter
 from nltk.corpus import stopwords
 nltk.download("punkt")
 nltk.download("punkt_tab")
@@ -22,7 +22,7 @@ file_path = "data/processed/jobs_ch_skills_all_cleaned_final_V1.csv"
 df = pd.read_csv(file_path)
 
 print(f"Dataset loaded with {len(df)} rows")
-print(df.columns.tolist())  # See column names
+print(df.columns.tolist())  # Display column names
 
 # ----------------------------------------------------------
 # Use the 'Tasks' column for this analysis
@@ -30,9 +30,9 @@ print(df.columns.tolist())  # See column names
 df["text"] = df["Tasks"].fillna("")
 print("\nSample text from 'Tasks' column:\n", df["text"].head(2))
 
-# ==========================================================
+# ----------------------------------------------------------
 # Thematic Keyword Groups (multilingual)
-# ==========================================================
+# ----------------------------------------------------------
 task_topics = {
     "Data Preparation": [
         "clean", "preprocess", "transform", "wrangle", "prepare",
@@ -50,7 +50,7 @@ task_topics = {
     ],
     "Visualization": [
         "visualize", "dashboard", "report", "plot", "chart",
-        "present", "powerbi", "tableau",
+        "present", "powerbi", "power bi", "tableau",
         "visualisieren", "bericht", "darstellen", "präsentieren",
         "visualiser", "tableau", "rapport", "présenter"
     ],
@@ -91,30 +91,66 @@ task_topics = {
 }
 
 # ----------------------------------------------------------
-# Count mentions per thematic group
+# Count mentions per thematic group (overview level)
 # ----------------------------------------------------------
 topic_stats = []
 
 for topic, keywords in task_topics.items():
-    pattern = r"|".join([r"\b" + re.escape(k.lower()) + r"\b" for k in keywords])
+    # Build regex that matches all keywords as whole words (\b = word boundary)
+    # For multi-word phrases (e.g. "power bi"), replace spaces with \s+
+    pattern = r"|".join([
+        r"\b" + re.escape(k.lower()).replace("\\ ", r"\s+") + r"\b"
+        for k in keywords
+    ])
+
+    # Count total mentions and number of unique ads containing any keyword
     total_mentions = df["text"].str.lower().str.count(pattern, flags=re.IGNORECASE).sum()
     unique_ads = df["text"].str.lower().str.contains(pattern, flags=re.IGNORECASE).sum()
+
     topic_stats.append((topic, int(total_mentions), int(unique_ads)))
 
+# Convert to DataFrame and sort by number of ads
 df_topics = pd.DataFrame(topic_stats, columns=["Topic", "Total_Mentions", "Unique_Ads"])
 df_topics = df_topics.sort_values("Unique_Ads", ascending=False)
 
 # ----------------------------------------------------------
 # Print summary for thematic analysis
 # ----------------------------------------------------------
-print("\nThematic Task Analysis (multilingual keyword groups):\n")
+print("\nThematic Task Analysis (multilingual keyword groups)\n")
 print(df_topics.to_string(index=False))
 
 # ----------------------------------------------------------
-# Export thematic results to CSV
+# Detailed breakdown: keyword-level statistics per topic
+# ----------------------------------------------------------
+keyword_details = []
+
+for topic, keywords in task_topics.items():
+    for k in keywords:
+        pattern = r"\b" + re.escape(k.lower()).replace("\\ ", r"\s+") + r"\b"
+
+        total_mentions = df["text"].str.lower().str.count(pattern, flags=re.IGNORECASE).sum()
+        unique_ads = df["text"].str.lower().str.contains(pattern, flags=re.IGNORECASE).sum()
+
+        if total_mentions > 0:
+            keyword_details.append((topic, k, int(total_mentions), int(unique_ads)))
+
+# Convert to DataFrame and sort
+df_keywords = pd.DataFrame(keyword_details, columns=["Topic", "Keyword", "Total_Mentions", "Unique_Ads"])
+df_keywords = df_keywords.sort_values(["Topic", "Total_Mentions"], ascending=[True, False])
+
+# ----------------------------------------------------------
+# Export results
 # ----------------------------------------------------------
 output_dir = "data/processed/"
-tasks_out = output_dir + "jobs_ch_tasks.csv"
-df_topics.to_csv(tasks_out, index=False, sep=";")
-print(f"\nCSV file successfully saved: {tasks_out}")
 
+tasks_out = output_dir + "jobs_ch_tasks_overview.csv"
+df_topics.to_csv(tasks_out, index=False, sep=";")
+print(f"\nOverview CSV successfully saved: {tasks_out}")
+
+keywords_out = output_dir + "jobs_ch_tasks_with_keywords.csv"
+df_keywords.to_csv(keywords_out, index=False, sep=";")
+print(f"Detailed keyword-level CSV successfully saved: {keywords_out}")
+
+# Show preview
+print("\nPreview of keyword-level summary\n")
+print(df_keywords.head(20).to_string(index=False))
