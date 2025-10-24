@@ -297,7 +297,7 @@ if __name__ == "__main__":
     safe_job_name = re.sub(r'[^a-z0-9_]', '', safe_job_name)
 
     # Use TEST paths
-    TEST_SAVE_FILE_PATH = RAW_DATA_DIR_TEST / f"jobs_ch_{safe_job_name}_skills_test.csv"
+    TEST_SAVE_FILE_PATH = RAW_DATA_DIR_TEST / f"jobs_ch_{safe_job_name}_skills.csv"
     TEST_MASTER_FILE_PATH = RAW_DATA_DIR_TEST / "jobs_ch_skills_all.csv"
 
     # Call the main function with the user inputs

@@ -69,7 +69,7 @@ if __name__ == "__main__":
     # --- User Input Scraping ---
 
     # Ask for the job search term
-    job_search_term = input("Enter the job title you want to run the pipeline for (e.g., Data Scientist): ")
+    job_search_term = input("Enter the job title you want to scrape (e.g., Data Scientist): ")
 
     # Ask for the maximum number of jobs to scrape
     while True:

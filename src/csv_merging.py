@@ -7,7 +7,7 @@ def merge_session_to_master(session_file_path: Path, master_file_path: Path, del
 
     # --- CORE CONSOLIDATION LOGIC ---
     print("-" * 50)
-    print(f"Attempting to consolidate data from: {session_file_path}")
+    print(f"Starting to consolidate data from: {session_file_path}")
     print("-" * 50)
 
     if not session_file_path.exists():
@@ -49,7 +49,7 @@ def merge_session_to_master(session_file_path: Path, master_file_path: Path, del
                           sep=';')
 
         print(
-            f"SUCCESS! {records_to_append} records from '{session_file_path}' successfully copied to '{master_file_path}'.")
+            f"{records_to_append} records from '{session_file_path}' successfully copied to '{master_file_path}'.")
 
     except Exception as e:
         print(f"A critical error occurred during consolidation: {e}")
