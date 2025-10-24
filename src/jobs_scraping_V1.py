@@ -267,6 +267,7 @@ def scrape_jobs(job_search_term: str, max_jobs_to_scrape: int, save_file_path: P
 
     if driver: driver.quit()
 
+    return df_skills
 # --- STANDALONE EXECUTION BLOCK ---
 if __name__ == "__main__":
 
