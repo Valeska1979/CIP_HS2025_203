@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 import sys
 
-
+CSV_DELIMITER = ';'
 def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, final_output_path: Path):
 
     # --- Configuration ---
@@ -12,7 +12,7 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
     df = pd.read_csv(input_file_path, sep=';')
 
     # Define the delimiter used for all CSV operations
-    CSV_DELIMITER = ';'
+
 
     # --- Filtering No Tasks AND No Skills ---
 
@@ -203,7 +203,7 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
     # --- CREATING FINAL CSV WITH THE CLEANED DATASET ---
     os.makedirs(os.path.dirname(final_output_path), exist_ok=True)
 
-    df_cleaned_final.to_csv(final_output_path, index=False) # Save to CSV (without the index column)
+    df_cleaned_final.to_csv(final_output_path, index=False, sep=CSV_DELIMITER) # Save to CSV (without the index column)
 
     print(f"File saved successfully at: {final_output_path}")
 
