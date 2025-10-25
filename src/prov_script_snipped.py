@@ -1,32 +1,18 @@
-# --- CONFIGURATION ---
+# --- Configuration ---
+# Base Directory Setup
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROCESSED_DIR = os.path.join(project_root, 'data', 'processed')
+RAW_DIR = os.path.join(project_root, 'data', 'raw')
 
-BASE_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = BASE_DIR.parent
-DATA_DIR = PROJECT_ROOT / "data" / "raw"
+# File Path Definition
+FILE_PATH = os.path.join(RAW_DIR, 'jobs_ch_skills_all.csv') # Input
+INTERMEDIATE_FILE_PATH = os.path.join(PROCESSED_DIR, 'jobs_ch_skills_all_cleaned.csv')
+FINAL_FILE_PATH = os.path.join(PROCESSED_DIR, 'jobs_ch_skills_all_cleaned_final_V1.csv')
 
-MASTER_FILE_NAME = "jobs_ch_skills_all.csv"
-MASTER_FILE_PATH = DATA_DIR / MASTER_FILE_NAME
+# Data Loading
+df = pd.read_csv(FILE_PATH, sep=DELIMITER)
+print(f"Data loaded. Total rows: {len(df)}")
 
 
-# --- USER INPUT AND DYNAMIC FILE NAMING ---
-
-job_search_term = input("Enter the job title of the session file you want to consolidate (e.g., Data Scientist): ")
-safe_job_name = re.sub(r'\s+', '_', job_search_term.strip().lower())
-safe_job_name = re.sub(r'[^a-z0-9_]', '', safe_job_name)
-
-SESSION_FILE_NAME = f"jobs_ch_{safe_job_name}_skills.csv"
-SESSION_FILE_PATH = DATA_DIR / SESSION_FILE_NAME
-
-# --- CLEANUP (OPTIONAL DELETION) ---
-
-print("-" * 50)
-delete_choice = input(f"Do you want to delete the session file '{SESSION_FILE_NAME}'? (y/n): ").strip().lower()
-
-if delete_choice == 'y':
-    try:
-        os.remove(session_file_path)
-        print(f"Successfully deleted session file: '{SESSION_FILE_NAME}'")
-    except OSError as e:
-        print(f"Error deleting file {SESSION_FILE_NAME}: {e}")
-else:
-    print(f"Session file '{SESSION_FILE_NAME}' retained.")
+os.makedirs(PROCESSED_DIR, exist_ok=True) # Ensure the output directory exists before saving
+    df_cleaned_and.to_csv(intermediate_output_path, sep=DELIMITER, index=False) # Save the cleaned DataFrame to the specified path

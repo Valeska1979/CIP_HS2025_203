@@ -1,11 +1,12 @@
 import sys
 from pathlib import Path
 import os
-import re  # Needed for cleaning job name
+import re
 
 # Import Modules
 import jobs_scraping_V1
 import csv_merging
+import stefan_cleaning_V1
 
 # Definition the Project Root and Standard Paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -27,12 +28,14 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     # Define the specific file paths for the current session
     SESSION_FILE_PATH = RAW_DATA_DIR / f"jobs_ch_{safe_job_name}_skills.csv"
     MASTER_FILE_PATH = RAW_DATA_DIR / "jobs_ch_skills_all.csv"
+    INTERMEDIATE_CLEANED_PATH = PROCESSED_DATA_DIR / "jobs_ch_skills_all_intermediate.csv"
+    FINAL_CLEANED_PATH = PROCESSED_DATA_DIR / "jobs_ch_skills_all_cleaned_final_V1.csv"
 
     print(f"--- Starting Full Data Pipeline for '{search_term}' (Max: {max_jobs}) ---")
 
     # --- SCRAPING ---
     try:
-        print("\n[1/5] Running Scraper...")
+        print("\n[1/5] Running Scraper")
 
         # Call the refactored function, passing all required paths/values
         jobs_scraped = jobs_scraping_V1.scrape_jobs(
@@ -48,7 +51,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
 
     # --- MERGING ---
     try:
-        print("\n[2/5] Merging Data...")
+        print("\n[2/5] Merging Data")
         success = csv_merging.merge_session_to_master(
             session_file_path=SESSION_FILE_PATH,
             master_file_path=MASTER_FILE_PATH,
@@ -61,6 +64,30 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
 
     except Exception as e:
         print(f"MERGING FAILED: {e}");
+        sys.exit(1)
+
+    # --- CLEANING ---
+    if os.path.exists(MASTER_FILE_PATH):
+        try:
+            print("\n[3/5] Cleaning Data")
+
+            cleaned_df = stefan_cleaning_V1.run_data_cleaning(
+                input_file_path=MASTER_FILE_PATH,
+                intermediate_output_path=INTERMEDIATE_CLEANED_PATH,
+                final_output_path=FINAL_CLEANED_PATH
+            )
+
+            if cleaned_df is not None:
+                print(f"Cleaning completed successfully. Final size: {len(cleaned_df)} records.")
+            else:
+                print("Cleaning step skipped or failed. Check cleaning script logs.")
+
+        except Exception as e:
+            print(f"CLEANING FAILED: {e}");
+            sys.exit(1)
+    else:
+        # Critical failure: Master file (input for cleaning) is missing.
+        print("\n[3/5] CLEANING CRITICAL FAILURE: Master file does not exist after merging. Pipeline cannot proceed without the master data file. Exiting.")
         sys.exit(1)
 
 
