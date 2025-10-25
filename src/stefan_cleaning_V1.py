@@ -9,8 +9,8 @@ PROCESSED_DIR = os.path.join(project_root, 'data', 'processed')
 RAW_DIR = os.path.join(project_root, 'data', 'raw')
 
 # File Path Definition
-FILE_PATH = os.path.join(RAW_DIR, 'jobs_ch_skills_all.csv') # Input
-INTERMEDIATE_FILE_PATH = os.path.join(PROCESSED_DIR, 'jobs_ch_skills_all_cleaned.csv')
+FILE_PATH = os.path.join(RAW_DIR, 'jobs_ch_skills_all_intermediate.csv') # Input
+INTERMEDIATE_FILE_PATH = os.path.join(PROCESSED_DIR, 'jobs_ch_skills_all_intermediate.csv')
 FINAL_FILE_PATH = os.path.join(PROCESSED_DIR, 'jobs_ch_skills_all_cleaned_final_V1.csv')
 
 # Data Loading

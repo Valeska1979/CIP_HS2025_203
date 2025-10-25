@@ -8,7 +8,7 @@ DELIMITER = ';'
 
 #Relative path for cleaned dataset
 PROCESSED_DIR = '../../data/processed/'
-OUTPUT_CLEANED_DATASET = 'jobs_ch_skills_all_cleaned.csv'
+OUTPUT_CLEANED_DATASET = 'jobs_ch_skills_all_intermediate.csv'
 CLEANED_DATASET_FILE_PATH = os.path.join(PROCESSED_DIR, OUTPUT_CLEANED_DATASET)
 
 # Define the specific strings to filter for, indicating missing data
