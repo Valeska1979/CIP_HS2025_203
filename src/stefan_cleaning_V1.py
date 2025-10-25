@@ -94,6 +94,8 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
 
     "df_subset_noskills was inspected in View mode. Jobs unrelated to Data Science were identified and removed. It was also checked whether any skills appeared in the Tasks column instead of Skills — if so, they were kept as-is. After review, jobs were removed from the cleaned dataset based on their Job Index."
 
+    rows_before_index_exclusion = len(df_cleaned)
+
     #Exclusion of Specific Jobs by Job_Index
     JOB_INDICES_TO_EXCLUDE = [
         4, 14, 17, 23, 24, 26, 39, 43, 45, 46, 47, 49, 51, 52,
@@ -113,6 +115,11 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
 
     # Apply the filter to keep only the rows where the mask is False (i.e., NOT in the exclusion list)
     df_cleaned = df_cleaned[~exclusion_mask]
+
+    rows_excluded_by_index = rows_before_index_exclusion - len(df_cleaned)
+    print("-" * 30)
+    print(f"Data refinement: {rows_before_index_exclusion} records processed; {rows_excluded_by_index} jobs removed.")
+    print("-" * 30)
 
      # Filtering by Keywords
     "As the further step, a keyword-based exclusion filter was applied across the job Title, Tasks, and Skills columns to remove roles that clearly fell outside the scope of Data Science, such as those explicitly mentioning Lager, Recht, or Chemie. The keywords were indentified meanwhile going through the data set"
