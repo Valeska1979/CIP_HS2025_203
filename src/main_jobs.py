@@ -8,6 +8,7 @@ import jobs_scraping_V1
 import csv_merging
 import stefan_cleaning_V1
 import analysis.analyze_jobs_semantic_clustering
+import analysis.analyze_jobs_texts_skills
 
 # Definition the Project Root and Standard Paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -16,11 +17,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 REPORT_DIR = PROJECT_ROOT / "report"
+ANALYSIS_DATA_DIR = PROJECT_ROOT / "data" / "analysis"
 
 # Ensure directories exist
 os.makedirs(RAW_DATA_DIR, exist_ok=True)
 os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
 os.makedirs(REPORT_DIR, exist_ok=True)
+os.makedirs(ANALYSIS_DATA_DIR, exist_ok=True)
 
 
 def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool):
@@ -33,8 +36,11 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     MASTER_FILE_PATH = RAW_DATA_DIR / "jobs_ch_skills_all.csv"
     INTERMEDIATE_CLEANED_PATH = PROCESSED_DATA_DIR / "jobs_ch_skills_all_intermediate.csv"
     FINAL_CLEANED_PATH = PROCESSED_DATA_DIR / "jobs_ch_skills_all_cleaned_final_V1.csv"
-    CLUSTERS_CSV_PATH = PROCESSED_DATA_DIR / "jobs_ch_semantic_clusters_labeled.csv"
+    CLUSTERS_CSV_PATH = ANALYSIS_DATA_DIR / "jobs_ch_semantic_clusters_labeled.csv"
     CLUSTERS_PLOT_PATH = REPORT_DIR / "semantic_clusters_umap.png"
+
+    # INPUT PATH for Step 5 (Skills Analysis)
+    SKILLS_INPUT_PATH = CLUSTERS_CSV_PATH
 
     print(f"--- Starting Full Data Pipeline for '{search_term}' (Max: {max_jobs}) ---")
 
@@ -118,6 +124,30 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             sys.exit(1)
     else:
         print("\n[4/5] Clustering step skipped: Final cleaned data file does not exist. Exiting.")
+        sys.exit(1)
+
+    # --- SKILLS AND LOCATION ANALYSIS ---
+
+    if os.path.exists(SKILLS_INPUT_PATH):
+        try:
+            print("\n[5/5] Running Skills and Location Analysis")
+
+            analysis_success = analysis.analyze_jobs_texts_skills.run_skills_analysis(
+                input_file_path=SKILLS_INPUT_PATH,
+                output_dir_path=ANALYSIS_DATA_DIR
+            )
+
+            if analysis_success:
+                print("Skills and Location Analysis completed successfully.")
+            else:
+                print("Skills and Location Analysis failed. Check script logs.")
+                sys.exit(1)
+
+        except Exception as e:
+            print(f"SKILLS ANALYSIS CRITICAL FAILED: {e}");
+            sys.exit(1)
+    else:
+        print("\n[5/5] Skills Analysis step skipped: Clustered data file does not exist. Exiting.")
         sys.exit(1)
 
 

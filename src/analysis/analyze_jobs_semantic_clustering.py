@@ -201,11 +201,12 @@ if __name__ == "__main__":
     # Define paths relative to this script
     PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
     PROCESSED_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "processed"
+    ANALYSIS_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "analysis"
     REPORT_DIR_TEST = PROJECT_ROOT_TEST / "report"
 
     # Define paths
     TEST_INPUT_PATH = PROCESSED_DATA_DIR_TEST / "jobs_ch_skills_all_cleaned_final_V1.csv"
-    TEST_OUTPUT_CSV_PATH = PROCESSED_DATA_DIR_TEST / "jobs_ch_semantic_clusters_labeled.csv"  # Saved back to processed for continuity
+    TEST_OUTPUT_CSV_PATH = ANALYSIS_DATA_DIR_TEST / "jobs_ch_semantic_clusters_labeled.csv"
     TEST_OUTPUT_PLOT_PATH = REPORT_DIR_TEST / "semantic_clusters_umap.png"
 
     # Run the analysis
