@@ -99,7 +99,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     # Only run if the FINAL_CLEANED_PATH exists
     if os.path.exists(FINAL_CLEANED_PATH):
         try:
-            print("\n[4/5] Running Semantic Clustering Analysis...")
+            print("\n[4/5] Running Semantic Clustering Analysis")
 
             analysis_success = analysis.analyze_jobs_semantic_clustering.run_semantic_clustering(
                 input_file_path=FINAL_CLEANED_PATH,

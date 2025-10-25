@@ -17,6 +17,8 @@ from nltk.corpus import stopwords
 from umap import UMAP
 import matplotlib.pyplot as plt
 from pathlib import Path
+import os
+import sys
 
 def run_semantic_clustering(input_file_path: Path, output_csv_path: Path, output_plot_path: Path):
 
