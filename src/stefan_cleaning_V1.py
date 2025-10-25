@@ -10,7 +10,6 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
     # --- Configuration ---
     # Data Loading
     df = pd.read_csv(input_file_path, sep=';')
-    print(f"Data loaded. Total rows: {len(df)}")
 
     # Define the delimiter used for all CSV operations
     CSV_DELIMITER = ';'
@@ -30,8 +29,6 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
 
     # Applying the filter and creating a subset
     df_subset_and = df[combined_filter_and].copy()
-
-    print(f"Rows with missing Tasks and Skills: {len(df_subset_and)}")
 
     #Excluding rows where there are no tasks AND no skills
     df_cleaned_and = df[~combined_filter_and].copy()
@@ -117,11 +114,7 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
     # Apply the filter to keep only the rows where the mask is False (i.e., NOT in the exclusion list)
     df_cleaned = df_cleaned[~exclusion_mask]
 
-    print("-" * 30)
-    print(f"Total rows in cleaned data after exclusion of specific jobs by Job_Index: {len(df_cleaned)}")
-
-
-    # Filtering by Keywords
+     # Filtering by Keywords
     "As the further step, a keyword-based exclusion filter was applied across the job Title, Tasks, and Skills columns to remove roles that clearly fell outside the scope of Data Science, such as those explicitly mentioning Lager, Recht, or Chemie. The keywords were indentified meanwhile going through the data set"
 
     # Define the keywords for exclusion. Keywords will be searched in 'Title', 'Tasks', and 'Skills' columns.
@@ -192,6 +185,7 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
     # Validation output
     rows_excluded_by_keyword = len(df_cleaned) - len(df_cleaned_final)
 
+    print("-" * 30)
     print(f"Keywords used for exclusion: {', '.join(EXCLUSION_KEYWORDS)}")
     print(f"Total rows before keyword filter: {len(df_cleaned)}")
     print(f"Rows excluded by keyword filter: {rows_excluded_by_keyword}")
