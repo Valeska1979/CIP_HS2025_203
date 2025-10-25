@@ -194,9 +194,9 @@ def run_skills_analysis(input_file_path: Path, output_dir_path: Path):
     # Define output directory and filenames
     os.makedirs(output_dir_path, exist_ok=True)
 
-    phrases_out = output_dir_path / "phrases_analysis.csv"
-    skills_out = output_dir_path / "single_skills_analysis.csv"
-    locations_out = output_dir_path / "location_counts.csv"
+    phrases_out = output_dir_path / "jobs_ch_phrases_analysis.csv"
+    skills_out = output_dir_path / "jobs_ch_single_skills_analysis.csv"
+    locations_out = output_dir_path / "jobs_ch_location_counts.csv"
 
     # Save DataFrames to CSV (without index)
     try:
