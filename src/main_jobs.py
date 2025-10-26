@@ -7,6 +7,7 @@ import re
 import jobs_scraping_V1
 import csv_merging
 import stefan_cleaning_V1
+import analysis.analyze_jobs_texts_tasks
 import analysis.analyze_jobs_semantic_clustering
 import analysis.analyze_jobs_texts_skills
 
@@ -39,14 +40,17 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     CLUSTERS_CSV_PATH = ANALYSIS_DATA_DIR / "jobs_ch_semantic_clusters_labeled.csv"
     CLUSTERS_PLOT_PATH = REPORT_DIR / "semantic_clusters_umap.png"
 
-    # INPUT PATH for Step 5 (Skills Analysis)
+    # INPUT PATH for Skills Analysis
     SKILLS_INPUT_PATH = CLUSTERS_CSV_PATH
+
+    # INPUT PATH for Tasks Analysis
+    TASKS_INPUT_PATH = FINAL_CLEANED_PATH
 
     print(f"--- Starting Full Data Pipeline for '{search_term}' (Max: {max_jobs}) ---")
 
     # --- SCRAPING ---
     try:
-        print("\n[1/5] Running Scraper")
+        print("\n[1/6] Running Scraper")
 
         # Call the refactored function, passing all required paths/values
         jobs_scraped = jobs_scraping_V1.scrape_jobs(
@@ -62,7 +66,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
 
     # --- MERGING ---
     try:
-        print("\n[2/5] Merging Data")
+        print("\n[2/6] Merging Data")
         success = csv_merging.merge_session_to_master(
             session_file_path=SESSION_FILE_PATH,
             master_file_path=MASTER_FILE_PATH,
@@ -80,7 +84,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     # --- CLEANING ---
     if os.path.exists(MASTER_FILE_PATH):
         try:
-            print("\n[3/5] Cleaning Data")
+            print("\n[3/6] Cleaning Data")
 
             cleaned_df = stefan_cleaning_V1.run_data_cleaning(
                 input_file_path=MASTER_FILE_PATH,
@@ -98,14 +102,38 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             sys.exit(1)
     else:
         # Critical failure: Master file (input for cleaning) is missing.
-        print("\n[3/5] CLEANING CRITICAL FAILURE: Master file does not exist after merging. Pipeline cannot proceed without the master data file. Exiting.")
+        print("\n[3/6] CLEANING CRITICAL FAILURE: Master file does not exist after merging. Pipeline cannot proceed without the master data file. Exiting.")
         sys.exit(1)
+
+    # --- TASKS ANALYSIS ---
+    if os.path.exists(TASKS_INPUT_PATH):
+        try:
+            print("\n[4/6] Running Tasks Analysis")
+
+            task_analysis_success = analysis.analyze_jobs_texts_tasks.run_task_analysis(
+                input_file_path=TASKS_INPUT_PATH,
+                output_dir_path=ANALYSIS_DATA_DIR
+            )
+
+            if task_analysis_success:
+                print("Tasks Analysis completed successfully.")
+            else:
+                print("Tasks Analysis failed. Check script logs.")
+                sys.exit(1)
+
+        except Exception as e:
+            print(f"TASKS ANALYSIS CRITICAL FAILED: {e}");
+            sys.exit(1)
+    else:
+        print("\n[4/6] Tasks Analysis step skipped: Final cleaned data file does not exist. Exiting.")
+        sys.exit(1)
+
 
     # --- SEMANTIC CLUSTERING ANALYSIS ---
     # Only run if the FINAL_CLEANED_PATH exists
     if os.path.exists(FINAL_CLEANED_PATH):
         try:
-            print("\n[4/5] Running Semantic Clustering Analysis")
+            print("\n[5/6] Running Semantic Clustering Analysis")
 
             analysis_success = analysis.analyze_jobs_semantic_clustering.run_semantic_clustering(
                 input_file_path=FINAL_CLEANED_PATH,
@@ -123,14 +151,14 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             print(f"CLUSTERING CRITICAL FAILED: {e}");
             sys.exit(1)
     else:
-        print("\n[4/5] Clustering step skipped: Final cleaned data file does not exist. Exiting.")
+        print("\n[5/6] Clustering step skipped: Final cleaned data file does not exist. Exiting.")
         sys.exit(1)
 
     # --- SKILLS AND LOCATION ANALYSIS ---
 
     if os.path.exists(SKILLS_INPUT_PATH):
         try:
-            print("\n[5/5] Running Skills and Location Analysis")
+            print("\n[6/6] Running Skills and Location Analysis")
 
             analysis_success = analysis.analyze_jobs_texts_skills.run_skills_analysis(
                 input_file_path=SKILLS_INPUT_PATH,
@@ -147,9 +175,11 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             print(f"SKILLS ANALYSIS CRITICAL FAILED: {e}");
             sys.exit(1)
     else:
-        print("\n[5/5] Skills Analysis step skipped: Clustered data file does not exist. Exiting.")
+        print("\n[6/6] Skills Analysis step skipped: Clustered data file does not exist. Exiting.")
         sys.exit(1)
 
+# --- FINAL STATUS ---
+    print("\n--- Pipeline Execution Complete! (All 6 steps successfully executed) --- ")
 
 if __name__ == "__main__":
 
@@ -175,6 +205,7 @@ if __name__ == "__main__":
     delete_choice = input(
         "Do you want to delete the session CSV file after a successful merge? (y/n): ").strip().lower()
     SHOULD_DELETE_SESSION = (delete_choice == 'y')
+
 
     # Call the pipeline runner function with the collected user input
     run_full_data_pipeline(job_search_term, MAX_JOBS, SHOULD_DELETE_SESSION)
