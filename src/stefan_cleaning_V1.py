@@ -4,6 +4,8 @@ import re
 from pathlib import Path
 import sys
 
+
+# Define the delimiter used for all CSV operations
 CSV_DELIMITER = ';'
 def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, final_output_path: Path):
 
@@ -11,7 +13,7 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
     # Data Loading
     df = pd.read_csv(input_file_path, sep=';')
 
-    # Define the delimiter used for all CSV operations
+
 
 
     # --- Filtering No Tasks AND No Skills ---
