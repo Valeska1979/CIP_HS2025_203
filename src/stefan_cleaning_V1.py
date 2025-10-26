@@ -1,3 +1,18 @@
+# ==========================================================
+# Data Cleaning and Refinement Utility
+# ==========================================================
+# Goal:
+#   Clean and filter the raw jobs.ch dataset to ensure only high-quality,
+#   Data Science-relevant records remain for subsequent analysis.
+# Key Functionality:
+#   - Excludes records missing both Tasks AND Skills descriptions.
+#   - Refines data quality by excluding specific, non-relevant jobs based on an indexed inspection list.
+#   - Filters data using an extensive keyword list across Title, Tasks, and Skills
+#     to eliminate non-Data Science roles (e.g., Legal, HR, Logistics).
+# Author: Stefan Dreyfus
+# ==========================================================
+
+
 import pandas as pd
 import os
 import re

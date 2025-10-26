@@ -1,3 +1,20 @@
+# ==========================================================
+# Main Data Pipeline Orchestrator
+# ==========================================================
+# Goal:
+#   Execute the end-to-end data pipeline for Data Science job
+#   market analysis, from scraping to visualization.
+# Workflow Steps:
+#   1. Scrape new job data from jobs.ch.
+#   2. Merge new data into the master CSV.
+#   3. Clean and filter the master dataset.
+#   4. Analyze job texts (Tasks and Skills) and location data.
+#   5. Perform semantic clustering on cleaned data.
+# Execution:
+#   Runs interactively, prompting the user for scrape parameters.
+# ==========================================================
+
+
 import sys
 from pathlib import Path
 import os

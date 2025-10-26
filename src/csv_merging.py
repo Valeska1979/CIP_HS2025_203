@@ -1,3 +1,17 @@
+# ==========================================================
+# Data Consolidation and Merging Script
+# ==========================================================
+# Goal:
+#   Safely append a newly scraped session CSV file to the master dataset
+#   while maintaining continuous indexing and supporting optional cleanup.
+# Key Functionality:
+#   - Calculates the next unique 'Job_Index' for seamless record addition.
+#   - Appends all new session records to the master CSV for historical tracking.
+#   - Provides an option to delete the temporary session file post-merge.
+# Author: Stefan Dreyfus
+# ==========================================================
+
+
 import pandas as pd
 from pathlib import Path
 import re

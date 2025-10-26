@@ -1,3 +1,18 @@
+# ==========================================================
+# Jobs.ch Web Scraper and Data Collection Utility
+# ==========================================================
+# Goal:
+#   Automate the extraction of structured job advertisement data
+#   (Title, Company, Location, Tasks, and Skills) from jobs.ch.
+# Key Functionality:
+#   - Utilizes Selenium to execute search, handle navigation, and extract ad details.
+#   - Implements robust duplicate checking against both the current session and the
+#     historical master file based on a 'Title | Company' unique ID.
+#   - Efficiently handles search result pagination to reach a user-defined job limit.
+#   - Saves unique scraped data incrementally to a session-specific CSV file.
+# Author: Stefan Dreyfus
+# ==========================================================
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
