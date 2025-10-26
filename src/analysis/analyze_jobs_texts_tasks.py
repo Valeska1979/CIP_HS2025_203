@@ -27,7 +27,7 @@ def run_task_analysis(input_file_path, output_dir_path):
     # Load cleaned dataset
     # ----------------------------------------------------------
     try:
-        df = pd.read_csv(input_file_path, sep=';', on_bad_lines='skip')  # <-- ADDED sep=';' to match pipeline output
+        df = pd.read_csv(input_file_path, sep=';')
     except FileNotFoundError:
         print(f"TASK ANALYSIS FAILED: Input file not found at {input_file_path}")
         return False
