@@ -41,7 +41,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     CLUSTERS_PLOT_PATH = REPORT_DIR / "semantic_clusters_umap.png"
 
     # INPUT PATH for Skills Analysis
-    SKILLS_INPUT_PATH = CLUSTERS_CSV_PATH
+    SKILLS_INPUT_PATH = FINAL_CLEANED_PATH
 
     # INPUT PATH for Tasks Analysis
     TASKS_INPUT_PATH = FINAL_CLEANED_PATH
