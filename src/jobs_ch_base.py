@@ -1,3 +1,13 @@
+# ==========================================================
+# jobs_ch_base: Core Selenium Setup and Utilities
+# ==========================================================
+# Purpose:
+#   Manages WebDriver initialization, OS-specific configuration,
+#   and initial site interaction (cookies/banners) for the jobs.ch scraper.
+# Author: Valeska Blank & Stefan Dreyfus
+# ==========================================================
+
+
 # --- IMPORTS ---
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options

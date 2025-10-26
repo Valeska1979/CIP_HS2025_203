@@ -1,90 +1,110 @@
+# ==========================================================
+# Data Consolidation and Merging Script
+# ==========================================================
+# Goal:
+#   Safely append a newly scraped session CSV file to the master dataset
+#   while maintaining continuous indexing and supporting optional cleanup.
+# Key Functionality:
+#   - Calculates the next unique 'Job_Index' for seamless record addition.
+#   - Appends all new session records to the master CSV for historical tracking.
+#   - Provides an option to delete the temporary session file post-merge.
+# Author: Stefan Dreyfus
+# ==========================================================
+
+
 import pandas as pd
 from pathlib import Path
 import re
 import os
 
-# --- CONFIGURATION ---
+def merge_session_to_master(session_file_path: Path, master_file_path: Path, delete_session: bool = False):
 
-BASE_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = BASE_DIR.parent
-DATA_DIR = PROJECT_ROOT / "data" / "raw"
+    # --- CORE CONSOLIDATION LOGIC ---
+    print("-" * 50)
+    print(f"Starting to consolidate data from: {session_file_path}")
+    print("-" * 50)
 
-MASTER_FILE_NAME = "jobs_ch_skills_all.csv"
-MASTER_FILE_PATH = DATA_DIR / MASTER_FILE_NAME
+    if not session_file_path.exists():
+        print(f"Error: Session file not found at path: {session_file_path}")
+        print(f"Expected location: {session_file_path.resolve()}")
+        return False
 
-# --- USER INPUT AND DYNAMIC FILE NAMING ---
+    try:
+        # Load the session data
+        df_session = pd.read_csv(session_file_path, sep=';')
+        records_to_append = len(df_session)
 
-job_search_term = input("Enter the job title of the session file you want to consolidate (e.g., Data Scientist): ")
-safe_job_name = re.sub(r'\s+', '_', job_search_term.strip().lower())
-safe_job_name = re.sub(r'[^a-z0-9_]', '', safe_job_name)
+        if records_to_append == 0:
+            print("Warning: Session file is empty. No data to consolidate.")
+            return False
 
-SESSION_FILE_NAME = f"jobs_ch_{safe_job_name}_skills.csv"
-SESSION_FILE_PATH = DATA_DIR / SESSION_FILE_NAME
+        # Determine the starting index for the new data
+        master_file_exists = master_file_path.exists() and master_file_path.stat().st_size > 0
 
-# --- CORE CONSOLIDATION LOGIC ---
+        if master_file_exists:
+            # Load ONLY the 'Job_Index' column from the master file to find the max index
+            # This handles the continuous index requirement!
+            df_master_index = pd.read_csv(master_file_path, sep=';', usecols=['Job_Index'])
+            start_index = df_master_index['Job_Index'].max() + 1
+        else:
+            # If master file is new, start indexing at 1
+            start_index = 1
 
-print("-" * 50)
-print(f"Attempting to consolidate data from: {SESSION_FILE_NAME}")
-print("-" * 50)
+        print(f"Starting index for new records will be: {start_index}")
 
-if not SESSION_FILE_PATH.exists():
-    print(f"Error: Session file not found at path: {SESSION_FILE_PATH}")
-    print(f"Expected location: {SESSION_FILE_PATH.resolve()}")
-    exit()
+        # Recalculate the Job_Index column in the session data
+        df_session['Job_Index'] = range(start_index, start_index + records_to_append)
 
-try:
-    # Load the session data
-    df_session = pd.read_csv(SESSION_FILE_PATH, sep=';')
-    records_to_append = len(df_session)
+        # Save the session data to the Master CSV
+        df_session.to_csv(master_file_path,
+                          mode='a',
+                          header=not master_file_exists,
+                          index=False,
+                          sep=';')
 
-    if records_to_append == 0:
-        print("Warning: Session file is empty. No data to consolidate.")
+        print(
+            f"{records_to_append} records from '{session_file_path}' successfully copied to '{master_file_path}'.")
+
+    except Exception as e:
+        print(f"A critical error occurred during consolidation: {e}")
         exit()
 
-    # Determine the starting index for the new data
-    master_file_exists = MASTER_FILE_PATH.exists() and MASTER_FILE_PATH.stat().st_size > 0
-
-    if master_file_exists:
-        # Load ONLY the 'Job_Index' column from the master file to find the max index
-        # This handles the continuous index requirement!
-        df_master_index = pd.read_csv(MASTER_FILE_PATH, sep=';', usecols=['Job_Index'])
-        start_index = df_master_index['Job_Index'].max() + 1
+    # --- Clean up Session File ---
+    if delete_session:
+        try:
+            os.remove(session_file_path)
+            print(f"Successfully deleted session file: '{session_file_path}'")
+        except OSError as e:
+            print(f"Error deleting file {session_file_path}: {e}")
     else:
-        # If master file is new, start indexing at 1
-        start_index = 1
+        print(f"Session file '{session_file_path}' retained (delete_session=False).")
 
-    print(f"Starting index for new records will be: {start_index}")
+    print("-" * 50)
+    print("Consolidation script finished.")
+    return True
 
-    # Recalculate the Job_Index column in the session data
-    df_session['Job_Index'] = range(start_index, start_index + records_to_append)
 
-    # Save the session data to the Master CSV
-    df_session.to_csv(MASTER_FILE_PATH,
-                      mode='a',
-                      header=not master_file_exists,
-                      index=False,
-                      sep=';')
+# --- STANDALONE EXECUTION BLOCK ---
+if __name__ == "__main__":
+    print("--- RUNNING MERGING SCRIPT IN STANDALONE TEST MODE ---")
 
-    print(
-        f"SUCCESS! {records_to_append} records from '{SESSION_FILE_NAME}' successfully copied to '{MASTER_FILE_NAME}'.")
+    # Relative path definition for this script
+    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent
+    RAW_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "raw"
 
-except Exception as e:
-    print(f"A critical error occurred during consolidation: {e}")
-    exit()
+    # User Input to find the file
+    job_search_term = input("Enter the job title of the session file you want to consolidate (e.g., Data Scientist): ")
+    safe_job_name = re.sub(r'\s+', '_', job_search_term.strip().lower())
+    safe_job_name = re.sub(r'[^a-z0-9_]', '', safe_job_name)
 
-# --- CLEANUP (OPTIONAL DELETION) ---
+    # Use TEST paths
+    TEST_SESSION_FILE_PATH = RAW_DATA_DIR_TEST / f"jobs_ch_{safe_job_name}_skills.csv"
+    TEST_MASTER_FILE_PATH = RAW_DATA_DIR_TEST / "jobs_ch_skills_all.csv"
 
-print("-" * 50)
-delete_choice = input(f"Do you want to delete the session file '{SESSION_FILE_NAME}'? (y/n): ").strip().lower()
+    # User input for deletion preference
+    delete_choice = input(
+        f"Do you want to delete the session file '{TEST_SESSION_FILE_PATH.name}'? (y/n): ").strip().lower()
+    SHOULD_DELETE_TEST = (delete_choice == 'y')
 
-if delete_choice == 'y':
-    try:
-        os.remove(SESSION_FILE_PATH)
-        print(f"Successfully deleted session file: '{SESSION_FILE_NAME}'")
-    except OSError as e:
-        print(f"Error deleting file {SESSION_FILE_NAME}: {e}")
-else:
-    print(f"Session file '{SESSION_FILE_NAME}' retained.")
-
-print("-" * 50)
-print("Consolidation script finished.")
+    # Call the main function
+    merge_session_to_master(TEST_SESSION_FILE_PATH, TEST_MASTER_FILE_PATH, SHOULD_DELETE_TEST)
