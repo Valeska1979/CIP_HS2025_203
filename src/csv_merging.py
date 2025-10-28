@@ -17,6 +17,34 @@ from pathlib import Path
 import re
 import os
 
+CSV_DELIMITER = ';'
+
+#Determines the next available unique Job_Index for new records
+#by finding the maximum index in the master file and adding 1.
+def get_next_job_index(master_file_path: Path) -> int:
+
+    next_job_index = 1
+
+    # Check if the master file exists and has content
+    if os.path.exists(master_file_path) and os.path.getsize(master_file_path) > 0:
+        try:
+            master_df = pd.read_csv(
+                master_file_path,
+                sep=CSV_DELIMITER,
+                usecols=['Job_Index']
+            )
+
+            # Ensure the DataFrame is not empty and the column exists
+            if not master_df.empty and 'Job_Index' in master_df.columns:
+                next_job_index = int(master_df['Job_Index'].max()) + 1
+
+        except pd.errors.EmptyDataError:
+            print(f"WARNING: Master file is empty or corrupted: {master_file_path}. Starting index at 1.")
+        except Exception as e:
+            print(f"ERROR: Failed to read Job_Index from master file. Starting index at 1. Error: {e}")
+
+    return next_job_index
+
 def merge_session_to_master(session_file_path: Path, master_file_path: Path, delete_session: bool = False):
 
     # --- CORE CONSOLIDATION LOGIC ---
@@ -31,7 +59,7 @@ def merge_session_to_master(session_file_path: Path, master_file_path: Path, del
 
     try:
         # Load the session data
-        df_session = pd.read_csv(session_file_path, sep=';')
+        df_session = pd.read_csv(session_file_path, sep=CSV_DELIMITER)
         records_to_append = len(df_session)
 
         if records_to_append == 0:
@@ -41,14 +69,8 @@ def merge_session_to_master(session_file_path: Path, master_file_path: Path, del
         # Determine the starting index for the new data
         master_file_exists = master_file_path.exists() and master_file_path.stat().st_size > 0
 
-        if master_file_exists:
-            # Load ONLY the 'Job_Index' column from the master file to find the max index
-            # This handles the continuous index requirement!
-            df_master_index = pd.read_csv(master_file_path, sep=';', usecols=['Job_Index'])
-            start_index = df_master_index['Job_Index'].max() + 1
-        else:
-            # If master file is new, start indexing at 1
-            start_index = 1
+        # Determine the starting index for the new data using the helper function
+        start_index = get_next_job_index(master_file_path)
 
         print(f"Starting index for new records will be: {start_index}")
 
@@ -60,7 +82,7 @@ def merge_session_to_master(session_file_path: Path, master_file_path: Path, del
                           mode='a',
                           header=not master_file_exists,
                           index=False,
-                          sep=';')
+                          sep=CSV_DELIMITER)
 
         print(
             f"{records_to_append} records from '{session_file_path}' successfully copied to '{master_file_path}'.")
