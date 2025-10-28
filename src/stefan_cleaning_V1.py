@@ -19,16 +19,60 @@ import re
 from pathlib import Path
 import sys
 
+#    Filters a DataFrame by excluding rows where any of the specified columns
+#    contain any of the defined exclusion keywords.
+def apply_keyword_filter(df: pd.DataFrame, keywords: list, columns: list):
+
+    if not keywords or not columns:
+        print("WARNING: Keyword or column list is empty. Skipping keyword filter.")
+        return df.copy()
+
+    rows_before_filter = len(df)
+
+    # Building the case-insensitive regex pattern
+    # Escape special characters in keywords (like '.' in 'PH.D') and join them with an OR operator '|'
+    regex_pattern = '|'.join([re.escape(k) for k in keywords])
+    regex_pattern_with_flags = f'(?i){regex_pattern}'
+
+    # Creating the combined boolean exclusion mask. Initializing the mask to all False
+    exclusion_mask = pd.Series([False] * rows_before_filter, index=df.index)
+
+    # Iterating over the columns and update the exclusion mask using the logical OR operator
+    for col in columns:
+        # Calculate the mask for the current column
+        col_mask = df[col].astype(str).str.contains(
+            regex_pattern_with_flags,
+            na=False,
+            regex=True
+        )
+        # The job is excluded if it matches the pattern in ANY of the columns
+        exclusion_mask = exclusion_mask | col_mask
+
+    # Apply the filter. Keep only the rows where the mask is False
+    df_filtered = df[~exclusion_mask].copy()
+
+    # 4. Validation output
+    rows_excluded = rows_before_filter - len(df_filtered)
+
+    print("-" * 30)
+    print("--- Keyword Exclusion Filter ---")
+    print(f"Keywords used: {', '.join(keywords[:5])}...")
+    print(f"Total rows before filter: {rows_before_filter}")
+    print(f"Rows excluded by keyword filter: {rows_excluded}")
+    print(f"Total rows after filter: {len(df_filtered)}")
+    print("-" * 30)
+
+    return df_filtered
+
 
 # Define the delimiter used for all CSV operations
 CSV_DELIMITER = ';'
 def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, final_output_path: Path):
+#return will be pd.DataFrame
 
     # --- Configuration ---
     # Data Loading
-    df = pd.read_csv(input_file_path, sep=';')
-
-
+    df = pd.read_csv(input_file_path, sep = CSV_DELIMITER)
 
 
     # --- Filtering No Tasks AND No Skills ---
@@ -136,14 +180,16 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
     rows_excluded_by_index = rows_before_index_exclusion - len(df_cleaned)
     print("-" * 30)
     print(f"Data refinement: {rows_before_index_exclusion} records processed; {rows_excluded_by_index} jobs removed.")
-    print("-" * 30)
 
      # Filtering by Keywords
     "As the further step, a keyword-based exclusion filter was applied across the job Title, Tasks, and Skills columns to remove roles that clearly fell outside the scope of Data Science, such as those explicitly mentioning Lager, Recht, or Chemie. The keywords were indentified meanwhile going through the data set"
 
+    # --- Filtering by Keywords ---
+    "As the further step, a keyword-based exclusion filter was applied across the job Title, Tasks, and Skills columns to remove roles that clearly fell outside the scope of Data Science, such as those explicitly mentioning Lager, Recht, or Chemie. The keywords were indentified meanwhile going through the data set"
+
     # Define the keywords for exclusion. Keywords will be searched in 'Title', 'Tasks', and 'Skills' columns.
     EXCLUSION_KEYWORDS = [
-        #ACADEMIC / HIGHLY SPECIALIZED SCIENCE
+        # ACADEMIC / HIGHLY SPECIALIZED SCIENCE
         'PH\.D',
         'Doktor',
         'Dozent',
@@ -152,17 +198,17 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
         'Laborant',
         'Food process',
         'Food engineering',
-        #SOCIAL SCIENCES / HUMANITIES / LEGAL
+        # SOCIAL SCIENCES / HUMANITIES / LEGAL
         r'\bRecht\b',
         'Psychologie',
         'Sozialwissenschaften',
         'Geisteswissenschaften',
-        #MEDICAL / HEALTHCARE / PHARMACEUTICAL
+        # MEDICAL / HEALTHCARE / PHARMACEUTICAL
         r'\bMedizin\b',
         'Infirmières',
         'Infirmier',
         'Pflegeexpert',
-        #TRADES / MANUAL / ENGINEERING / LOGISTICS
+        # TRADES / MANUAL / ENGINEERING / LOGISTICS
         'Montage',
         'Monteur',
         'Servicetechniker',
@@ -171,51 +217,21 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
         'Manufacturing',
         'Bauingenieur',
         'Lager',
-        #BUSINESS SUPPORT / ADMIN / FINANCE
+        # BUSINESS SUPPORT / ADMIN / FINANCE
         'HR-Manager',
         'Treuhand',
         'Buchhaltung',
-
-        # Add more keywords here as needed, e.g., 'Engineering', 'Biotech'
     ]
 
     # Columns to check for the exclusion keywords
     columns_to_check = ['Job_Title', 'Tasks', 'Skills']
 
-    # Build the case-insensitive regex pattern. Escape special characters in keywords (like '.' in 'PH.D') and join them with an OR operator '|'
-    regex_pattern = '|'.join([re.escape(k) for k in EXCLUSION_KEYWORDS])
-
-    # Flag for case-insensitivity:
-    regex_pattern_with_flags = f'(?i){regex_pattern}'
-
-    # Create a combined boolean exclusion mask
-    # Initializing the mask to all False
-    exclusion_mask_keywords = pd.Series([False] * len(df_cleaned), index=df_cleaned.index)
-
-    # Iterate over the columns and update the exclusion mask using the logical OR operator
-    for col in columns_to_check:
-        #Calculate the mask for the current column
-        col_mask = df_cleaned[col].astype(str).str.contains(
-            regex_pattern_with_flags,
-            na=False,
-            regex=True
-        )
-        # The job is excluded if it matches the pattern in ANY of the columns
-        exclusion_mask_keywords = exclusion_mask_keywords | col_mask
-
-    # Apply the filter. Keep only the rows where the mask is False
-    df_cleaned_final = df_cleaned[~exclusion_mask_keywords].copy()
-
-    # Validation output
-    rows_excluded_by_keyword = len(df_cleaned) - len(df_cleaned_final)
-
-    print("-" * 30)
-    print(f"Keywords used for exclusion: {', '.join(EXCLUSION_KEYWORDS)}")
-    print(f"Total rows before keyword filter: {len(df_cleaned)}")
-    print(f"Rows excluded by keyword filter: {rows_excluded_by_keyword}")
-    print(f"Total rows in cleaned data: {len(df_cleaned_final)}")
-    print("-" * 30)
-
+    # Apply the keyword filtering using the new abstracted function
+    df_cleaned_final = apply_keyword_filter(
+        df=df_cleaned,
+        keywords=EXCLUSION_KEYWORDS,
+        columns=columns_to_check
+    )
 
     # --- CREATING FINAL CSV WITH THE CLEANED DATASET ---
     os.makedirs(os.path.dirname(final_output_path), exist_ok=True)
