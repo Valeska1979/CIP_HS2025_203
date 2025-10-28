@@ -25,6 +25,8 @@ from pathlib import Path
 import re
 import sys
 
+CSV_DELIMITER = ';'
+
 def scrape_jobs(job_search_term: str, max_jobs_to_scrape: int, save_file_path: Path, master_file_path: Path):
 
     # Clean the job name for file naming (e.g., 'Data Scientist' -> 'data_scientist')
@@ -52,7 +54,7 @@ def scrape_jobs(job_search_term: str, max_jobs_to_scrape: int, save_file_path: P
         unique_ids = set()
         try:
             if file_path.exists() and file_path.stat().st_size > 0:
-                df_existing = pd.read_csv(file_path, sep=';')
+                df_existing = pd.read_csv(file_path, sep = CSV_DELIMITER)
                 if not df_existing.empty and 'Company_Name' in df_existing.columns:
                     df_existing['Unique_ID'] = df_existing['Job_Title'].astype(str).str.strip() + ' | ' + df_existing[
                         'Company_Name'].astype(str).str.strip()
@@ -239,7 +241,7 @@ def scrape_jobs(job_search_term: str, max_jobs_to_scrape: int, save_file_path: P
                                   mode='a',
                                   header=not session_file_exists,
                                   index=False,
-                                  sep=';')
+                                  sep = CSV_DELIMITER)
 
                 print(f"    -> UNIQUE Data Appended to Session CSVs. Total records: {jobs_scraped_count}")
             except Exception as e:

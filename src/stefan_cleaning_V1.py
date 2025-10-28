@@ -26,7 +26,7 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
 
     # --- Configuration ---
     # Data Loading
-    df = pd.read_csv(input_file_path, sep=';')
+    df = pd.read_csv(input_file_path, sep = CSV_DELIMITER)
 
 
 
@@ -136,7 +136,6 @@ def run_data_cleaning(input_file_path: Path, intermediate_output_path: Path, fin
     rows_excluded_by_index = rows_before_index_exclusion - len(df_cleaned)
     print("-" * 30)
     print(f"Data refinement: {rows_before_index_exclusion} records processed; {rows_excluded_by_index} jobs removed.")
-    print("-" * 30)
 
      # Filtering by Keywords
     "As the further step, a keyword-based exclusion filter was applied across the job Title, Tasks, and Skills columns to remove roles that clearly fell outside the scope of Data Science, such as those explicitly mentioning Lager, Recht, or Chemie. The keywords were indentified meanwhile going through the data set"
