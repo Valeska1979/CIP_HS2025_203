@@ -190,7 +190,6 @@ def run_semantic_clustering(input_file_path: Path, output_csv_path: Path, output
 
     # --- Save scatter plot ---
     try:
-        # Ensure the directory C:\Users\stefa\Pycharm_CIP_Jobs_Project_Github\report\figures exists
         os.makedirs(output_plot_path.parent, exist_ok=True)
         plt.savefig(output_plot_path)
         print(f"\nCluster plot saved to: {output_plot_path}")
