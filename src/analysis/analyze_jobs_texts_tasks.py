@@ -156,7 +156,7 @@ def run_task_analysis(input_file_path, output_dir_path):
 
     # Saving to output_dir_path
     tasks_overview_out = output_dir_path / "jobs_ch_tasks_overview.csv"
-    tasks_keywords_out = output_dir_path / "jobs_ch_tasks_keywords.csv"
+    tasks_keywords_out = output_dir_path / "jobs_ch_tasks_with_keywords.csv"
 
     try:
         df_topics.to_csv(tasks_overview_out, index=False, sep=";")
