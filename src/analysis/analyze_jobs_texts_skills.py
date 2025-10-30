@@ -194,7 +194,7 @@ def run_skills_analysis(input_file_path: Path, output_dir_path: Path):
     # Define output directory and filenames
     os.makedirs(output_dir_path, exist_ok=True)
 
-    phrases_out = output_dir_path / "jobs_ch_phrases_analysis.csv"
+    phrases_out = output_dir_path / "jobs_ch_phrases_skills.csv"
     skills_out = output_dir_path / "jobs_ch_single_skills_analysis.csv"
     locations_out = output_dir_path / "jobs_ch_location_counts.csv"
 
@@ -224,10 +224,11 @@ if __name__ == "__main__":
     # Define paths relative to this script
     PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
 
+    PROCESSED_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "processed"
     ANALYSIS_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "analysis"
 
     # Define paths
-    TEST_INPUT_PATH = ANALYSIS_DATA_DIR_TEST / "jobs_ch_semantic_clusters_labeled.csv"
+    TEST_INPUT_PATH = PROCESSED_DATA_DIR_TEST / "jobs_ch_skills_all_cleaned_final_V1.csv"
 
     # Run the analysis, saving to the REPORT directory
     success = run_skills_analysis(

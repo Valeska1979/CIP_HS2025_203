@@ -55,7 +55,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     INTERMEDIATE_CLEANED_PATH = PROCESSED_DATA_DIR / "jobs_ch_skills_all_intermediate.csv"
     FINAL_CLEANED_PATH = PROCESSED_DATA_DIR / "jobs_ch_skills_all_cleaned_final_V1.csv"
     CLUSTERS_CSV_PATH = ANALYSIS_DATA_DIR / "jobs_ch_semantic_clusters_labeled.csv"
-    CLUSTERS_PLOT_PATH = REPORT_DIR / "semantic_clusters_umap.png"
+    CLUSTERS_PLOT_PATH = REPORT_DIR / "figures" / "cluster_plot.png"
 
     # INPUT PATH for Skills Analysis
     SKILLS_INPUT_PATH = FINAL_CLEANED_PATH
