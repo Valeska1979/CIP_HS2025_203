@@ -1,21 +1,21 @@
 Phrase;Total_Mentions;Unique_Ads
-business intelligence;161;94
-artificial intelligence;103;46
-machine learning;59;36
-data science;32;31
-cloud computing;32;22
-data analysis;20;17
-tableau;13;11
-power bi;11;10
-data engineering;5;5
-data visualization;4;4
-data governance;4;2
-data lake;4;2
-big data;3;3
-deep learning;2;2
-data pipeline;1;1
+business intelligence;337;135
+artificial intelligence;289;84
+machine learning;119;58
+cloud computing;65;37
+data science;47;42
+data analysis;30;22
+power bi;20;16
+tableau;18;13
+data lake;8;6
+data engineering;8;7
+data pipeline;7;7
+big data;7;6
+data governance;7;3
+data visualization;7;7
+deep learning;4;3
+data warehouse;2;2
+natural language processing;2;2
 statistical modeling;1;1
-natural language processing;1;1
-data warehouse;0;0
 predictive modeling;0;0
 computer vision;0;0
