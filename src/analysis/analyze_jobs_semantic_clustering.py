@@ -213,11 +213,12 @@ if __name__ == "__main__":
     PROCESSED_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "processed"
     ANALYSIS_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "analysis"
     REPORT_DIR_TEST = PROJECT_ROOT_TEST / "report"
+    FIGURES_DIR_TEST = REPORT_DIR_TEST / "figures"
 
     # Define paths
     TEST_INPUT_PATH = PROCESSED_DATA_DIR_TEST / "jobs_ch_skills_all_cleaned_final_V1.csv"
     TEST_OUTPUT_CSV_PATH = ANALYSIS_DATA_DIR_TEST / "jobs_ch_semantic_clusters_labeled.csv"
-    TEST_OUTPUT_PLOT_PATH = REPORT_DIR_TEST / "cluster_plot.png"
+    TEST_OUTPUT_PLOT_PATH = FIGURES_DIR_TEST / "cluster_plot.png"
 
     # Run the analysis
     success = run_semantic_clustering(

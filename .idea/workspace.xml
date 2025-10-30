@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a0e3198-6ad9-4aa4-b155-49c4134ce2e3" name="Changes" comment="changed name output csv for analyze_jobs_texts_tasks">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/analysis/analyze_jobs_semantic_clustering.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/analysis/analyze_jobs_semantic_clustering.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main_jobs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_jobs.py" afterDir="false" />
+    <list default="true" id="0a0e3198-6ad9-4aa4-b155-49c4134ce2e3" name="Changes" comment="commit to change">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,14 +161,6 @@
       <workItem from="1761640385923" duration="9423000" />
       <workItem from="1761672095132" duration="8513000" />
       <workItem from="1761808640747" duration="11944000" />
-    </task>
-    <task id="LOCAL-00085" summary="Changing script stefan_cleaning_V1 in order to main script structure">
-      <option name="closed" value="true" />
-      <created>1761376823250</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1761376823250</updated>
     </task>
     <task id="LOCAL-00086" summary="Changing name jobs_ch_skills_all_cleaned.csv to jobs_ch_skills_all_intermediate.csv">
       <option name="closed" value="true" />
@@ -556,7 +546,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761818147766</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="commit to change">
+      <option name="closed" value="true" />
+      <created>1761828604972</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1761828604972</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -574,7 +572,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="not improtat change of comments" />
     <MESSAGE value="jobs_ch_skills_all_cleaned_final_V1 was seperated by comma and not semicolon. written quickly script which changes the seperator of the file" />
     <MESSAGE value="deleting the on_bad_lines" />
     <MESSAGE value="commit to bea ble to change branch" />
@@ -599,7 +596,8 @@
     <MESSAGE value="changed input csv of analyze_jobs_texts_skills and the output csv file" />
     <MESSAGE value="commit to switch branch" />
     <MESSAGE value="changed name output csv for analyze_jobs_texts_tasks" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed name output csv for analyze_jobs_texts_tasks" />
+    <MESSAGE value="commit to change" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit to change" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_trial.coverage" NAME="stefan_trial Coverage Results" MODIFIED="1759070005932" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -620,7 +618,7 @@
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$prov_script_snipped.coverage" NAME="prov_script_snipped Coverage Results" MODIFIED="1761413218381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_texts_skills.coverage" NAME="analyze_jobs_texts_skills Coverage Results" MODIFIED="1761827436977" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_div_jobs_scraping_V1.coverage" NAME="stefan_div_jobs_scraping_V1 Coverage Results" MODIFIED="1759585162611" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_semantic_clustering.coverage" NAME="analyze_jobs_semantic_clustering Coverage Results" MODIFIED="1761827488184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
+    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_semantic_clustering.coverage" NAME="analyze_jobs_semantic_clustering Coverage Results" MODIFIED="1761828455221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$test.coverage" NAME="test Coverage Results" MODIFIED="1760790363781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_cleaning_V1.coverage" NAME="stefan_cleaning_V1 Coverage Results" MODIFIED="1761658196867" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_DS_search_fetching_skills_next_job.coverage" NAME="stefan_DS_search_fetching_skills_next_job Coverage Results" MODIFIED="1759073979337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
