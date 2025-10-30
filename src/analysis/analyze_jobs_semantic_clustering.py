@@ -187,6 +187,16 @@ def run_semantic_clustering(input_file_path: Path, output_csv_path: Path, output
     plt.legend(handles, labels, title="Cluster", bbox_to_anchor=(1.05, 1), loc="upper left")
 
     plt.tight_layout()
+
+    # --- Save scatter plot ---
+    try:
+        # Ensure the directory C:\Users\stefa\Pycharm_CIP_Jobs_Project_Github\report\figures exists
+        os.makedirs(output_plot_path.parent, exist_ok=True)
+        plt.savefig(output_plot_path)
+        print(f"\nCluster plot saved to: {output_plot_path}")
+    except Exception as e:
+        print(f"CLUSTERING FAILED during plot save: {e}")
+
     plt.show()
 
     return True
@@ -207,7 +217,7 @@ if __name__ == "__main__":
     # Define paths
     TEST_INPUT_PATH = PROCESSED_DATA_DIR_TEST / "jobs_ch_skills_all_cleaned_final_V1.csv"
     TEST_OUTPUT_CSV_PATH = ANALYSIS_DATA_DIR_TEST / "jobs_ch_semantic_clusters_labeled.csv"
-    TEST_OUTPUT_PLOT_PATH = REPORT_DIR_TEST / "semantic_clusters_umap.png"
+    TEST_OUTPUT_PLOT_PATH = REPORT_DIR_TEST / "cluster_plot.png"
 
     # Run the analysis
     success = run_semantic_clustering(

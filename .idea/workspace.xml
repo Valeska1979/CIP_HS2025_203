@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a0e3198-6ad9-4aa4-b155-49c4134ce2e3" name="Changes" comment="changed name output csv for analyze_jobs_texts_tasks" />
+    <list default="true" id="0a0e3198-6ad9-4aa4-b155-49c4134ce2e3" name="Changes" comment="changed name output csv for analyze_jobs_texts_tasks">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/analysis/analyze_jobs_semantic_clustering.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/analysis/analyze_jobs_semantic_clustering.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main_jobs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main_jobs.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,49 +54,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.analyze_jobs_semantic_clustering.executor": "Run",
-    "Python.analyze_jobs_texts_skills.executor": "Run",
-    "Python.analyze_jobs_texts_tasks.executor": "Run",
-    "Python.csv_merging.executor": "Run",
-    "Python.first_data_check.executor": "Run",
-    "Python.fixing_csv_seperator.executor": "Run",
-    "Python.jobs_ch_base.executor": "Run",
-    "Python.jobs_scraping_V1.executor": "Run",
-    "Python.main_jobs.executor": "Run",
-    "Python.pd_df.executor": "Run",
-    "Python.prov.executor": "Run",
-    "Python.prov_script_snipped.executor": "Run",
-    "Python.prov_test.executor": "Run",
-    "Python.stefan_DS_search_fetching_skills.executor": "Run",
-    "Python.stefan_DS_search_fetching_skills_next_job.executor": "Run",
-    "Python.stefan_DS_search_fetching_skills_next_job_ABC.executor": "Run",
-    "Python.stefan_DS_search_fetching_skills_next_job__saving_ABC.executor": "Run",
-    "Python.stefan_DS_search_fetching_skills_next_job_saving_ABC_V2.executor": "Run",
-    "Python.stefan_cleaning.executor": "Run",
-    "Python.stefan_cleaning_V1.executor": "Run",
-    "Python.stefan_cleaning_new.executor": "Run",
-    "Python.stefan_cleaning_old.executor": "Run",
-    "Python.stefan_div_jobs_scraping_V1.executor": "Run",
-    "Python.stefan_trial.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "database.data.extractors.current.export.id": "Excel (xlsx)",
-    "git-widget-placeholder": "stefan__analysis__improv",
-    "last_opened_file_path": "C:/Users/stefa/Pycharm_CIP_Jobs_Project_Github/data/processed",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "PyConsoleConfigurable.Python Console",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.analyze_jobs_semantic_clustering.executor&quot;: &quot;Run&quot;,
+    &quot;Python.analyze_jobs_texts_skills.executor&quot;: &quot;Run&quot;,
+    &quot;Python.analyze_jobs_texts_tasks.executor&quot;: &quot;Run&quot;,
+    &quot;Python.csv_merging.executor&quot;: &quot;Run&quot;,
+    &quot;Python.first_data_check.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fixing_csv_seperator.executor&quot;: &quot;Run&quot;,
+    &quot;Python.jobs_ch_base.executor&quot;: &quot;Run&quot;,
+    &quot;Python.jobs_scraping_V1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_jobs.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pd_df.executor&quot;: &quot;Run&quot;,
+    &quot;Python.prov.executor&quot;: &quot;Run&quot;,
+    &quot;Python.prov_script_snipped.executor&quot;: &quot;Run&quot;,
+    &quot;Python.prov_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_DS_search_fetching_skills.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_DS_search_fetching_skills_next_job.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_DS_search_fetching_skills_next_job_ABC.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_DS_search_fetching_skills_next_job__saving_ABC.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_DS_search_fetching_skills_next_job_saving_ABC_V2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_cleaning.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_cleaning_V1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_cleaning_new.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_cleaning_old.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_div_jobs_scraping_V1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stefan_trial.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Excel (xlsx)&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;stefan__analysis__improv&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/stefa/Pycharm_CIP_Jobs_Project_Github/data/processed&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;PyConsoleConfigurable.Python Console&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="Pycharm_CIP_Jobs_Project_Github" is-module-sdk="true" working-directory="$PROJECT_DIR$/src">
@@ -604,9 +608,9 @@
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$prov.coverage" NAME="prov Coverage Results" MODIFIED="1759581612942" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Archieve" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$fixing_csv_seperator.coverage" NAME="fixing_csv_seperator Coverage Results" MODIFIED="1761483891300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Archieve" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$csv_merging.coverage" NAME="csv_merging Coverage Results" MODIFIED="1761657542000" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_texts_tasks.coverage" NAME="analyze_jobs_texts_tasks Coverage Results" MODIFIED="1761818209660" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
+    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_texts_tasks.coverage" NAME="analyze_jobs_texts_tasks Coverage Results" MODIFIED="1761827463908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_cleaning_old.coverage" NAME="stefan_cleaning_old Coverage Results" MODIFIED="1760792823048" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$main_jobs.coverage" NAME="main_jobs Coverage Results" MODIFIED="1761820231486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$main_jobs.coverage" NAME="main_jobs Coverage Results" MODIFIED="1761827147379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$first_data_check.coverage" NAME="first_data_check Coverage Results" MODIFIED="1760170730192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$jobs_ch_base.coverage" NAME="jobs_ch_base Coverage Results" MODIFIED="1759062252598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_DS_search_fetching_skills_next_job__saving_ABC.coverage" NAME="stefan_DS_search_fetching_skills_next_job__saving_ABC Coverage Results" MODIFIED="1759418445095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -614,9 +618,9 @@
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_cleaning_new.coverage" NAME="stefan_cleaning_new Coverage Results" MODIFIED="1761222487340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$jobs_scraping_V1.coverage" NAME="jobs_scraping_V1 Coverage Results" MODIFIED="1761657446941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$prov_script_snipped.coverage" NAME="prov_script_snipped Coverage Results" MODIFIED="1761413218381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_texts_skills.coverage" NAME="analyze_jobs_texts_skills Coverage Results" MODIFIED="1761817400495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
+    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_texts_skills.coverage" NAME="analyze_jobs_texts_skills Coverage Results" MODIFIED="1761827436977" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_div_jobs_scraping_V1.coverage" NAME="stefan_div_jobs_scraping_V1 Coverage Results" MODIFIED="1759585162611" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_semantic_clustering.coverage" NAME="analyze_jobs_semantic_clustering Coverage Results" MODIFIED="1761819995672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
+    <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$analyze_jobs_semantic_clustering.coverage" NAME="analyze_jobs_semantic_clustering Coverage Results" MODIFIED="1761827488184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/analysis" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$test.coverage" NAME="test Coverage Results" MODIFIED="1760790363781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_cleaning_V1.coverage" NAME="stefan_cleaning_V1 Coverage Results" MODIFIED="1761658196867" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/Pycharm_CIP_Jobs_Project_Github$stefan_DS_search_fetching_skills_next_job.coverage" NAME="stefan_DS_search_fetching_skills_next_job Coverage Results" MODIFIED="1759073979337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
