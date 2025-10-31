@@ -208,7 +208,7 @@ if __name__ == "__main__":
     print("--- RUNNING SEMANTIC CLUSTERING SCRIPT IN STANDALONE TEST MODE ---")
 
     # Define paths relative to this script
-    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
+    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent
     PROCESSED_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "processed"
     ANALYSIS_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "analysis"
     REPORT_DIR_TEST = PROJECT_ROOT_TEST / "report"
