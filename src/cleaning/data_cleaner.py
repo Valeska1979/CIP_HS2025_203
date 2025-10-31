@@ -247,7 +247,7 @@ if __name__ == "__main__":
     print("--- RUNNING CLEANING SCRIPT IN STANDALONE TEST MODE ---")
 
     # Define paths relative to this script
-    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent
+    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
     RAW_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "raw"
     PROCESSED_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "processed"
 

@@ -21,8 +21,8 @@ import os
 import re
 
 # Import Modules
-import csv_merging
 import scraping as jobs_scraping_V1
+import cleaning
 import analysis
 
 # Definition the Project Root and Standard Paths
@@ -81,7 +81,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     # --- MERGING ---
     try:
         print("\n[2/6] Merging Data")
-        success = csv_merging.merge_session_to_master(
+        success = jobs_scraping_V1.merge_session_to_master(
             session_file_path=SESSION_FILE_PATH,
             master_file_path=MASTER_FILE_PATH,
             delete_session=delete_session
@@ -100,7 +100,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
         try:
             print("\n[3/6] Cleaning Data")
 
-            cleaned_df = stefan_cleaning_V1.run_data_cleaning(
+            cleaned_df = cleaning.run_data_cleaning(
                 input_file_path=MASTER_FILE_PATH,
                 intermediate_output_path=INTERMEDIATE_CLEANED_PATH,
                 final_output_path=FINAL_CLEANED_PATH
