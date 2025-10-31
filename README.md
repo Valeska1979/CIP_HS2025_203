@@ -44,28 +44,22 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
 
 ## Project Structure
 
-
-`
 CIP_HS2025_203/
 ├── data/
 │   ├── raw/        # Raw scraped data (per session & master file)
 │   ├── processed/  # Cleaned and merged datasets
 │   └── analysis/   # Clustered and analyzed datasets
 ├── report/
-│   ├── figures/    # Plots, word clouds, heatmaps
-│   └── CIP_HS2025_203_Report.pdf
+│   └── figures/    # Plots, figures
 ├── src/
 │   ├── scraping/       # Web scraping modules
 │   ├── cleaning/       # Data cleaning & preprocessing
 │   ├── analysis/       # Skill, task, and clustering analysis
-│   ├── visualization/  # Plots & dashboards (in progress)
+│   ├── visualization/  # Plots
 │   └── main_jobs.py    # Orchestrates the full data pipeline
 ├── requirements.txt    # Python dependencies
-├── README.md           # Project documentation (this file)
+├── README.md           # Project documentation
 └── .gitignore
-`
-
-
 
 ---
 
@@ -85,25 +79,17 @@ CIP_HS2025_203/
 
 ---
 
-## Example Outputs (Planned)
-
-* Ranking of most frequent technical skills (bar chart)
-* Word cloud of skill terms extracted from job ads
-* Geographic heatmap of job locations
-* 2D semantic skill cluster plot (UMAP visualization)
-
----
 
 ## Team & Contributions
 
 **Group 203**
 
 * **Stefan Dreyfus:** Web scraping, data merging, and cleaning
-  *(scripts and outputs in `scraping/` and `cleaning/`)*
+  *(scripts in scraping/ and cleaning/)*
 * **Valeska Blank:** Data analysis, clustering, and skill extraction
-  *(scripts and outputs in `analysis/`)*
+  *(scripts in analysis/)*
 * **Julia Studer:** Visualization and presentation of results
-  *(scripts and figures in `visualization/`, ongoing work)*
+  *(scripts in visualization/)*
 
 ---
 
@@ -111,10 +97,10 @@ CIP_HS2025_203/
 
 ### Clone the repository
 
-```bash
-git clone https://github.com/<your-org>/CIP_HS2025_203.git
-cd CIP_HS2025_203/src
-```
+
+git clone https://github.com/Valeska197/CIP_HS2025_203.git
+cd CIP_HS2025_203
+
 
 ### Install dependencies
 
@@ -128,27 +114,10 @@ python main_jobs.py
 
 You will be prompted to enter:
 
-* **Job title** (e.g. “Data Scientist”)
-* **Maximum number of jobs** to scrape
-* Whether to **delete session files** after merging
+* Job title (e.g. “Data Scientist”)
+* Maximum number of jobs to scrape
+* Whether to delete session files after merging
 
----
-
-## Notes
-
-* Data collection was performed respecting the [robots.txt](https://www.jobs.ch/robots.txt) of jobs.ch.
-* The project is for **academic purposes only** and does not store or redistribute third-party content.
-* The visualization component is currently under final development.
-
----
-
-## Status
-
-✔️ Data scraping and cleaning completed
-✔️ Skill and clustering analyses completed
-⏳ Visualization development in progress
-
----
 
 **Authors:** Julia Studer, Valeska Blank,  Stefan Dreyfus
 **Course:** Data Collection, Integration and Preprocessing HS2025
