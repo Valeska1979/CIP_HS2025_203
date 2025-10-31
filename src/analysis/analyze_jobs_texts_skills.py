@@ -13,6 +13,7 @@ from nltk.corpus import stopwords
 import re
 from collections import Counter
 import os
+import sys
 from pathlib import Path
 
 def run_skills_analysis(input_file_path: Path, output_dir_path: Path):
@@ -222,7 +223,7 @@ if __name__ == "__main__":
     print("--- RUNNING SKILLS ANALYSIS SCRIPT IN STANDALONE TEST MODE ---")
 
     # Define paths relative to this script
-    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent
+    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
 
     PROCESSED_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "processed"
     ANALYSIS_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "analysis"

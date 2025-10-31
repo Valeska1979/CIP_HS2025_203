@@ -181,7 +181,7 @@ def run_task_analysis(input_file_path, output_dir_path):
 if __name__ == "__main__":
     print("--- RUNNING TASKS ANALYSIS SCRIPT IN STANDALONE TEST MODE ---")
 
-    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent
+    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
 
     # Input is the final cleaned data
     PROCESSED_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "processed"
