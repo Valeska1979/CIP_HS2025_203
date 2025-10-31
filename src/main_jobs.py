@@ -8,10 +8,12 @@
 #   1. Scrape new job data from jobs.ch.
 #   2. Merge new data into the master CSV.
 #   3. Clean and filter the master dataset.
-#   4. Analyze job texts (Tasks and Skills) and location data.
-#   5. Perform semantic clustering on cleaned data.
+#   4. Analyze job texts (Tasks).
+#   5. Analyze job texts (Skills and Location).
+#   6. Perform semantic clustering on cleaned data.
 # Execution:
 #   Runs interactively, prompting the user for scrape parameters.
+# Author: Stefan Dreyfus
 # ==========================================================
 
 
@@ -21,12 +23,9 @@ import os
 import re
 
 # Import Modules
-import jobs_scraping_V1
-import csv_merging
-import stefan_cleaning_V1
-import analysis.analyze_jobs_texts_tasks
-import analysis.analyze_jobs_semantic_clustering
-import analysis.analyze_jobs_texts_skills
+import scraping as jobs_scraping_V1
+import cleaning
+import analysis
 
 # Definition the Project Root and Standard Paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -84,7 +83,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     # --- MERGING ---
     try:
         print("\n[2/6] Merging Data")
-        success = csv_merging.merge_session_to_master(
+        success = jobs_scraping_V1.merge_session_to_master(
             session_file_path=SESSION_FILE_PATH,
             master_file_path=MASTER_FILE_PATH,
             delete_session=delete_session
@@ -103,7 +102,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
         try:
             print("\n[3/6] Cleaning Data")
 
-            cleaned_df = stefan_cleaning_V1.run_data_cleaning(
+            cleaned_df = cleaning.run_data_cleaning(
                 input_file_path=MASTER_FILE_PATH,
                 intermediate_output_path=INTERMEDIATE_CLEANED_PATH,
                 final_output_path=FINAL_CLEANED_PATH
@@ -127,7 +126,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
         try:
             print("\n[4/6] Running Tasks Analysis")
 
-            task_analysis_success = analysis.analyze_jobs_texts_tasks.run_task_analysis(
+            task_analysis_success = analysis.run_task_analysis(
                 input_file_path=TASKS_INPUT_PATH,
                 output_dir_path=ANALYSIS_DATA_DIR
             )
@@ -152,7 +151,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
         try:
             print("\n[5/6] Running Skills and Location Analysis")
 
-            analysis_success = analysis.analyze_jobs_texts_skills.run_skills_analysis(
+            analysis_success = analysis.run_skills_analysis(
                 input_file_path=SKILLS_INPUT_PATH,
                 output_dir_path=ANALYSIS_DATA_DIR
             )
@@ -176,7 +175,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
         try:
             print("\n[6/6] Running Semantic Clustering Analysis")
 
-            analysis_success = analysis.analyze_jobs_semantic_clustering.run_semantic_clustering(
+            analysis_success = analysis.run_semantic_clustering(
                 input_file_path=FINAL_CLEANED_PATH,
                 output_csv_path=CLUSTERS_CSV_PATH,
                 output_plot_path=CLUSTERS_PLOT_PATH
