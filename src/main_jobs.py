@@ -8,10 +8,12 @@
 #   1. Scrape new job data from jobs.ch.
 #   2. Merge new data into the master CSV.
 #   3. Clean and filter the master dataset.
-#   4. Analyze job texts (Tasks and Skills) and location data.
-#   5. Perform semantic clustering on cleaned data.
+#   4. Analyze job texts (Tasks).
+#   5. Analyze job texts (Skills and Location).
+#   6. Perform semantic clustering on cleaned data.
 # Execution:
 #   Runs interactively, prompting the user for scrape parameters.
+# Author: Stefan Dreyfus
 # ==========================================================
 
 
