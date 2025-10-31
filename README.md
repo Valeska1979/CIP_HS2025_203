@@ -1,9 +1,9 @@
-# CIP_HS2025_203 – Analysis of Required Skills in Data Science Job Advertisements
+# Data Collection, Integration and Preprocessing HS2025 – Analysis of Required Skills in Data Science Job Advertisements
 
 ## Project Overview
 
-This project was developed as part of the *Computational Intelligence in Practice (CIP)* course (HS2025).
-Our goal is to analyze the skills demanded in **Data Science job postings in Switzerland**, using a full Python-based data pipeline — from web scraping to semantic text clustering and visualization.
+This project was developed as part of the module  Data Collection, Integration and Preprocessing course HS2025.
+The goal is to analyze the skills demanded in Data Science job postings in Switzerland, using a full Python-based data pipeline — from web scraping to semantic text clustering and visualization.
 
 The project explores trends in technical and soft skills required for data-oriented roles and their geographic distribution across Switzerland.
 
@@ -11,9 +11,9 @@ The project explores trends in technical and soft skills required for data-orien
 
 ## Research Questions
 
-1. Which **hard and soft skills** are most commonly required in current Data Science job advertisements in Switzerland?
-2. In which **regions or cantons** are the most Data Science positions advertised?
-3. Which **programming languages, tools, or technologies** appear most frequently across all job postings?
+1. Which hard and soft skills are most commonly required in current Data Science job advertisements in Switzerland?
+2. In which regions or cantons are the most Data Science positions advertised?
+3. Which programming languages, tools, or technologies appear most frequently across all job postings?
 
 ---
 
@@ -29,7 +29,7 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
    Session data are merged with a master dataset while avoiding duplicates.
 
 3. **Cleaning**
-   Unstructured job texts are cleaned, normalized, and filtered using `pandas`, `regex`, and basic NLP preprocessing.
+   Unstructured job texts are cleaned and filtered using `pandas` and `regex`.
 
 4. **Analysis (Tasks)**
    Extract and quantify frequent terms related to job tasks.
@@ -46,26 +46,23 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
 
 
 CIP_HS2025_203/
-│
 ├── data/
-│   ├── raw/               # Raw scraped data (per session & master file)
-│   ├── processed/         # Cleaned and merged datasets
-│   └── analysis/          # Clustered and analyzed datasets
-│
+│   ├── raw/        # Raw scraped data (per session & master file)
+│   ├── processed/  # Cleaned and merged datasets
+│   └── analysis/   # Clustered and analyzed datasets
 ├── report/
-│   ├── figures/           # Plots, word clouds, heatmaps
+│   ├── figures/    # Plots, word clouds, heatmaps
 │   └── CIP_HS2025_203_Report.pdf
-│
 ├── src/
-│   ├── scraping/          # Web scraping modules
-│   ├── cleaning/          # Data cleaning & preprocessing
-│   ├── analysis/          # Skill, task, and clustering analysis
-│   ├── visualization/     # Plots & dashboards (in progress)
-│   └── main_jobs.py       # Orchestrates the full data pipeline
-│
-├── requirements.txt       # Python dependencies
-├── README.md              # Project documentation (this file)
+│   ├── scraping/       # Web scraping modules
+│   ├── cleaning/       # Data cleaning & preprocessing
+│   ├── analysis/       # Skill, task, and clustering analysis
+│   ├── visualization/  # Plots & dashboards (in progress)
+│   └── main_jobs.py    # Orchestrates the full data pipeline
+├── requirements.txt    # Python dependencies
+├── README.md           # Project documentation (this file)
 └── .gitignore
+
 
 
 ---
