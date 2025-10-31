@@ -45,7 +45,7 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
 ## Project Structure
 
 
-CIP_HS2025_203/
+"""CIP_HS2025_203/
 ├── data/
 │   ├── raw/        # Raw scraped data (per session & master file)
 │   ├── processed/  # Cleaned and merged datasets
@@ -61,7 +61,7 @@ CIP_HS2025_203/
 │   └── main_jobs.py    # Orchestrates the full data pipeline
 ├── requirements.txt    # Python dependencies
 ├── README.md           # Project documentation (this file)
-└── .gitignore
+└── .gitignore"""
 
 
 
