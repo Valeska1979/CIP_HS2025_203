@@ -79,20 +79,6 @@ CIP_HS2025_203/
 
 ---
 
-
-## Team & Contributions
-
-**Group 203**
-
-* **Stefan Dreyfus:** Web scraping, data merging, and cleaning
-  *(scripts in scraping/ and cleaning/)*
-* **Valeska Blank:** Data analysis, clustering, and skill extraction
-  *(scripts in analysis/)*
-* **Julia Studer:** Visualization and presentation of results
-  *(scripts in visualization/)*
-
----
-
 ## How to Run
 
 ### Clone the repository
@@ -118,6 +104,32 @@ You will be prompted to enter:
 * Maximum number of jobs to scrape
 * Whether to delete session files after merging
 
+---
+
+## Team & Contributions
+
+**Group 203**
+
+* **Stefan Dreyfus:** Web scraping, data merging, and cleaning
+  *(scripts in scraping/ and cleaning/)*
+* **Valeska Blank:** Data analysis, clustering, and skill extraction
+  *(scripts in analysis/)*
+* **Julia Studer:** Visualization and presentation of results
+  *(scripts in visualization/)*
+
+---
+
+
+## How Generative AI Was Used
+
+Generative AI tools, such as ChatGPT or Gemini, were employed in a supportive capacity during the project. 
+These tools assisted in debugging code, clarifying programming questions, and suggesting approaches for scraping, data cleaning, analysis, and visualization.
+AI was also used to refine text for the report, improving clarity and phrasing in English. 
+All core tasks — including web scraping, data cleaning, analysis, clustering, and interpretation of results — were conducted and validated independently by the project team. 
+While AI provided guidance, suggestions, and inspiration, methodological choices and final conclusions were determined without reliance on AI outputs. 
+The use of AI contributed to workflow efficiency and facilitated problem-solving without substituting critical reasoning or domain expertise.
+
+---
 
 **Authors:** Julia Studer, Valeska Blank,  Stefan Dreyfus
 **Course:** Data Collection, Integration and Preprocessing HS2025
