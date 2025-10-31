@@ -305,7 +305,7 @@ if __name__ == "__main__":
             print("Invalid input. Please enter a whole number.")
 
     # Define paths relative to THIS script for robust standalone testing
-    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent
+    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
     RAW_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "raw"
 
     # Ensure raw directory exists for saving
