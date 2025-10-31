@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project was developed as part of the module  Data Collection, Integration and Preprocessing course HS2025.
+This project was developed as part of the module  Data Collection, Integration and Preprocessing HS2025.
 The goal is to analyze the skills demanded in Data Science job postings in Switzerland, using a full Python-based data pipeline — from web scraping to semantic text clustering and visualization.
 
 The project explores trends in technical and soft skills required for data-oriented roles and their geographic distribution across Switzerland.
@@ -23,7 +23,6 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
 
 1. **Scraping**
    Collect job advertisements from [jobs.ch](https://www.jobs.ch) using `requests`, `BeautifulSoup`, and `Selenium`.
-   Dynamic elements such as cookie banners and filters are handled automatically.
 
 2. **Merging**
    Session data are merged with a master dataset while avoiding duplicates.
@@ -85,6 +84,7 @@ CIP_HS2025_203/
 
 
 git clone https://github.com/Valeska197/CIP_HS2025_203.git
+
 cd CIP_HS2025_203
 
 
@@ -123,15 +123,15 @@ You will be prompted to enter:
 ## How Generative AI Was Used
 
 Generative AI tools, such as ChatGPT or Gemini, were employed in a supportive capacity during the project. 
+
 These tools assisted in debugging code, clarifying programming questions, and suggesting approaches for scraping, data cleaning, analysis, and visualization.
+
 AI was also used to refine text for the report, improving clarity and phrasing in English. 
+
 All core tasks — including web scraping, data cleaning, analysis, clustering, and interpretation of results — were conducted and validated independently by the project team. 
+
 While AI provided guidance, suggestions, and inspiration, methodological choices and final conclusions were determined without reliance on AI outputs. 
+
 The use of AI contributed to workflow efficiency and facilitated problem-solving without substituting critical reasoning or domain expertise.
-
----
-
-**Authors:** Julia Studer, Valeska Blank,  Stefan Dreyfus
-**Course:** Data Collection, Integration and Preprocessing HS2025
 
 ---
