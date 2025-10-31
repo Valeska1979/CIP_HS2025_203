@@ -18,12 +18,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from jobs_ch_base import get_driver, accept_cookies_and_close_banner
 import time
 import pandas as pd
 from pathlib import Path
 import re
 import sys
+from .jobs_ch_base import get_driver, accept_cookies_and_close_banner
+
 
 CSV_DELIMITER = ';'
 

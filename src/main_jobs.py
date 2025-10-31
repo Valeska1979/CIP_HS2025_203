@@ -21,9 +21,8 @@ import os
 import re
 
 # Import Modules
-import jobs_scraping_V1
 import csv_merging
-import stefan_cleaning_V1
+import scraping as jobs_scraping_V1
 import analysis.analyze_jobs_texts_tasks
 import analysis.analyze_jobs_semantic_clustering
 import analysis.analyze_jobs_texts_skills
