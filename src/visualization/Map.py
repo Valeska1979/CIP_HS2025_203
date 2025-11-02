@@ -1,8 +1,8 @@
 import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
-
-# Load GeoJSON and reproject
+# For an undistorted map first the GeoJSON has to be loaded. Then the coordinate reference system (CRS) is set to
+# the GCS WGS 84 with the EPSG code 4326. Then it is reprojected to the swiss coordinate system with the EPSG 2056,
 # Load GeoJSON and reproject
 geojson_url = "https://gist.githubusercontent.com/cmutel/a2e0f2e48278deeedf19846c39cee4da/raw/cantons.geojson"
 gdf = gpd.read_file(geojson_url)
@@ -13,15 +13,16 @@ gdf.set_crs(epsg=4326, inplace=True)
 # Reproject to Swiss coordinate system (CH1903+ / LV95)
 gdf = gdf.to_crs(epsg=2056)
 
-# Load job count CSV (semicolon-separated)
+# Load and clean the job count csv
+# Load job count csv (semicolon-separated)
 df_job_count = pd.read_csv("Job_count.csv", sep=";")
 df_job_count.columns = df_job_count.columns.str.strip().str.lower()
 df_job_count['canton'] = df_job_count['canton'].str.strip().str.upper()
 
-# Merge
+# Merge the job count df with the gdf
 merged = gdf.merge(df_job_count, left_on='id', right_on='canton', how='left')
 
-# Plot
+# Plot a map with an annotated cantons and colors for the different numbers of jobs, with tight boundaries
 fig, ax = plt.subplots(figsize=(10, 7))
 merged.plot(
     column='job_count',

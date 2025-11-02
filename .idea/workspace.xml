@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3376ff35-61a9-47b4-a502-ff6fc0b1f3ed" name="Changes" comment="Created graph visual package added script graphs">
-      <change afterPath="$PROJECT_DIR$/src/visualization/Job_count.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/visualization/Map.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/visualization/graphs.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/visualization/Map.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/visualization/Map.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +98,7 @@
       <workItem from="1761901031196" duration="2714000" />
       <workItem from="1761903781382" duration="1211000" />
       <workItem from="1761905015369" duration="6042000" />
-      <workItem from="1762095812588" duration="9971000" />
+      <workItem from="1762095812588" duration="13346000" />
     </task>
     <task id="LOCAL-00001" summary="Graph map">
       <option name="closed" value="true" />

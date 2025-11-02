@@ -16,3 +16,6 @@ sentence-transformers
 # Machine learning & clustering
 scikit-learn
 umap-learn
+
+#Visualization
+geopandas
