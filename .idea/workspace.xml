@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3376ff35-61a9-47b4-a502-ff6fc0b1f3ed" name="Changes" comment="Created graph visual package added script graphs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/visualization/Job_count.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/visualization/Map.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/visualization/Map.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,7 +105,7 @@
       <workItem from="1761903781382" duration="1211000" />
       <workItem from="1761905015369" duration="6042000" />
       <workItem from="1762095812588" duration="19494000" />
-      <workItem from="1762153218788" duration="4067000" />
+      <workItem from="1762153218788" duration="7108000" />
     </task>
     <task id="LOCAL-00001" summary="Graph map">
       <option name="closed" value="true" />
@@ -157,6 +158,6 @@
     <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$Map_count.coverage" NAME="Map_count Coverage Results" MODIFIED="1762114707900" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/visualization" />
     <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$graphs.coverage" NAME="graphs Coverage Results" MODIFIED="1762112716151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/visualization" />
     <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1762154559642" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
-    <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$Map.coverage" NAME="Map Coverage Results" MODIFIED="1762157333124" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/visualization" />
+    <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$Map.coverage" NAME="Map Coverage Results" MODIFIED="1762160125388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/visualization" />
   </component>
 </project>

@@ -12,6 +12,9 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
 
+# ----------------------------------------------------------
+# Load GeoJSON
+# ----------------------------------------------------------
 # For an undistorted map first the GeoJSON has to be loaded. Then the coordinate reference system (CRS) is set to
 # the GCS WGS 84 with the EPSG code 4326. Then it is reprojected to the swiss coordinate system with the EPSG 2056,
 # Load GeoJSON and reproject
@@ -24,7 +27,11 @@ gdf.set_crs(epsg=4326, inplace=True)
 # Reproject to Swiss coordinate system (CH1903+ / LV95)
 gdf = gdf.to_crs(epsg=2056)
 
+
+# ----------------------------------------------------------
 # Load and clean the job count csv
+# ----------------------------------------------------------
+
 # Load job count csv (semicolon-separated)
 df_job_count = pd.read_csv("jobs_ch_location_counts_1.csv", sep=";")
 df_job_count.columns = df_job_count.columns.str.strip().str.lower()
@@ -33,6 +40,8 @@ print("Columns:", df_job_count.columns.tolist())
 print(df_job_count.head())
 
 # map the different location to cantons
+# Mapping was done by hand since there are too many special cases and not many cases, so it would take more time
+# to program.
 # special cases:
 # and/or Locations resulting in different locations: first named assumed more relevant
 # Regions instead of cantons: canton with the biggest population, since there are in total
@@ -128,20 +137,30 @@ if not missing.empty:
     print(missing["location"].unique())
 
 #  Aggregate job counts per canton
-# (assuming your job count column is named "Job_count")
 df_per_canton = (
     df_job_count.groupby("canton", as_index=False)["job_count"].sum().sort_values("job_count", ascending=False)
 )
 
 print(df_per_canton)
 
-# Save to new CSV
+# Save to new csv
 df_per_canton.to_csv("Job_per_canton.csv", index=False, encoding="utf-8")
 
 print("Saved as Job_per_canton.csv")
 
-# Merge the job count df with the gdf
-merged = gdf.merge(df_job_count, left_on='id', right_on='canton', how='left')
+# define the dataframe job per canton
+df_job_per_canton = pd.read_csv("Job_per_canton.csv")
+
+# ----------------------------------------------------------
+# Merge the GeoJson data with the cleaned dataframe
+# ----------------------------------------------------------
+
+# Merge the job count per canton df with the gdf
+merged = gdf.merge(df_job_per_canton, left_on='id', right_on='canton', how='left')
+
+# ----------------------------------------------------------
+# Plot the map of Jobs per canton
+# ----------------------------------------------------------
 
 # Plot a map with an annotated cantons and colors for the different numbers of jobs, with tight boundaries
 fig, ax = plt.subplots(figsize=(10, 7))
