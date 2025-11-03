@@ -6,13 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="3376ff35-61a9-47b4-a502-ff6fc0b1f3ed" name="Changes" comment="Created graph visual package added script graphs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/visualization/Map.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/visualization/Map.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="printScope" value="1" />
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -56,7 +59,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "datagrid.heatmap.switchedByDefault": "false",
     "git-widget-placeholder": "jsvis",
-    "last_opened_file_path": "C:/Users/stude/PycharmProjects/js_CIP_HS2025_203/src/visualization",
+    "last_opened_file_path": "C:/Users/stude/Desktop",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -68,6 +71,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\stude\Desktop" />
       <recent name="C:\Users\stude\PycharmProjects\js_CIP_HS2025_203\src\visualization" />
       <recent name="C:\Users\stude\PycharmProjects\js_CIP_HS2025_203\src\analysis" />
     </key>
@@ -98,7 +102,7 @@
       <workItem from="1761901031196" duration="2714000" />
       <workItem from="1761903781382" duration="1211000" />
       <workItem from="1761905015369" duration="6042000" />
-      <workItem from="1762095812588" duration="13346000" />
+      <workItem from="1762095812588" duration="19494000" />
     </task>
     <task id="LOCAL-00001" summary="Graph map">
       <option name="closed" value="true" />
@@ -143,6 +147,6 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$Map_count.coverage" NAME="Map_count Coverage Results" MODIFIED="1762114707900" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/visualization" />
     <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$graphs.coverage" NAME="graphs Coverage Results" MODIFIED="1762112716151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/visualization" />
-    <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$Map.coverage" NAME="Map Coverage Results" MODIFIED="1762115399521" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/visualization" />
+    <SUITE FILE_PATH="coverage/js_CIP_HS2025_203$Map.coverage" NAME="Map Coverage Results" MODIFIED="1762122231014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/visualization" />
   </component>
 </project>
