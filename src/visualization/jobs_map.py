@@ -14,6 +14,9 @@ import pandas as pd
 import os
 from pathlib import Path
 
+#Definition the root of  data directory relative to the script
+DATA_VIS_DIR = Path("../../data/visualization")
+
 # ----------------------------------------------------------
 # Load GeoJSON
 # ----------------------------------------------------------
@@ -35,7 +38,7 @@ gdf = gdf.to_crs(epsg=2056)
 # ----------------------------------------------------------
 
 # Load job count csv (semicolon-separated)
-df_job_count = pd.read_csv("jobs_ch_location_counts_1.csv", sep=";")
+df_job_count = pd.read_csv(DATA_VIS_DIR / "jobs_ch_location_counts_1.csv", sep=";")
 df_job_count.columns = df_job_count.columns.str.strip().str.lower()
 
 print("Columns:", df_job_count.columns.tolist())
@@ -146,12 +149,17 @@ df_per_canton = (
 print(df_per_canton)
 
 # Save to new csv
-df_per_canton.to_csv("Job_per_canton.csv", index=False, encoding="utf-8")
+JOB_PER_CANTON_PATH = DATA_VIS_DIR / "Job_per_canton.csv"
 
-print("Saved as Job_per_canton.csv")
+# Save to new csv
+# Ensure the directory exists before saving
+os.makedirs(JOB_PER_CANTON_PATH.parent, exist_ok=True)
+df_per_canton.to_csv(JOB_PER_CANTON_PATH, index=False, encoding="utf-8")
+
+print(f"Saved as {JOB_PER_CANTON_PATH}")
 
 # define the dataframe job per canton
-df_job_per_canton = pd.read_csv("Job_per_canton.csv")
+df_job_per_canton = pd.read_csv(JOB_PER_CANTON_PATH)
 
 # ----------------------------------------------------------
 # Merge the GeoJson data with the cleaned dataframe
