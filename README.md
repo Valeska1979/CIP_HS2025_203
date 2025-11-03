@@ -1,63 +1,137 @@
-# CIP_HS2025_203
+# Data Collection, Integration and Preprocessing HS2025 – Analysis of Required Skills in Data Science Job Advertisements
 
 ## Project Overview
-This is the repository for our group project in the course *Collect, Integrate & Prepare (CIP)* at HSLU.  
-Goal: We scrape data from a website and then perform an analysis using Python.
 
-## Team
-- Member 1: Julia Studer
-- Member 2: Stefan Dreyfus
-- Member 3: Valeska Blank
+This project was developed as part of the module  Data Collection, Integration and Preprocessing HS2025.
+The goal is to analyze the skills demanded in Data Science job postings in Switzerland, using a full Python-based data pipeline — from web scraping to semantic text clustering and visualization.
 
-## Setup
+The project explores trends in technical and soft skills required for data-oriented roles and their geographic distribution across Switzerland.
 
-### Requirements
-- **Python 3.11**  
-- Git
+---
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Valeska197/CIP_HS2025_203.git
-   cd CIP_HS2025_203
+## Research Questions
 
+1. Which hard and soft skills are most commonly required in current Data Science job advertisements in Switzerland?
+2. In which regions or cantons are the most Data Science positions advertised?
+3. Which programming languages, tools, or technologies appear most frequently across all job postings?
 
-2. Create a virtual environment:
+---
 
-- macOS / Linux:
-python3 -m venv .venv
-source .venv/bin/activate
+## Project Pipeline
 
-- Windows (PowerShell):
-python -m venv .venv
-.venv\Scripts\activate
+The end-to-end data pipeline is implemented in `main_jobs.py` and follows six main stages:
 
-3. Install dependencies:
-pip install -r requirements.txt
+1. **Scraping**
+   Collect job advertisements from [jobs.ch](https://www.jobs.ch) using `requests`, `BeautifulSoup`, and `Selenium`.
 
-### Project Structure
+2. **Merging**
+   Session data are merged with a master dataset while avoiding duplicates.
+
+3. **Cleaning**
+   Unstructured job texts are cleaned and filtered using `pandas` and `regex`.
+
+4. **Analysis (Tasks)**
+   Extract and quantify frequent terms related to job tasks.
+
+5. **Analysis (Skills & Locations)**
+   Identify common skills and geographic distribution of job offers.
+
+6. **Semantic Clustering**
+   Apply embeddings (`sentence-transformers`), dimensionality reduction (`UMAP`), and clustering (`scikit-learn`) to group similar skills.
+
+---
+
+## Project Structure
 
 CIP_HS2025_203/
-│   README.md
-│   .gitignore
-│   requirements.txt
-│
 ├── data/
-│   ├── raw/           # Raw data from scraping
-│   └── processed/     # Cleaned / transformed data
-│
-└── src/
-    ├── scraping/      # Scraping scripts
-    └── analysis/      # Data analysis & visualization
+│   ├── raw/        # Raw scraped data (per session & master file)
+│   ├── processed/  # Cleaned and merged datasets
+│   └── analysis/   # Clustered and analyzed datasets
+├── report/
+│   └── figures/    # Plots, figures
+├── src/
+│   ├── scraping/       # Web scraping modules
+│   ├── cleaning/       # Data cleaning & preprocessing
+│   ├── analysis/       # Skill, task, and clustering analysis
+│   ├── visualization/  # Plots
+│   └── main_jobs.py    # Orchestrates the full data pipeline
+├── requirements.txt    # Python dependencies
+├── README.md           # Project documentation
+└── .gitignore
 
-### Workflow
+---
 
-1. Always create a new branch for code changes.
+## Tools & Libraries
 
-2. Use Pull Requests to merge into main.
+**Web Scraping:**
+`requests`, `beautifulsoup4`, `selenium`, `mechanicalsoup`, `webdriver-manager`
 
-3. Keep dependencies up to date by refreshing requirements.txt:
-pip freeze > requirements.txt
+**Data Analysis & Visualization:**
+`pandas`, `matplotlib`
 
-4. Run all scripts from the project root to ensure relative paths work correctly.
+**Natural Language Processing:**
+`nltk`, `sentence-transformers`
 
+**Machine Learning & Clustering:**
+`scikit-learn`, `umap-learn`, `geopandas`
+
+---
+
+## How to Run
+
+### Clone the repository
+
+
+git clone https://github.com/Valeska197/CIP_HS2025_203.git
+
+cd CIP_HS2025_203
+
+
+### Install dependencies
+
+pip install -r requirements.txt
+
+
+### Run the main pipeline
+
+
+python main_jobs.py
+
+You will be prompted to enter:
+
+* Job title (e.g. “Data Scientist”)
+* Maximum number of jobs to scrape
+* Whether to delete session files after merging
+
+---
+
+## Team & Contributions
+
+**Group 203**
+
+* **Stefan Dreyfus:** Web scraping, data merging, and cleaning
+  *(scripts in scraping/ and cleaning/)*
+* **Valeska Blank:** Data analysis, clustering, and skill extraction
+  *(scripts in analysis/)*
+* **Julia Studer:** Visualization and presentation of results
+  *(scripts in visualization/)*
+
+---
+
+
+## How Generative AI Was Used
+
+Generative AI tools, such as ChatGPT or Gemini, were employed in a supportive capacity during the project. 
+
+These tools assisted in debugging code, clarifying programming questions, and suggesting approaches for scraping, data cleaning, analysis, and visualization.
+
+AI was also used to refine text for the report, improving clarity and phrasing in English. 
+
+All core tasks — including web scraping, data cleaning, analysis, clustering, and interpretation of results — were conducted and validated independently by the project team. 
+
+While AI provided guidance, suggestions, and inspiration, methodological choices and final conclusions were determined without reliance on AI outputs. 
+
+The use of AI contributed to workflow efficiency and facilitated problem-solving without substituting critical reasoning or domain expertise.
+
+---

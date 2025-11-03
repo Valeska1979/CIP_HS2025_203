@@ -18,12 +18,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from jobs_ch_base import get_driver, accept_cookies_and_close_banner
 import time
 import pandas as pd
 from pathlib import Path
 import re
 import sys
+from .jobs_ch_base import get_driver, accept_cookies_and_close_banner
+
 
 CSV_DELIMITER = ';'
 
@@ -304,7 +305,7 @@ if __name__ == "__main__":
             print("Invalid input. Please enter a whole number.")
 
     # Define paths relative to THIS script for robust standalone testing
-    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent
+    PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
     RAW_DATA_DIR_TEST = PROJECT_ROOT_TEST / "data" / "raw"
 
     # Ensure raw directory exists for saving

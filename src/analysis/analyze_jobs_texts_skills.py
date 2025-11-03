@@ -13,6 +13,7 @@ from nltk.corpus import stopwords
 import re
 from collections import Counter
 import os
+import sys
 from pathlib import Path
 
 def run_skills_analysis(input_file_path: Path, output_dir_path: Path):
