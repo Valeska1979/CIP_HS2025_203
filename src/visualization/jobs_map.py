@@ -11,6 +11,8 @@
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
+from pathlib import Path
 
 # ----------------------------------------------------------
 # Load GeoJSON
@@ -191,4 +193,18 @@ for idx, row in merged.iterrows():
     )
 
 plt.tight_layout()
+
+#saving the plot
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+PLOT_FILE_PATH = PROJECT_ROOT / "report" / "figures" / "jobs_maps_switzerland.png"
+
+try:
+    # Ensure the directory exists
+    os.makedirs(PLOT_FILE_PATH.parent, exist_ok=True)
+    # Save the figure
+    plt.savefig(PLOT_FILE_PATH)
+    print(f"\nMap plot saved to: {PLOT_FILE_PATH}")
+except Exception as e:
+    print(f"ERROR during plot save: {e}")
+
 plt.show()
