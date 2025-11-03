@@ -1,0 +1,1 @@
+from .jobs_map import create_canton_map_visualization

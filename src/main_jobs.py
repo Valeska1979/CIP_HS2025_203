@@ -26,6 +26,7 @@ import re
 import scraping as jobs_scraping_V1
 import cleaning
 import analysis
+import src.visualization as vis
 
 # Definition the Project Root and Standard Paths
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -35,12 +36,14 @@ RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 REPORT_DIR = PROJECT_ROOT / "report"
 ANALYSIS_DATA_DIR = PROJECT_ROOT / "data" / "analysis"
+DATA_VIS_DIR = PROJECT_ROOT / "data" / "visualization"
 
 # Ensure directories exist
 os.makedirs(RAW_DATA_DIR, exist_ok=True)
 os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
 os.makedirs(REPORT_DIR, exist_ok=True)
 os.makedirs(ANALYSIS_DATA_DIR, exist_ok=True)
+os.makedirs(DATA_VIS_DIR, exist_ok=True)
 
 
 def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool):
@@ -55,6 +58,11 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     FINAL_CLEANED_PATH = PROCESSED_DATA_DIR / "jobs_ch_skills_all_cleaned_final_V1.csv"
     CLUSTERS_CSV_PATH = ANALYSIS_DATA_DIR / "jobs_ch_semantic_clusters_labeled.csv"
     CLUSTERS_PLOT_PATH = REPORT_DIR / "figures" / "cluster_plot.png"
+    JOB_COUNTS_PER_LOCATION_PATH = DATA_VIS_DIR / "jobs_ch_location_counts_1.csv"
+    JOB_COUNTS_PER_CANTON_PATH = DATA_VIS_DIR / "Job_per_canton.csv"
+    CANTON_MAP_OUTPUT_PATH = REPORT_DIR / "figures" / "jobs_maps_switzerland.png"
+    # ------------------------------------------
+
 
     # INPUT PATH for Skills Analysis
     SKILLS_INPUT_PATH = FINAL_CLEANED_PATH
@@ -192,6 +200,31 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             sys.exit(1)
     else:
         print("\n[6/6] Clustering step skipped: Final cleaned data file does not exist. Exiting.")
+        sys.exit(1)
+
+    # --- CANTON MAP VISUALIZATION ---
+    if os.path.exists(JOB_COUNTS_PER_LOCATION_PATH):
+        try:
+            print("\n[7/6] Running Canton Map Visualization")
+
+            map_success = vis.create_canton_map_visualization(
+                job_counts_input_path=JOB_COUNTS_PER_LOCATION_PATH,
+                report_output_path=CANTON_MAP_OUTPUT_PATH,
+                job_per_canton_output_path=JOB_COUNTS_PER_CANTON_PATH
+            )
+
+            if map_success:
+                print("Canton Map Visualization completed successfully.")
+            else:
+                print("Canton Map Visualization failed. Check script logs.")
+                sys.exit(1)
+
+        except Exception as e:
+            print(f"MAP VISUALIZATION CRITICAL FAILED: {e}");
+            sys.exit(1)
+    else:
+        print(
+            f"\n[7/6] Map Visualization skipped: Input file not found at {JOB_COUNTS_PER_LOCATION_PATH}. Exiting.")
         sys.exit(1)
 
 # --- FINAL STATUS ---
