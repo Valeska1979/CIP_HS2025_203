@@ -148,9 +148,9 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
 
         # saving the plot
         os.makedirs(report_output_path.parent, exist_ok=True)
-        plt.savefig(report_output_path)  # <-- CHANGED PATH VARIABLE
+        plt.savefig(report_output_path)  #
 
-        plt.close(fig)
+        plt.show()
         print(f"\nMap plot saved to: {report_output_path}")
         return True
 
