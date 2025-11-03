@@ -8,7 +8,9 @@
 #   Join the datasets and create the graph
 # Author: Julia Studer
 # ==========================================================
-
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import pandas as pd
 
 # For an undistorted map first the GeoJSON has to be loaded. Then the coordinate reference system (CRS) is set to
 # the GCS WGS 84 with the EPSG code 4326. Then it is reprojected to the swiss coordinate system with the EPSG 2056,
@@ -24,8 +26,11 @@ gdf = gdf.to_crs(epsg=2056)
 
 # Load and clean the job count csv
 # Load job count csv (semicolon-separated)
-df_job_count = pd.read_csv("data/analysis/jobs_ch_location_counts.csv", sep=";")
+df_job_count = pd.read_csv("jobs_ch_location_counts_1.csv", sep=";")
 df_job_count.columns = df_job_count.columns.str.strip().str.lower()
+
+print("Columns:", df_job_count.columns.tolist())
+print(df_job_count.head())
 
 # map the different location to cantons
 # special cases:
@@ -54,22 +59,21 @@ location_to_canton = {
     "St. Gallen": "SG",
     "Echandens": "VD",
     "Frauenfeld": "TG",
-    "St. Gallen": "SG",
-    "Deutschschweiz": "ZH"
-    "Zürich-Seefeld": "ZH",
+    "St.Gallen": "SG",
+    "Deutschschweiz": "ZH",
+    "Zürich-Seefeld": 'ZH',
     "Allschwil": "BL",
     "6036 Dierikon": "LU",
     "Wollerau": "SZ",
     "Neuchâtel (Hybrid)": "NE",
-    "St.Gallen": "SG",
     "Uzwil": "SG",
     "Laufenburg": "AG",
     "Bussnang": "TG",
     "Ibach-Schwyz": "SZ",
-    "St. Gallen und/oder Zürich-Flughafen": "SG"
+    "St. Gallen und/oder Zürich-Flughafen (The Circle)": "SG",
     "Emmen": "LU",
     "Balerna": "TI",
-    "Mänikon-Greifensee": "ZH",
+    "Nänikon-Greifensee": "ZH",
     "Kaiseraugst": "AG",
     "CH - Zürich": "ZH",
     "Zentralschweiz": "LU",
@@ -82,12 +86,12 @@ location_to_canton = {
     "Graubünden, Grono or remote": "GR",
     "Tägerwilen":"TG",
     "Liebefeld": "BE",
-    "Büren an der Aare":
-    "Berna": "BE"
-    "Zollikofen": "BE"
+    "Büren an der Aare":" BE",
+    "Berna": "BE",
+    "Zollikofen": "BE",
     "Lausanne, Switzerland": "VD",
     "Chiasso": "TI",
-    "Landquart: "GR",
+    "Landquart": "GR",
     "Baden": "AG",
     "Regensdorf": "ZH",
     "Dübendorf": "ZH",
@@ -95,14 +99,46 @@ location_to_canton = {
     "Boudevilliers": "NE",
     "Pully": "VD",
     "Stabio": "TI",
-    "Switzerland &gt; Basel: H-127 A2": "BS",
+    "Switzerland &gt; Basel : H-127 A2": "BS",
     "Bleichemattstrasse 31": "AG",
-    "Volketswil": "ZH",
+    "Volkestwil": "ZH",
     "Oerlikon": "ZH",
     "Rolle": "VD",
     "Prilly": "VD",
-    "Reinach BL": "BL"
+    "Reinach BL": "BL",
+    "Bonaduz": "GR",
+    "Hergiswil": "NW",
+    "1211 GENEVE 11": "GE",
+    "Villars-sur-Glâne": "VD",
+    "1008 Prilly": "VD",
+    "Rheinfelden": "AG",
+    "Buchs AG": "AG",
+    "Münchenstein Spenglerpark und mobiles Arbeiten": "BL",
+    "Basel Hauptsitz/Siège": "BS"
 }
+
+#  Assign canton abbreviations to a new column
+df_job_count["canton"] = df_job_count["location"].map(location_to_canton)
+
+# Check for missing mappings from the manual assignments, errors included, misspellings in job ad, misspelling in
+# assignment, missed entries, all were fixed.
+missing = df_job_count[df_job_count["canton"].isna()]
+if not missing.empty:
+    print("Missing canton assignments for:")
+    print(missing["location"].unique())
+
+#  Aggregate job counts per canton
+# (assuming your job count column is named "Job_count")
+df_per_canton = (
+    df_job_count.groupby("canton", as_index=False)["job_count"].sum().sort_values("job_count", ascending=False)
+)
+
+print(df_per_canton)
+
+# Save to new CSV
+df_per_canton.to_csv("Job_per_canton.csv", index=False, encoding="utf-8")
+
+print("Saved as Job_per_canton.csv")
 
 # Merge the job count df with the gdf
 merged = gdf.merge(df_job_count, left_on='id', right_on='canton', how='left')
