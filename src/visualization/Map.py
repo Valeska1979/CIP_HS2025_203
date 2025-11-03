@@ -9,9 +9,6 @@
 # Author: Julia Studer
 # ==========================================================
 
-import geopandas as gpd
-import pandas as pd
-import matplotlib.pyplot as plt
 
 # For an undistorted map first the GeoJSON has to be loaded. Then the coordinate reference system (CRS) is set to
 # the GCS WGS 84 with the EPSG code 4326. Then it is reprojected to the swiss coordinate system with the EPSG 2056,
