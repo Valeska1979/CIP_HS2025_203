@@ -6,12 +6,19 @@ from matplotlib.patches import Patch
 # --- SETTINGS ---
 x_offset = 0.05      # general horizontal offset for labels
 y_offset = 0.03      # general vertical offset for labels
-legend_x_offset = 0.8  # horizontal position of legend (0 = left, 1 = right)
-legend_y_offset = 0.15  # vertical position of legend (0 = bottom, 1 = top)
+legend_x_offset = 0.9  # horizontal position of legend (0 = left, 1 = right)
+legend_y_offset = 0.8  # vertical position of legend (0 = bottom, 1 = top)
 
 # --- 1. Load canton geometry ---
 geojson_url = "https://gist.githubusercontent.com/cmutel/a2e0f2e48278deeedf19846c39cee4da/raw/cantons.geojson"
 gdf = gpd.read_file(geojson_url)
+
+# Set CRS (the GeoJSON is in WGS84 latitude/longitude)
+gdf.set_crs(epsg=4326, inplace=True)
+
+# Reproject to Swiss coordinate system (CH1903+ / LV95)
+gdf = gdf.to_crs(epsg=2056)
+
 gdf['id'] = gdf['id'].str.strip().str.upper()
 
 # --- 2. Load your CSV job counts ---
@@ -27,8 +34,8 @@ merged = gdf.merge(df_job_count, left_on='id', right_on='canton', how='left')
 merged['job_count'] = merged['job_count'].fillna(0).astype(int)
 
 # --- 4. Define classification bins ---
-bins = [-1, 0, 2, 4, 9, 15, 30, 60, float('inf')]
-labels = ['0', '1–2', '3–4', '5–9', '10–15', '16–30', '31–60', '61+']
+bins = [-1, 0, 2, 4, 9, 15, 29, 59, float('inf')]
+labels = ['0', '1–2', '3–4', '5–9', '10–15', '16–29', '30–59', '60+']
 colors = [
     '#f7fbff',
     '#deebf7',
@@ -59,21 +66,29 @@ merged["geometry"] = merged["geometry"].buffer(0)
 try:
     centroids = merged.dissolve(by="id", as_index=False)[["id", "geometry"]]
 except Exception as e:
-    print("⚠️ Dissolve failed, fallback to unique geometries:", e)
+    print("Dissolve failed, fallback to unique geometries:", e)
     centroids = merged.drop_duplicates(subset=["id"])[["id", "geometry"]]
 
 centroids["centroid"] = centroids["geometry"].centroid
 
 # --- 7. Manual fine-tuning for small or overlapping cantons ---
 label_offsets = {
-    "BS": (0.05, 0.05),
-    "BL": (0.05, -0.02),
-    "GE": (0.05, -0.05),
-    "ZG": (0.03, 0.02),
-    "SH": (0.05, 0.05),
-    "TI": (0.00, -0.05)
+    "BS": (3000, 6000),
+    "BL": (10000, -2000),
+    "GE": (-1500, -2000),
+    "ZG": (7000, 8000),
+    "SH": (-1000, 1000),
+    "TI": (0, -5000),
+    "VD": (-6000, 1000),  # Example: move Bern slightly left
+    "LU": (4000, 2000),
+    "SO": (5000,1000),
+    "AI": (-1000,0),
+    "AR": (-3000,7000),
+    "SG":(-8000,-3000),
+    "OW": (-2000,0),
+    "NW": (2500,2000),
+    "ZG": (-1000,-1000)
 }
-
 # --- 8. Add canton labels + job counts ---
 for _, row in centroids.iterrows():
     job_value = int(merged.loc[merged["id"] == row["id"], "job_count"].iloc[0])
