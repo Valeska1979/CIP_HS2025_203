@@ -1,0 +1,41 @@
+Skill;Total_Mentions;Unique_Ads
+cloud;61;36
+python;57;50
+sql;51;45
+azure;41;26
+aws;25;14
+kubernetes;21;19
+power bi;20;16
+docker;17;16
+tableau;17;12
+excel;15;14
+spark;15;12
+linux;13;12
+r;12;11
+git;11;11
+pytorch;10;9
+java;9;9
+pandas;8;7
+hadoop;7;5
+tensorflow;7;7
+qlik;6;2
+github;6;4
+gcp;5;5
+scikit-learn;5;4
+shell;5;5
+powerbi;3;2
+google cloud;3;3
+oracle;2;2
+numpy;2;2
+sql server;2;2
+sas;1;1
+scala;1;1
+bash;1;1
+postgresql;1;1
+c++;0;0
+seaborn;0;0
+plotly;0;0
+keras;0;0
+matplotlib;0;0
+mongodb;0;0
+mysql;0;0
