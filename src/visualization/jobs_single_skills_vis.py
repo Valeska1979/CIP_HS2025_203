@@ -7,7 +7,7 @@ import sys
 
 CSV_DELIMITER = ';'
 
-def create_single_skill_visualization(input_file_path: Path, output_file_path: Path):
+def create_single_skill_visualization(input_file_path: Path, output_file_path: Path, show_plot: bool = False):
     # Check if file exists
 
     if not os.path.exists(input_file_path):
@@ -92,7 +92,10 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
 
         plt.savefig(output_file_path, bbox_inches='tight')
 
-        plt.close(fig)
+        if show_plot:
+            plt.show()
+        else:
+            plt.close(fig)
 
         print(f"SUCCESS: Single skill visualization saved to: {output_file_path}")
 
@@ -126,7 +129,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # Run the jobs_single_skills_vis script
-    success = create_single_skill_visualization(TEST_INPUT_PATH, TEST_OUTPUT_PATH)
+    success = create_single_skill_visualization(TEST_INPUT_PATH, TEST_OUTPUT_PATH, show_plot=True)
 
     if success:
         print("Standalone visualization jobs single skill run complete.")
