@@ -91,8 +91,6 @@ def run_skills_analysis(input_file_path: Path, output_dir_path: Path):
         "data lake": ["data lake", "lac de données"],
         "data visualization": ["data visualization", "visualisation de données", "datenvisualisierung"],
         "data governance": ["data governance", "gouvernance des données"],
-        "power bi": ["power bi"],
-        "tableau": ["tableau dashboard", "tableau", "tableaux de bord"],
         "cloud computing": ["cloud computing", "cloud", "azure cloud", "aws cloud", "google cloud"],
         "predictive modeling": ["predictive modeling", "modélisation prédictive", "vorhersagemodellierung"],
         "statistical modeling": ["statistical modeling", "modélisation statistique", "statistische modellierung"],
@@ -123,7 +121,7 @@ def run_skills_analysis(input_file_path: Path, output_dir_path: Path):
     print(df_phrases.to_string(index=False))
 
     # -----------------------------------------------------------
-    # Next: Single-skill detection (programming languages & tools)
+    # Single-skill detection (programming languages & tools)
     #
     # Goal:
     #   - Identify individual technical skills and tools mentioned in job ads
