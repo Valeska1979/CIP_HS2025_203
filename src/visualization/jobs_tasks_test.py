@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
+
 
 # Read CSV
 df = pd.read_csv("jobs_ch_tasks_overview1.csv", sep=';')
