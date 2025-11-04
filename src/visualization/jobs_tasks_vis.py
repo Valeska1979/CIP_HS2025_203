@@ -81,17 +81,17 @@ def create_task_overview_visualization(input_file_path: Path, output_file_path: 
         # Clean layout
         plt.tight_layout()
 
-    # Save Plot
-    os.makedirs(output_file_path.parent, exist_ok=True)
-    plt.savefig(output_file_path, bbox_inches='tight')
+        # Save Plot
+        os.makedirs(output_file_path.parent, exist_ok=True)
+        plt.savefig(output_file_path, bbox_inches='tight')
 
-    if show_plot:
-        plt.show()
-    else:
-        plt.close(fig)
+        if show_plot:
+            plt.show()
+        else:
+            plt.close(fig)
 
-    print(f"SUCCESS: Task overview visualization saved to: {output_file_path}")
-    return True
+        print(f"SUCCESS: Task overview visualization saved to: {output_file_path}")
+        return True
 
     except Exception as e:
         print(f"ERROR creating task overview visualization: {e}")
