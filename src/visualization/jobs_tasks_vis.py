@@ -120,6 +120,6 @@ if __name__ == "__main__":
     success = create_task_overview_visualization(TEST_INPUT_PATH, TEST_OUTPUT_PATH, show_plot=True)
 
     if success:
-    print("Standalone visualization jobs task overview run complete.")
+        print("Standalone visualization jobs task overview run complete.")
     else:
-    print("Standalone visualization jobs task overview run failed.")
+        print("Standalone visualization jobs task overview run failed.")
