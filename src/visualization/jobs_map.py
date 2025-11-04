@@ -39,7 +39,7 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         # Load and clean the job count csv
         # ----------------------------------------------------------
 
-        # Load job count csv (semicolon-separated)
+        # Load job count csv
         df_job_count = pd.read_csv(job_counts_input_path, sep=CSV_DELIMITER)
         df_job_count.columns = df_job_count.columns.str.strip().str.lower()
 
@@ -162,18 +162,12 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
 if __name__ == "__main__":
     print("--- RUNNING MAP VISUALIZATION SCRIPT IN STANDALONE TEST MODE ---")
 
-    # Define paths relative to this script
+    # Relative path definition for this script
     PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
     DATA_VIS_DIR_TEST = PROJECT_ROOT_TEST / "data" / "visualization"
     REPORT_DIR_TEST = PROJECT_ROOT_TEST / "report" / "figures"
-
-    # Input CSV path for testing
     TEST_INPUT_PATH = DATA_VIS_DIR_TEST / "jobs_ch_location_counts_1.csv"
-
-    # Intermediate Job Per Canton CSV path
     TEST_job_per_canton_output_path = DATA_VIS_DIR_TEST / "Job_per_canton.csv"
-
-    # Output PNG path
     TEST_OUTPUT_PATH = REPORT_DIR_TEST / "jobs_maps_switzerland.png"
 
     if not TEST_INPUT_PATH.exists():
