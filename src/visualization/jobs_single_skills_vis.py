@@ -120,7 +120,7 @@ if __name__ == "__main__":
 
 
     TEST_INPUT_PATH = ANALYSIS_DATA_DIR_TEST / "jobs_ch_single_skills_analysis.csv"
-    TEST_OUTPUT_PATH = REPORT_DIR_TEST / "single_skill_unique_ads_vis.png"
+    TEST_OUTPUT_PATH = REPORT_DIR_TEST / "required_single_skills.png"
 
     # Check if the required input file exists for testing
     if not os.path.exists(TEST_INPUT_PATH):

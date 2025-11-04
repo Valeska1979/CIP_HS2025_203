@@ -61,6 +61,8 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     JOB_COUNTS_PER_LOCATION_PATH = DATA_VIS_DIR / "jobs_ch_location_counts_1.csv"
     JOB_COUNTS_PER_CANTON_PATH = DATA_VIS_DIR / "Job_per_canton.csv"
     CANTON_MAP_OUTPUT_PATH = REPORT_DIR / "figures" / "jobs_maps_switzerland.png"
+    SINGLE_SKILL_CSV_PATH = ANALYSIS_DATA_DIR / "jobs_ch_single_skills_analysis.csv"
+    SINGLE_SKILL_PLOT_PATH = REPORT_DIR / "figures" / "required_single_skills.png"
     # ------------------------------------------
 
 
@@ -225,6 +227,30 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     else:
         print(
             f"\n[7/6] Map Visualization skipped: Input file not found at {JOB_COUNTS_PER_LOCATION_PATH}. Exiting.")
+        sys.exit(1)
+
+    # --- SINGLE SKILL VISUALIZATION ---
+    if os.path.exists(SINGLE_SKILL_CSV_PATH):
+        try:
+            print("\n[8/6] Running Single Skill Visualization")
+
+            vis_success = vis.create_single_skill_visualization(
+                input_file_path=SINGLE_SKILL_CSV_PATH,
+                output_file_path=SINGLE_SKILL_PLOT_PATH
+            )
+
+            if vis_success:
+                print("Single Skill Visualization completed successfully.")
+            else:
+                print("Single Skill Visualization failed. Check script logs.")
+                sys.exit(1)
+
+        except Exception as e:
+            print(f"SINGLE SKILL VISUALIZATION CRITICAL FAILED: {e}");
+            sys.exit(1)
+    else:
+        print(
+            f"\n[8/6] Single Skill Visualization skipped: Input file not found at {SINGLE_SKILL_CSV_PATH}. Exiting.")
         sys.exit(1)
 
 # --- FINAL STATUS ---
