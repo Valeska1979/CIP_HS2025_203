@@ -106,7 +106,7 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         # Save to new csv
         # Ensure the directory exists before saving
         os.makedirs(job_per_canton_output_path.parent, exist_ok=True)
-        df_per_canton.to_csv(job_per_canton_output_path, index=False, encoding="utf-8")
+        df_per_canton.to_csv(job_per_canton_output_path, sep = CSV_DELIMITER, index=False, encoding="utf-8")
 
         print(f"Saved as {job_per_canton_output_path}")
 
