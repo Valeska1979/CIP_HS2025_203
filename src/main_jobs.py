@@ -11,6 +11,9 @@
 #   4. Analyze job texts (Tasks).
 #   5. Analyze job texts (Skills and Location).
 #   6. Perform semantic clustering on cleaned data.
+#   7. Visualize job counts by canton (Map).
+#   8. Visualize required technical skills (Bar Chart).
+#   9. Visualize required job tasks (Bar Chart).
 # Execution:
 #   Runs interactively, prompting the user for scrape parameters.
 # Author: Stefan Dreyfus
@@ -78,7 +81,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
 
     # --- SCRAPING ---
     try:
-        print("\n[1/6] Running Scraper")
+        print("\n[1/9] Running Scraper")
 
         # Call the refactored function, passing all required paths/values
         jobs_scraped = jobs_scraping_V1.scrape_jobs(
@@ -94,7 +97,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
 
     # --- MERGING ---
     try:
-        print("\n[2/6] Merging Data")
+        print("\n[2/9] Merging Data")
         success = jobs_scraping_V1.merge_session_to_master(
             session_file_path=SESSION_FILE_PATH,
             master_file_path=MASTER_FILE_PATH,
@@ -112,7 +115,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     # --- CLEANING ---
     if os.path.exists(MASTER_FILE_PATH):
         try:
-            print("\n[3/6] Cleaning Data")
+            print("\n[3/9] Cleaning Data")
 
             cleaned_df = cleaning.run_data_cleaning(
                 input_file_path=MASTER_FILE_PATH,
@@ -130,13 +133,13 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             sys.exit(1)
     else:
         # Critical failure: Master file (input for cleaning) is missing.
-        print("\n[3/6] CLEANING CRITICAL FAILURE: Master file does not exist after merging. Pipeline cannot proceed without the master data file. Exiting.")
+        print("\n[3/9] CLEANING CRITICAL FAILURE: Master file does not exist after merging. Pipeline cannot proceed without the master data file. Exiting.")
         sys.exit(1)
 
     # --- TASKS ANALYSIS ---
     if os.path.exists(TASKS_INPUT_PATH):
         try:
-            print("\n[4/6] Running Tasks Analysis")
+            print("\n[4/9] Running Tasks Analysis")
 
             task_analysis_success = analysis.run_task_analysis(
                 input_file_path=TASKS_INPUT_PATH,
@@ -153,7 +156,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             print(f"TASKS ANALYSIS CRITICAL FAILED: {e}");
             sys.exit(1)
     else:
-        print("\n[4/6] Tasks Analysis step skipped: Final cleaned data file does not exist. Exiting.")
+        print("\n[4/9] Tasks Analysis step skipped: Final cleaned data file does not exist. Exiting.")
         sys.exit(1)
 
 
@@ -161,7 +164,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
 
     if os.path.exists(SKILLS_INPUT_PATH):
         try:
-            print("\n[5/6] Running Skills and Location Analysis")
+            print("\n[5/9] Running Skills and Location Analysis")
 
             analysis_success = analysis.run_skills_analysis(
                 input_file_path=SKILLS_INPUT_PATH,
@@ -178,14 +181,14 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             print(f"SKILLS ANALYSIS CRITICAL FAILED: {e}");
             sys.exit(1)
     else:
-        print("\n[5/6] Skills Analysis step skipped: Clustered data file does not exist. Exiting.")
+        print("\n[5/9] Skills Analysis step skipped: Clustered data file does not exist. Exiting.")
         sys.exit(1)
 
     # --- SEMANTIC CLUSTERING ANALYSIS ---
     # Only run if the FINAL_CLEANED_PATH exists
     if os.path.exists(FINAL_CLEANED_PATH):
         try:
-            print("\n[6/6] Running Semantic Clustering Analysis")
+            print("\n[6/9] Running Semantic Clustering Analysis")
 
             analysis_success = analysis.run_semantic_clustering(
                 input_file_path=FINAL_CLEANED_PATH,
@@ -203,13 +206,13 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             print(f"CLUSTERING CRITICAL FAILED: {e}");
             sys.exit(1)
     else:
-        print("\n[6/6] Clustering step skipped: Final cleaned data file does not exist. Exiting.")
+        print("\n[6/9] Clustering step skipped: Final cleaned data file does not exist. Exiting.")
         sys.exit(1)
 
     # --- CANTON MAP VISUALIZATION ---
     if os.path.exists(JOB_COUNTS_PER_LOCATION_PATH):
         try:
-            print("\n[7/6] Running Canton Map Visualization")
+            print("\n[7/9] Running Canton Map Visualization")
 
             map_success = vis.create_canton_map_visualization(
                 job_counts_input_path=JOB_COUNTS_PER_LOCATION_PATH,
@@ -228,13 +231,13 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             sys.exit(1)
     else:
         print(
-            f"\n[7/6] Map Visualization skipped: Input file not found at {JOB_COUNTS_PER_LOCATION_PATH}. Exiting.")
+            f"\n[7/9] Map Visualization skipped: Input file not found at {JOB_COUNTS_PER_LOCATION_PATH}. Exiting.")
         sys.exit(1)
 
     # --- SINGLE SKILL VISUALIZATION ---
     if os.path.exists(SINGLE_SKILL_CSV_PATH):
         try:
-            print("\n[8/6] Running Single Skill Visualization")
+            print("\n[8/9] Running Single Skill Visualization")
 
             vis_success = vis.create_single_skill_visualization(
                 input_file_path=SINGLE_SKILL_CSV_PATH,
@@ -252,13 +255,13 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             sys.exit(1)
     else:
         print(
-            f"\n[8/6] Single Skill Visualization skipped: Input file not found at {SINGLE_SKILL_CSV_PATH}. Exiting.")
+            f"\n[8/9] Single Skill Visualization skipped: Input file not found at {SINGLE_SKILL_CSV_PATH}. Exiting.")
         sys.exit(1)
 
     # --- TASKS OVERVIEW VISUALIZATION ---
     if os.path.exists(TASKS_OVERVIEW_CSV_PATH):
         try:
-            print("\n[9/6] Running Tasks Overview Visualization")
+            print("\n[9/9] Running Tasks Overview Visualization")
 
             vis_success = vis.create_task_overview_visualization(
                 input_file_path=TASKS_OVERVIEW_CSV_PATH,
@@ -276,11 +279,11 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
             sys.exit(1)
     else:
         print(
-            f"\n[9/6] Tasks Overview Visualization skipped: Input file not found at {TASKS_OVERVIEW_CSV_PATH}. Exiting.")
+            f"\n[9/9] Tasks Overview Visualization skipped: Input file not found at {TASKS_OVERVIEW_CSV_PATH}. Exiting.")
         sys.exit(1)
 
 # --- FINAL STATUS ---
-    print("\n--- Pipeline Execution Complete! (All 6 steps successfully executed) --- ")
+    print("\n--- Pipeline Execution Complete! (All 9 steps successfully executed) --- ")
 
 if __name__ == "__main__":
 
