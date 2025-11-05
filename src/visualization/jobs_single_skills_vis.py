@@ -53,7 +53,7 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
 
         # Axis labels and title
         ax.set_xlabel("Unique Ads")
-        ax.set_title("Unique Ads per Skills")
+        ax.set_title("Unique Ads per technical skill and tool")
 
         # Layout parameters
         label_shift_y = -0.45     # vertical shift for skill labels
