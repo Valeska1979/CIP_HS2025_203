@@ -48,7 +48,7 @@ def create_task_overview_visualization(input_file_path: Path, output_file_path: 
 
         # Axis labels and title
         ax.set_xlabel("Unique Ads")
-        ax.set_title("Unique Ads per Skill")
+        ax.set_title("Unique Ads per Task")
 
         # Layout parameters
         label_shift_y = -0.45     # vertical shift for skill labels
