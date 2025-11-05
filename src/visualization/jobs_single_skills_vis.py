@@ -30,6 +30,7 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # ----------------------------------------------------------
         # Data preparation
         # ----------------------------------------------------------
+
         # Read csv
         df = pd.read_csv(input_file_path, sep=CSV_DELIMITER)
 
@@ -47,6 +48,7 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # ----------------------------------------------------------
         # Create and assign colors
         # ----------------------------------------------------------
+
         # Define color palette blue with 10 steps
         blues_10 = [
             '#ffffff',
@@ -71,6 +73,7 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # ----------------------------------------------------------
         # Create figure
         # ----------------------------------------------------------
+
         fig, ax = plt.subplots(figsize=(8, 5))
 
         # Draw horizontal bars
