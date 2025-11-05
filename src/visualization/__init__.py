@@ -1,1 +1,3 @@
-from .jobs_map import create_canton_map_visualization
+from .jobs_canton_map_vis import create_canton_map_visualization
+from .jobs_single_skills_vis import create_single_skill_visualization
+from .jobs_tasks_vis import create_task_overview_visualization
