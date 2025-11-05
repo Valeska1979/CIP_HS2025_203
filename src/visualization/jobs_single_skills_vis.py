@@ -1,49 +1,60 @@
+import os
+import sys
+from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
-import os
-from pathlib import Path
-import sys
 
+# --- Fixed Blue Palette (10 steps) ---
+blues_10 = [
+    '#ffffff',
+    '#fff7fb',
+    '#deebf7',
+    '#c6dbef',
+    '#9ecae1',
+    '#6baed6',
+    '#4292c6',
+    '#2171b5',
+    '#08519c',
+    '#08306b'
+]
 
 CSV_DELIMITER = ';'
 
 def create_single_skill_visualization(input_file_path: Path, output_file_path: Path, show_plot: bool = False):
+    """Creates a horizontal bar chart showing Unique Ads per grouped skill count, using blue color grading."""
     # Check if file exists
-
     if not os.path.exists(input_file_path):
-
         print(f"ERROR: Input file not found: {input_file_path}")
-
         return False
 
     try:
-
         # Read CSV
         df = pd.read_csv(input_file_path, sep=CSV_DELIMITER)
 
-        # Sort by Unique_Ads descending
-        df = df.sort_values(by="Unique_Ads", ascending=False)
+        # Sort by Unique_Ads descending and keep top 15
+        df = df.sort_values(by="Unique_Ads", ascending=False).head(15)
 
-        # Custom color palette (distinct colors)
-        custom_colors = [
-            "#d73027",  # red
-            "#fc8d59",  # orange
-            "#fee08b",  # yellow
-            "#91cf60",  # green
-            "#3288bd",  # blue
-            "#984ea3",  # purple
-            "#f781bf",  # pink
-            "#999999"   # grey
-        ]
+        # --- Group skills with same Unique_Ads ---
+        grouped = (
+            df.groupby("Unique_Ads")["Skill"]
+            .apply(lambda skills: " / ".join(skills))  # join with slash separator
+            .reset_index()
+            .sort_values(by="Unique_Ads", ascending=False)
+        )
 
-        # Repeat colors if fewer than needed
-        colors = (custom_colors * ((len(df) // len(custom_colors)) + 1))[:len(df)]
+        # --- Assign colors ---
+        num_bars = len(grouped)
+        # Darkest blue for top value, lightest for lowest
+        colors = [blues_10[-(i + 1)] for i in range(num_bars)]
+        # If more bars than colors, repeat palette
+        if num_bars > len(colors):
+            colors = (colors * ((num_bars // len(colors)) + 1))[:num_bars]
 
-        # Create figure
+        # --- Create figure ---
         fig, ax = plt.subplots(figsize=(8, 5))
 
         # Draw horizontal bars
-        bars = ax.barh(range(len(df)), df["Unique_Ads"], color=colors, edgecolor='black', height=0.4)
+        bars = ax.barh(range(num_bars), grouped["Unique_Ads"], color=colors, edgecolor='black', height=0.4)
 
         # Invert Y-axis (largest bar on top)
         ax.invert_yaxis()
@@ -53,21 +64,21 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
 
         # Axis labels and title
         ax.set_xlabel("Unique Ads")
-        ax.set_title("Unique Ads per Skills")
+        ax.set_title("Unique Ads per Technical Skill and Tool (Grouped by Count)")
 
         # Layout parameters
-        label_shift_y = -0.45     # vertical shift for skill labels
-        xshift_label = 2         # min horizontal shift for skill labels
-        xshift_value = 2         # shift for numeric labels
-        right_margin = 10       # space between longest number and right frame (adjustable)
+        label_shift_y = -0.45    # vertical shift for skill labels
+        xshift_label = 1.5        # horizontal shift for skill labels
+        xshift_value = 1       # numeric label shift
+        right_margin = 5     # space between longest number and right frame (adjustable)
 
-        # Add skill labels above each bar
-        for bar, skill in zip(bars, df["Skill"]):
+        # Add grouped skill labels above bars
+        for bar, skill_text in zip(bars, grouped["Skill"]):
             y_pos = bar.get_y() + bar.get_height() + label_shift_y
             x_pos = bar.get_x() + max(xshift_label, bar.get_width() * 0.02)
-            ax.text(x_pos, y_pos, skill, ha='left', va='bottom', fontsize=9, fontweight='bold')
+            ax.text(x_pos, y_pos, skill_text, ha='left', va='bottom', fontsize=9, fontweight='bold')
 
-        # Add numeric labels (shifted slightly right)
+        # Add numeric values (shifted slightly right)
         for bar in bars:
             width = bar.get_width()
             ax.text(width + xshift_value, bar.get_y() + bar.get_height() / 2,
@@ -76,20 +87,18 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # Adjust Y-limits for equal top/bottom spacing
         top_bar_y = bars[0].get_y()
         bottom_bar_y = bars[-1].get_y() + bars[-1].get_height()
-        extra_space = label_shift_y + 1
+        extra_space = label_shift_y + 1.3
         ax.set_ylim(bottom_bar_y + extra_space, top_bar_y - extra_space)
 
-        # Adjust X-limits to add right margin (for label-to-frame distance)
-        max_width = df["Unique_Ads"].max()
+        # Adjust X-limits to add right margin
+        max_width = grouped["Unique_Ads"].max()
         ax.set_xlim(0, max_width + right_margin)
 
         # Clean layout
         plt.tight_layout()
 
-        # Save Plot
-
+        # Save plot
         os.makedirs(output_file_path.parent, exist_ok=True)
-
         plt.savefig(output_file_path, bbox_inches='tight')
 
         if show_plot:
@@ -98,15 +107,13 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
             plt.close(fig)
 
         print(f"SUCCESS: Single skill visualization saved to: {output_file_path}")
-
         return True
 
-
     except Exception as e:
-
         print(f"ERROR creating single skill visualization: {e}")
-
         return False
+
+
 
 
 # --- STANDALONE EXECUTION BLOCK ---

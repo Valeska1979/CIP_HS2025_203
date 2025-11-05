@@ -21,14 +21,14 @@ def create_task_overview_visualization(input_file_path: Path, output_file_path: 
 
         # Custom color palette (distinct colors)
         custom_colors = [
-            "#d73027",  # red
-            "#fc8d59",  # orange
-            "#fee08b",  # yellow
-            "#91cf60",  # green
-            "#3288bd",  # blue
-            "#984ea3",  # purple
-            "#f781bf",  # pink
-            "#999999"   # grey
+            '#08519c',
+            '#2171b5',
+            '#4292c6',
+            '#6baed6',
+            '#9ecae1',
+            '#c6dbef',
+            '#deebf7',
+            '#f7fbff'
         ]
 
         # Repeat colors if fewer than needed
@@ -48,7 +48,7 @@ def create_task_overview_visualization(input_file_path: Path, output_file_path: 
 
         # Axis labels and title
         ax.set_xlabel("Unique Ads")
-        ax.set_title("Unique Ads per Skills")
+        ax.set_title("Unique Ads per Task")
 
         # Layout parameters
         label_shift_y = -0.45     # vertical shift for skill labels
