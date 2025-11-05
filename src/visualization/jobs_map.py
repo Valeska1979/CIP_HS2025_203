@@ -111,7 +111,7 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         print(f"Saved as {job_per_canton_output_path}")
 
         # --- 2. Load CSV job counts ---
-        df_job_count = pd.read_csv("Job_per_canton.csv")
+        df_job_count = pd.read_csv(job_per_canton_output_path, sep = CSV_DELIMITER, encoding="utf-8")
         df_job_count.columns = df_job_count.columns.str.strip()
         df_job_count['canton'] = df_job_count['canton'].str.strip().str.upper()
         df_job_count['job_count'] = pd.to_numeric(df_job_count['job_count'], errors='coerce')
