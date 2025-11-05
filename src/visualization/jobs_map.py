@@ -147,12 +147,11 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         legend_y_offset = 0.8  # vertical position of legend (0 = bottom, 1 = top)
 
         # Plot
-        fig, ax = plt.subplots(figsize=(9, 9))
+        fig, ax = plt.subplots(figsize=(9, 6))
         merged.plot(color=merged['color'], edgecolor='black', linewidth=0.5, ax=ax)
 
         ax.set_title("Job Count by Canton (Switzerland)", fontsize=15)
         ax.axis('off')
-        ax.set_aspect('equal')
 
         # --- 6. Fix invalid geometries before computing centroids ---
         merged["geometry"] = merged["geometry"].buffer(0)
