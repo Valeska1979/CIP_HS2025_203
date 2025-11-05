@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # --- Fixed Blue Palette (10 steps) ---
 blues_10 = [
     '#ffffff',
-    '#f7fbff',
+    '#fff7fb',
     '#deebf7',
     '#c6dbef',
     '#9ecae1',
@@ -67,10 +67,10 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         ax.set_title("Unique Ads per Technical Skill and Tool (Grouped by Count)")
 
         # Layout parameters
-        label_shift_y = 0.3     # vertical shift for skill labels
-        xshift_label = 2        # horizontal shift for skill labels
-        xshift_value = 6        # numeric label shift
-        right_margin = 20       # space between longest number and right frame (adjustable)
+        label_shift_y = -0.45    # vertical shift for skill labels
+        xshift_label = 1.5        # horizontal shift for skill labels
+        xshift_value = 1       # numeric label shift
+        right_margin = 5     # space between longest number and right frame (adjustable)
 
         # Add grouped skill labels above bars
         for bar, skill_text in zip(bars, grouped["Skill"]):
@@ -87,7 +87,7 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # Adjust Y-limits for equal top/bottom spacing
         top_bar_y = bars[0].get_y()
         bottom_bar_y = bars[-1].get_y() + bars[-1].get_height()
-        extra_space = label_shift_y + 0.3
+        extra_space = label_shift_y + 1.3
         ax.set_ylim(bottom_bar_y + extra_space, top_bar_y - extra_space)
 
         # Adjust X-limits to add right margin
