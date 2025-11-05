@@ -115,6 +115,7 @@ ax.legend(
     title_fontsize=9,
     frameon=True
 )
-
+ax.set_xlim(merged.total_bounds[0] + 10000, merged.total_bounds[2] + 10000)
+ax.set_ylim(merged.total_bounds[1] - 10000, merged.total_bounds[3]  +10000)
 plt.tight_layout()
 plt.show()

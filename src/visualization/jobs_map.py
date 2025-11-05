@@ -26,6 +26,7 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         # For an undistorted map first the GeoJSON has to be loaded. Then the coordinate reference system (CRS) is set to
         # the GCS WGS 84 with the EPSG code 4326. Then it is reprojected to the swiss coordinate system with the EPSG 2056,
         # Load GeoJSON and reproject
+        # --- 1. Load canton geometry ---
         geojson_url = "https://gist.githubusercontent.com/cmutel/a2e0f2e48278deeedf19846c39cee4da/raw/cantons.geojson"
         gdf = gpd.read_file(geojson_url)
 
@@ -34,7 +35,7 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
 
         # Reproject to Swiss coordinate system (CH1903+ / LV95)
         gdf = gdf.to_crs(epsg=2056)
-
+        gdf['id'] = gdf['id'].str.strip().str.upper()
 
         # ----------------------------------------------------------
         # Load and clean the job count csv
@@ -108,26 +109,21 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
 
         print(f"Saved as {job_per_canton_output_path}")
 
-        # define the dataframe job per canton
-        df_job_per_canton = pd.read_csv(job_per_canton_output_path)
+        # --- 2. Load your CSV job counts ---
+        df_job_count = pd.read_csv("Job_per_canton.csv")
+        df_job_count.columns = df_job_count.columns.str.strip()
+        df_job_count['canton'] = df_job_count['canton'].str.strip().str.upper()
+        df_job_count['job_count'] = pd.to_numeric(df_job_count['job_count'], errors='coerce')
 
-        # ----------------------------------------------------------
-        # Merge the GeoJson data with the cleaned dataframe
-        # ----------------------------------------------------------
-
-        # Merge the job count per canton df with the gdf
-        df_per_canton['canton'] = df_per_canton['canton'].str.strip().str.upper()
-        merged = gdf.merge(df_per_canton, left_on='id', right_on='canton', how='left')
-
-        merged['job_count'] = merged['job_count'].fillna(0).astype(int)
-        print(f"Merged cantons: {merged['job_count'].gt(0).sum()} with data out of {len(merged)} total.")
+        # --- 3. Merge to keep all cantons ---
+        merged = gdf.merge(df_job_count, left_on='id', right_on='canton', how='left')
 
         # Replace NaN (no data) with 0
         merged['job_count'] = merged['job_count'].fillna(0).astype(int)
 
         # --- 4. Define classification bins ---
-        bins = [-1, 0, 2, 4, 9, 15, 30, 60, float('inf')]
-        labels = ['0', '1–2', '3–4', '5–9', '10–15', '16–30', '31–60', '61+']
+        bins = [-1, 0, 2, 4, 9, 15, 29, 59, float('inf')]
+        labels = ['0', '1–2', '3–4', '5–9', '10–15', '16–29', '30–59', '60+']
         colors = [
             '#f7fbff',
             '#deebf7',
@@ -143,16 +139,14 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         color_map = dict(zip(labels, colors))
         merged['color'] = merged['job_class'].map(color_map).astype('object')
 
-        # ----------------------------------------------------------
-        # Plot the map of Jobs per canton
-        # ----------------------------------------------------------
+        # --- 5. Plot ---
         # --- SETTINGS ---
         x_offset = 0.05  # general horizontal offset for labels
         y_offset = 0.03  # general vertical offset for labels
-        legend_x_offset = 0.8  # horizontal position of legend (0 = left, 1 = right)
-        legend_y_offset = 0.15  # vertical position of legend (0 = bottom, 1 = top)
+        legend_x_offset = 0.9  # horizontal position of legend (0 = left, 1 = right)
+        legend_y_offset = 0.8  # vertical position of legend (0 = bottom, 1 = top)
 
-        # Plot a map with an annotated cantons and colors for the different numbers of jobs, with tight boundaries
+        # Plot
         fig, ax = plt.subplots(figsize=(9, 9))
         merged.plot(color=merged['color'], edgecolor='black', linewidth=0.5, ax=ax)
 
@@ -167,21 +161,29 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         try:
             centroids = merged.dissolve(by="id", as_index=False)[["id", "geometry"]]
         except Exception as e:
-            print("⚠️ Dissolve failed, fallback to unique geometries:", e)
+            print("Dissolve failed, fallback to unique geometries:", e)
             centroids = merged.drop_duplicates(subset=["id"])[["id", "geometry"]]
 
         centroids["centroid"] = centroids["geometry"].centroid
 
         # --- 7. Manual fine-tuning for small or overlapping cantons ---
         label_offsets = {
-            "BS": (0.05, 0.05),
-            "BL": (0.05, -0.02),
-            "GE": (0.05, -0.05),
-            "ZG": (0.03, 0.02),
-            "SH": (0.05, 0.05),
-            "TI": (0.00, -0.05)
+            "BS": (3000, 6000),
+            "BL": (10000, -2000),
+            "GE": (-1500, -2000),
+            "ZG": (7000, 8000),
+            "SH": (-1000, 1000),
+            "TI": (0, -5000),
+            "VD": (-6000, 1000),  # Example: move Bern slightly left
+            "LU": (4000, 2000),
+            "SO": (5000, 1000),
+            "AI": (-1000, 0),
+            "AR": (-3000, 7000),
+            "SG": (-8000, -3000),
+            "OW": (-2000, 0),
+            "NW": (2500, 2000),
+            "ZG": (-1000, -1000)
         }
-
         # --- 8. Add canton labels + job counts ---
         for _, row in centroids.iterrows():
             job_value = int(merged.loc[merged["id"] == row["id"], "job_count"].iloc[0])
@@ -208,7 +210,8 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
             title_fontsize=9,
             frameon=True
         )
-
+        ax.set_xlim(merged.total_bounds[0] + 10000, merged.total_bounds[2] + 10000)
+        ax.set_ylim(merged.total_bounds[1] - 10000, merged.total_bounds[3] + 10000)
         plt.tight_layout()
         plt.show()
 
