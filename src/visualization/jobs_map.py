@@ -26,7 +26,8 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         # For an undistorted map first the GeoJSON has to be loaded. Then the coordinate reference system (CRS) is set to
         # the GCS WGS 84 with the EPSG code 4326. Then it is reprojected to the swiss coordinate system with the EPSG 2056,
         # Load GeoJSON and reproject
-        # --- 1. Load canton geometry ---
+
+       # --- 1. Load canton geometry ---
         geojson_url = "https://gist.githubusercontent.com/cmutel/a2e0f2e48278deeedf19846c39cee4da/raw/cantons.geojson"
         gdf = gpd.read_file(geojson_url)
 
@@ -109,7 +110,7 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
 
         print(f"Saved as {job_per_canton_output_path}")
 
-        # --- 2. Load your CSV job counts ---
+        # --- 2. Load CSV job counts ---
         df_job_count = pd.read_csv("Job_per_canton.csv")
         df_job_count.columns = df_job_count.columns.str.strip()
         df_job_count['canton'] = df_job_count['canton'].str.strip().str.upper()
