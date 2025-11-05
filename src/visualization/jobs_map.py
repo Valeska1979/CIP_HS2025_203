@@ -170,7 +170,7 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         label_offsets = {
             "BS": (3000, 6000),
             "BL": (10000, -2000),
-            "GE": (-1500, -2000),
+            "GE": (3800, 1200),
             "ZG": (7000, 8000),
             "SH": (-1000, 1000),
             "TI": (0, -5000),
