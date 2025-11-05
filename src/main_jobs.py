@@ -23,9 +23,9 @@ import os
 import re
 
 # Import Modules
-import scraping as jobs_scraping_V1
-import cleaning
-import analysis
+import src.scraping as jobs_scraping_V1
+import src.cleaning as cleaning
+import src.analysis as analysis
 import src.visualization as vis
 
 # Definition the Project Root and Standard Paths
