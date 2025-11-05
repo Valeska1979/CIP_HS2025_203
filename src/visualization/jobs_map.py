@@ -213,13 +213,13 @@ def create_canton_map_visualization(job_counts_input_path: Path, report_output_p
         ax.set_xlim(merged.total_bounds[0] + 10000, merged.total_bounds[2] + 10000)
         ax.set_ylim(merged.total_bounds[1] - 10000, merged.total_bounds[3] + 10000)
         plt.tight_layout()
-        plt.show()
 
         # saving the plot
         os.makedirs(report_output_path.parent, exist_ok=True)
-        plt.savefig(report_output_path)  #
+        plt.savefig(report_output_path)
 
         plt.show()
+
         print(f"\nMap plot saved to: {report_output_path}")
         return True
 
