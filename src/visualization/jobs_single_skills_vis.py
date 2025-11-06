@@ -34,6 +34,13 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # Read csv
         df = pd.read_csv(input_file_path, sep=CSV_DELIMITER)
 
+        # Remove rows with 0 Unique_Ads
+        df = df[df["Unique_Ads"] > 0]
+
+        if df.empty:
+            print(f"ERROR: No positive Unique_Ads values to plot in {input_file_path}")
+            return False
+
         # Sort by Unique_Ads descending and keep top 15
         df = df.sort_values(by="Unique_Ads", ascending=False).head(15)
 
@@ -55,6 +62,10 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
             .reset_index()
             .sort_values(by="Unique_Ads", ascending=False)
         )
+
+        if grouped.empty:
+            print(f"ERROR: No data after grouping by Unique_Ads in {input_file_path}")
+            return False
 
         # ----------------------------------------------------------
         # Create and assign colors
@@ -118,6 +129,10 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
                         f'{int(width)}', va='center', fontsize=9)
 
             # Adjust axis limits safely
+            if len(bars) == 0:
+                print(f"ERROR: No bars to plot after grouping. Check CSV: {input_file_path}")
+                return False
+
             top_bar_y = bars[0].get_y()
             bottom_bar_y = bars[-1].get_y() + bars[-1].get_height()
             extra_space = label_shift_y + 1.3
