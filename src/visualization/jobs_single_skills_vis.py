@@ -38,34 +38,26 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         df["Unique_Ads"] = pd.to_numeric(df["Unique_Ads"], errors='coerce')
 
         # Remove rows with 0 or NaN Unique_Ads
-        # Remove rows with 0 or NaN Unique_Ads
         df = df[df["Unique_Ads"] > 0]
 
         if df.empty:
             print(f"ERROR: No positive Unique_Ads values to plot in {input_file_path}")
             return False
 
-        # Group skills with same Unique_Ads count first
+        # Sort by Unique_Ads descending and keep top 15 skills
+        df = df.sort_values(by="Unique_Ads", ascending=False).head(15)
+
+        # Group skills with same Unique_Ads count
         grouped = (
             df.groupby("Unique_Ads")["Skill"]
-            .apply(lambda skills: " / ".join(skills))  # join with slash separator
+            .apply(lambda skills: " / ".join(skills))  # join skills with slash
             .reset_index()
+            .sort_values(by="Unique_Ads", ascending=False)
         )
-
-        # Sort by Unique_Ads descending and keep top 15 groups
-        grouped = grouped.sort_values(by="Unique_Ads", ascending=False).head(15)
 
         # Safety check
         if grouped.empty or grouped["Unique_Ads"].max() == 0:
             print(f"ERROR: Nothing to plot in {input_file_path}")
-            return False
-
-        if grouped.empty:
-            print(f"ERROR: No data after grouping by Unique_Ads in {input_file_path}")
-            return False
-
-        if grouped["Unique_Ads"].max() == 0:
-            print(f"ERROR: Maximum Unique_Ads is zero. Nothing to plot in {input_file_path}")
             return False
 
         # ----------------------------------------------------------
@@ -96,61 +88,58 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # ----------------------------------------------------------
         # Create figure
         # ----------------------------------------------------------
-        if not grouped.empty:
-            # Create figure
-            fig, ax = plt.subplots(figsize=(8, 5))
 
-            # Axis labels and title
-            ax.set_xlabel("Unique Ads")
-            ax.set_title("Unique Ads per Technical Skill and Tool (Grouped by Count)")
+        # Create figure
+        fig, ax = plt.subplots(figsize=(8, 5))
 
-            # Layout parameters
-            label_shift_y = -0.45  # vertical shift for skill labels
-            xshift_label = 1.5  # horizontal shift for skill labels
-            xshift_value = 1  # numeric label shift
-            right_margin = 5  # space between the longest number and right frame
+        # Axis labels and title
+        ax.set_xlabel("Unique Ads")
+        ax.set_title("Unique Ads per Technical Skill and Tool (Grouped by Count)")
 
-            # Draw horizontal bars
-            bars = ax.barh(range(len(grouped)), grouped["Unique_Ads"], color=colors, edgecolor='black', height=0.4)
+        # Layout parameters
+        label_shift_y = -0.45  # vertical shift for skill labels
+        xshift_label = 1.5  # horizontal shift for skill labels
+        xshift_value = 1  # numeric label shift
+        right_margin = 5  # space between the longest number and right frame
 
-            if len(bars) == 0:
-                print(f"ERROR: No bars to plot. Check CSV: {input_file_path}")
-                return False
+        # Draw horizontal bars
+        bars = ax.barh(range(len(grouped)), grouped["Unique_Ads"], color=colors, edgecolor='black', height=0.4)
 
-            # Invert Y-axis (largest bar on top)
-            ax.invert_yaxis()
-            ax.set_yticks([])
-
-            # Add skill names above bars
-            for bar, skill_text in zip(bars, grouped["Skill"]):
-                y_pos = bar.get_y() + bar.get_height() + label_shift_y
-                x_pos = bar.get_x() + max(xshift_label, bar.get_width() * 0.02)
-                ax.text(x_pos, y_pos, skill_text, ha='left', va='bottom', fontsize=9, fontweight='bold')
-
-            # Add numeric values next to bars
-            for bar in bars:
-                width = bar.get_width()
-                ax.text(width + xshift_value, bar.get_y() + bar.get_height() / 2,
-                        f'{int(width)}', va='center', fontsize=9)
-
-            # Adjust axis limits safely
-            if len(bars) == 0:
-                print(f"ERROR: No bars to plot after grouping. Check CSV: {input_file_path}")
-                return False
-
-            top_bar_y = bars[0].get_y()
-            bottom_bar_y = bars[-1].get_y() + bars[-1].get_height()
-            extra_space = label_shift_y + 1.3
-            ax.set_ylim(bottom_bar_y + extra_space, top_bar_y - extra_space)
-
-            max_width = grouped["Unique_Ads"].max()
-            ax.set_xlim(0, max_width + right_margin)
-
-            # Adjust layout
-            plt.tight_layout()
-        else:
-            print(f"ERROR: No data to plot. Check 'Unique_Ads' values in {input_file_path}")
+        if len(bars) == 0:
+            print(f"ERROR: No bars to plot. Check CSV: {input_file_path}")
             return False
+
+        # Invert Y-axis (largest bar on top)
+        ax.invert_yaxis()
+        ax.set_yticks([])
+
+        # Add skill names above bars
+        for bar, skill_text in zip(bars, grouped["Skill"]):
+            y_pos = bar.get_y() + bar.get_height() + label_shift_y
+            x_pos = bar.get_x() + max(xshift_label, bar.get_width() * 0.02)
+            ax.text(x_pos, y_pos, skill_text, ha='left', va='bottom', fontsize=9, fontweight='bold')
+
+        # Add numeric values next to bars
+        for bar in bars:
+            width = bar.get_width()
+            ax.text(width + xshift_value, bar.get_y() + bar.get_height() / 2,
+                    f'{int(width)}', va='center', fontsize=9)
+
+        # Adjust axis limits safely
+        if len(bars) == 0:
+            print(f"ERROR: No bars to plot after grouping. Check CSV: {input_file_path}")
+            return False
+
+        top_bar_y = bars[0].get_y()
+        bottom_bar_y = bars[-1].get_y() + bars[-1].get_height()
+        extra_space = label_shift_y + 1.3
+        ax.set_ylim(bottom_bar_y + extra_space, top_bar_y - extra_space)
+
+        max_width = grouped["Unique_Ads"].max()
+        ax.set_xlim(0, max_width + right_margin)
+
+        # Adjust layout
+        plt.tight_layout()
 
 
         # Clean layout
