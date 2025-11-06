@@ -11,9 +11,9 @@ The project explores trends in technical and soft skills required for data-orien
 
 ## Research Questions
 
-1. Which hard and soft skills are most commonly required in current Data Science job advertisements in Switzerland?
-2. In which regions or cantons are the most Data Science positions advertised?
-3. Which programming languages, tools, or technologies appear most frequently across all job postings?
+1. What are the most frequently required skills, tools and tasks across current Data Science job advertisements in Switzerland? 
+2. How can the thematic patterns in job descriptions be grouped into distinct clusters, and what do these clusters reveal about the main types of Data Science roles on the Swiss job market?
+3. In which parts of Switzerland are the most Data Science positions currently advertised?
 
 ---
 
@@ -39,22 +39,34 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
 6. **Semantic Clustering**
    Apply embeddings (`sentence-transformers`), dimensionality reduction (`UMAP`), and clustering (`scikit-learn`) to group similar skills.
 
+7. **Canton Map Visualization**
+   Display the spatial distribution of Data Science job offers across Swiss cantons using geospatial plotting with `geopandas` and `matplotlib`.
+
+8. **Single Skill Visualization**
+   Present the most frequently mentioned technical skills as comparative horizontal bar charts.
+
+9. **Tasks Overview Visualization**
+   Visualize the most frequently mentioned soft skills using comparative horizontal bar charts.
+
+
+
 ---
 
 ## Project Structure
 
 CIP_HS2025_203/
 ├── data/
-│   ├── raw/        # Raw scraped data (per session & master file)
-│   ├── processed/  # Cleaned and merged datasets
-│   └── analysis/   # Clustered and analyzed datasets
+│ ├── raw/            # Raw CSV data from jobs.ch
+│ ├── processed/      # Cleaned data
+│ └── visualization/  # Data for visualizations
 ├── report/
-│   └── figures/    # Plots, figures
+│   └── figures/        # Plots, figures
 ├── src/
+│   ├── archive/        # Archive folder
 │   ├── scraping/       # Web scraping modules
 │   ├── cleaning/       # Data cleaning & preprocessing
 │   ├── analysis/       # Skill, task, and clustering analysis
-│   ├── visualization/  # Plots
+│   ├── visualization/  # Map and bar chart visualizations
 │   └── main_jobs.py    # Orchestrates the full data pipeline
 ├── requirements.txt    # Python dependencies
 ├── README.md           # Project documentation
@@ -68,13 +80,13 @@ CIP_HS2025_203/
 `requests`, `beautifulsoup4`, `selenium`, `mechanicalsoup`, `webdriver-manager`
 
 **Data Analysis & Visualization:**
-`pandas`, `matplotlib`
+`pandas`, `matplotlib`, `geopandas`
 
 **Natural Language Processing:**
 `nltk`, `sentence-transformers`
 
 **Machine Learning & Clustering:**
-`scikit-learn`, `umap-learn`, `geopandas`
+`scikit-learn`, `umap-learn`
 
 ---
 
