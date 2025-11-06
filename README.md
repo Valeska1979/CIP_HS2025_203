@@ -68,13 +68,13 @@ CIP_HS2025_203/
 `requests`, `beautifulsoup4`, `selenium`, `mechanicalsoup`, `webdriver-manager`
 
 **Data Analysis & Visualization:**
-`pandas`, `matplotlib`
+`pandas`, `matplotlib`, `geopandas`
 
 **Natural Language Processing:**
 `nltk`, `sentence-transformers`
 
 **Machine Learning & Clustering:**
-`scikit-learn`, `umap-learn`, `geopandas`
+`scikit-learn`, `umap-learn`
 
 ---
 
