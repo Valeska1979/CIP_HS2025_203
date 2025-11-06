@@ -5,9 +5,8 @@ selenium
 mechanicalsoup
 webdriver-manager
 
-# Data analysis & visualization
+# Data analysis
 pandas
-geopandas
 matplotlib
 
 # Natural language processing
@@ -16,4 +15,7 @@ sentence-transformers
 
 # Machine learning & clustering
 scikit-learn
+
+#Visualization
+geopandas
 umap-learn
