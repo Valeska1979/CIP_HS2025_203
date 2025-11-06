@@ -249,7 +249,6 @@ if __name__ == "__main__":
     PROJECT_ROOT_TEST = Path(__file__).resolve().parent.parent.parent
     DATA_VIS_DIR_TEST = PROJECT_ROOT_TEST / "data" / "visualization"
     REPORT_DIR_TEST = PROJECT_ROOT_TEST / "report" / "figures"
-    # TEST_INPUT_PATH = DATA_VIS_DIR_TEST / "jobs_ch_location_counts_1.csv"
     TEST_INPUT_PATH = PROJECT_ROOT_TEST / "data" / "analysis" / "jobs_ch_location_counts.csv"
     TEST_job_per_canton_output_path = DATA_VIS_DIR_TEST / "Job_per_canton.csv"
     TEST_OUTPUT_PATH = REPORT_DIR_TEST / "jobs_maps_switzerland.png"

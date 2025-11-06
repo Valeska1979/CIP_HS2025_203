@@ -61,7 +61,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     FINAL_CLEANED_PATH = PROCESSED_DATA_DIR / "jobs_ch_skills_all_cleaned_final_V1.csv"
     CLUSTERS_CSV_PATH = ANALYSIS_DATA_DIR / "jobs_ch_semantic_clusters_labeled.csv"
     CLUSTERS_PLOT_PATH = REPORT_DIR / "figures" / "cluster_plot.png"
-    JOB_COUNTS_PER_LOCATION_PATH = DATA_VIS_DIR / "jobs_ch_location_counts_1.csv"
+    JOB_COUNTS_PER_LOCATION_PATH = ANALYSIS_DATA_DIR / "jobs_ch_location_counts.csv"
     JOB_COUNTS_PER_CANTON_PATH = DATA_VIS_DIR / "Job_per_canton.csv"
     CANTON_MAP_OUTPUT_PATH = REPORT_DIR / "figures" / "jobs_maps_switzerland.png"
     SINGLE_SKILL_CSV_PATH = ANALYSIS_DATA_DIR / "jobs_ch_single_skills_analysis.csv"
