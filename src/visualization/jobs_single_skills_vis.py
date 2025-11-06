@@ -84,49 +84,54 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # ----------------------------------------------------------
         # Create figure
         # ----------------------------------------------------------
+        if not grouped.empty:
+            # Create figure
+            fig, ax = plt.subplots(figsize=(8, 5))
 
-        fig, ax = plt.subplots(figsize=(8, 5))
+            # Axis labels and title
+            ax.set_xlabel("Unique Ads")
+            ax.set_title("Unique Ads per Technical Skill and Tool (Grouped by Count)")
 
-        # Draw horizontal bars
-        bars = ax.barh(range(num_bars), grouped["Unique_Ads"], color=colors, edgecolor='black', height=0.4)
+            # Layout parameters
+            label_shift_y = -0.45  # vertical shift for skill labels
+            xshift_label = 1.5  # horizontal shift for skill labels
+            xshift_value = 1  # numeric label shift
+            right_margin = 5  # space between the longest number and right frame
 
-        # Invert Y-axis (largest bar on top)
-        ax.invert_yaxis()
+            # Draw horizontal bars
+            bars = ax.barh(range(len(grouped)), grouped["Unique_Ads"], color=colors, edgecolor='black', height=0.4)
 
-        # Remove y-axis ticks
-        ax.set_yticks([])
+            # Invert Y-axis (largest bar on top)
+            ax.invert_yaxis()
+            ax.set_yticks([])
 
-        # Axis labels and title
-        ax.set_xlabel("Unique Ads")
-        ax.set_title("Unique Ads per Technical Skill and Tool (Grouped by Count)")
+            # Add skill names above bars
+            for bar, skill_text in zip(bars, grouped["Skill"]):
+                y_pos = bar.get_y() + bar.get_height() + label_shift_y
+                x_pos = bar.get_x() + max(xshift_label, bar.get_width() * 0.02)
+                ax.text(x_pos, y_pos, skill_text, ha='left', va='bottom', fontsize=9, fontweight='bold')
 
-        # Layout parameters
-        label_shift_y = -0.45    # vertical shift for skill labels
-        xshift_label = 1.5        # horizontal shift for skill labels
-        xshift_value = 1       # numeric label shift
-        right_margin = 5     # space between the longest number and right frame (adjustable)
+            # Add numeric values next to bars
+            for bar in bars:
+                width = bar.get_width()
+                ax.text(width + xshift_value, bar.get_y() + bar.get_height() / 2,
+                        f'{int(width)}', va='center', fontsize=9)
 
-        # Add grouped skill labels above bars
-        for bar, skill_text in zip(bars, grouped["Skill"]):
-            y_pos = bar.get_y() + bar.get_height() + label_shift_y
-            x_pos = bar.get_x() + max(xshift_label, bar.get_width() * 0.02)
-            ax.text(x_pos, y_pos, skill_text, ha='left', va='bottom', fontsize=9, fontweight='bold')
+            # Adjust axis limits safely
+            top_bar_y = bars[0].get_y()
+            bottom_bar_y = bars[-1].get_y() + bars[-1].get_height()
+            extra_space = label_shift_y + 1.3
+            ax.set_ylim(bottom_bar_y + extra_space, top_bar_y - extra_space)
 
-        # Add numeric values (shifted slightly right)
-        for bar in bars:
-            width = bar.get_width()
-            ax.text(width + xshift_value, bar.get_y() + bar.get_height() / 2,
-                    f'{int(width)}', va='center', fontsize=9)
+            max_width = grouped["Unique_Ads"].max()
+            ax.set_xlim(0, max_width + right_margin)
 
-        # Adjust y-limits for equal top/bottom spacing
-        top_bar_y = bars[0].get_y()
-        bottom_bar_y = bars[-1].get_y() + bars[-1].get_height()
-        extra_space = label_shift_y + 1.3
-        ax.set_ylim(bottom_bar_y + extra_space, top_bar_y - extra_space)
+        # Adjust layout
+        plt.tight_layout()
+    else:
+        print(f"ERROR: No data to plot. Check 'Unique_Ads' values in {input_file_path}")
+        return False
 
-        # Adjust x-limits to add right margin
-        max_width = grouped["Unique_Ads"].max()
-        ax.set_xlim(0, max_width + right_margin)
 
         # Clean layout
         plt.tight_layout()
