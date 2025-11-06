@@ -37,6 +37,17 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # Sort by Unique_Ads descending and keep top 15
         df = df.sort_values(by="Unique_Ads", ascending=False).head(15)
 
+        # Check if df is empty
+        if df.empty:
+            print(f"ERROR: No skills data available to plot. Check input CSV: {input_file_path}")
+            return False
+
+        # Ensure required columns exist
+        for col in ["Skill", "Unique_Ads"]:
+            if col not in df.columns:
+                print(f"ERROR: Required column '{col}' not found in CSV.")
+                return False
+
         # Group skills with same Unique_Ads count
         grouped = (
             df.groupby("Unique_Ads")["Skill"]
