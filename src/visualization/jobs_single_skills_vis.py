@@ -126,11 +126,11 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
             max_width = grouped["Unique_Ads"].max()
             ax.set_xlim(0, max_width + right_margin)
 
-        # Adjust layout
-        plt.tight_layout()
-    else:
-        print(f"ERROR: No data to plot. Check 'Unique_Ads' values in {input_file_path}")
-        return False
+            # Adjust layout
+            plt.tight_layout()
+        else:
+            print(f"ERROR: No data to plot. Check 'Unique_Ads' values in {input_file_path}")
+            return False
 
 
         # Clean layout
