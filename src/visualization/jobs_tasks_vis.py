@@ -1,3 +1,13 @@
+# ==========================================================
+# Bar diagram showing job tasks in unique ads
+# ==========================================================
+# Goal:
+#   Show the number of unique ads per job tasks.
+#   Legend of the tasks above the bar, number of unique ads next to bar.
+#   Use of distinguishable colours for each bar, similar to the map graph.
+# Author: Julia Studer
+# ==========================================================
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
@@ -11,15 +21,22 @@ def create_task_overview_visualization(input_file_path: Path, output_file_path: 
     if not os.path.exists(input_file_path):
         print(f"ERROR: Input file not found: {input_file_path}")
         return False
-
     try:
-    # Read CSV
+    # ----------------------------------------------------------
+    # Data preparation
+    # ----------------------------------------------------------
+
+    # Read csv
         df = pd.read_csv(input_file_path, sep=CSV_DELIMITER)
 
-        # Sort by Unique_Ads descending
+    # Sort by Unique_Ads descending
         df = df.sort_values(by="Unique_Ads", ascending=False)
 
-        # Custom color palette (distinct colors)
+    # ----------------------------------------------------------
+    # Create and assign colors
+    # ----------------------------------------------------------
+
+    # Define color palette blue with 8 steps
         custom_colors = [
             '#08519c',
             '#2171b5',
@@ -33,6 +50,10 @@ def create_task_overview_visualization(input_file_path: Path, output_file_path: 
 
         # Repeat colors if fewer than needed
         colors = (custom_colors * ((len(df) // len(custom_colors)) + 1))[:len(df)]
+
+        # ----------------------------------------------------------
+        # Create figure
+        # ----------------------------------------------------------
 
         # Create figure
         fig, ax = plt.subplots(figsize=(8, 5))
@@ -81,7 +102,10 @@ def create_task_overview_visualization(input_file_path: Path, output_file_path: 
         # Clean layout
         plt.tight_layout()
 
-        # Save Plot
+        # ----------------------------------------------------------
+        # Save plot
+        # ----------------------------------------------------------
+
         os.makedirs(output_file_path.parent, exist_ok=True)
         plt.savefig(output_file_path, bbox_inches='tight')
 

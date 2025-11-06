@@ -1,22 +1,21 @@
+# ==========================================================
+# Bar diagram showing single skills and tools in unique ads
+# ==========================================================
+# Goal:
+#   Show the number of unique ads per single skill and tool.
+#   In the case of same amount of adds for different skills/tools, they are shown on the same bar.
+#   Legend of the skills/tools above the bar, number of unique ads next to bar.
+#   Use of distinguishable colours for each bar, similar to the map graph.
+# Author: Julia Studer
+# ==========================================================
+
 import os
 import sys
 from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# --- Fixed Blue Palette (10 steps) ---
-blues_10 = [
-    '#ffffff',
-    '#fff7fb',
-    '#deebf7',
-    '#c6dbef',
-    '#9ecae1',
-    '#6baed6',
-    '#4292c6',
-    '#2171b5',
-    '#08519c',
-    '#08306b'
-]
+
 
 CSV_DELIMITER = ';'
 
@@ -28,13 +27,17 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         return False
 
     try:
-        # Read CSV
+        # ----------------------------------------------------------
+        # Data preparation
+        # ----------------------------------------------------------
+
+        # Read csv
         df = pd.read_csv(input_file_path, sep=CSV_DELIMITER)
 
         # Sort by Unique_Ads descending and keep top 15
         df = df.sort_values(by="Unique_Ads", ascending=False).head(15)
 
-        # --- Group skills with same Unique_Ads ---
+        # Group skills with same Unique_Ads count
         grouped = (
             df.groupby("Unique_Ads")["Skill"]
             .apply(lambda skills: " / ".join(skills))  # join with slash separator
@@ -42,7 +45,24 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
             .sort_values(by="Unique_Ads", ascending=False)
         )
 
-        # --- Assign colors ---
+        # ----------------------------------------------------------
+        # Create and assign colors
+        # ----------------------------------------------------------
+
+        # Define color palette blue with 10 steps
+        blues_10 = [
+            '#ffffff',
+            '#fff7fb',
+            '#deebf7',
+            '#c6dbef',
+            '#9ecae1',
+            '#6baed6',
+            '#4292c6',
+            '#2171b5',
+            '#08519c',
+            '#08306b'
+        ]
+        # Assign colors
         num_bars = len(grouped)
         # Darkest blue for top value, lightest for lowest
         colors = [blues_10[-(i + 1)] for i in range(num_bars)]
@@ -50,7 +70,10 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         if num_bars > len(colors):
             colors = (colors * ((num_bars // len(colors)) + 1))[:num_bars]
 
-        # --- Create figure ---
+        # ----------------------------------------------------------
+        # Create figure
+        # ----------------------------------------------------------
+
         fig, ax = plt.subplots(figsize=(8, 5))
 
         # Draw horizontal bars
@@ -70,7 +93,7 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         label_shift_y = -0.45    # vertical shift for skill labels
         xshift_label = 1.5        # horizontal shift for skill labels
         xshift_value = 1       # numeric label shift
-        right_margin = 5     # space between longest number and right frame (adjustable)
+        right_margin = 5     # space between the longest number and right frame (adjustable)
 
         # Add grouped skill labels above bars
         for bar, skill_text in zip(bars, grouped["Skill"]):
@@ -84,20 +107,22 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
             ax.text(width + xshift_value, bar.get_y() + bar.get_height() / 2,
                     f'{int(width)}', va='center', fontsize=9)
 
-        # Adjust Y-limits for equal top/bottom spacing
+        # Adjust y-limits for equal top/bottom spacing
         top_bar_y = bars[0].get_y()
         bottom_bar_y = bars[-1].get_y() + bars[-1].get_height()
         extra_space = label_shift_y + 1.3
         ax.set_ylim(bottom_bar_y + extra_space, top_bar_y - extra_space)
 
-        # Adjust X-limits to add right margin
+        # Adjust x-limits to add right margin
         max_width = grouped["Unique_Ads"].max()
         ax.set_xlim(0, max_width + right_margin)
 
         # Clean layout
         plt.tight_layout()
 
+        # ----------------------------------------------------------
         # Save plot
+        # ----------------------------------------------------------
         os.makedirs(output_file_path.parent, exist_ok=True)
         plt.savefig(output_file_path, bbox_inches='tight')
 
