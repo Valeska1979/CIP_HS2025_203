@@ -56,16 +56,17 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
 
 CIP_HS2025_203/
 ├── data/
-│ ├── raw/            # Raw CSV data from jobs.ch
+│ ├── analysis/       # Results from analysis
 │ ├── processed/      # Cleaned data
+│ ├── raw/            # Raw CSV data from jobs.ch
 │ └── visualization/  # Data for visualizations
 ├── report/
 │   └── figures/        # Plots, figures
 ├── src/
-│   ├── archive/        # Archive folder
-│   ├── scraping/       # Web scraping modules
-│   ├── cleaning/       # Data cleaning & preprocessing
 │   ├── analysis/       # Skill, task, and clustering analysis
+│   ├── archive/        # Archive folder
+│   ├── cleaning/       # Data cleaning & preprocessing
+│   ├── scraping/       # Web scraping modules
 │   ├── visualization/  # Map and bar chart visualizations
 │   └── main_jobs.py    # Orchestrates the full data pipeline
 ├── requirements.txt    # Python dependencies
