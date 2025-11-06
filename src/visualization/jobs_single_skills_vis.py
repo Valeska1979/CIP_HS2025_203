@@ -62,13 +62,14 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
             '#08519c',
             '#08306b'
         ]
-        # Assign colors
+        # Define color palette blue with 10 steps
+        blues_10 = [
+            '#ffffff', '#fff7fb', '#deebf7', '#c6dbef', '#9ecae1',
+            '#6baed6', '#4292c6', '#2171b5', '#08519c', '#08306b'
+        ]
         num_bars = len(grouped)
-        # Darkest blue for top value, lightest for lowest
-        colors = [blues_10[-(i + 1)] for i in range(num_bars)]
-        # If more bars than colors, repeat palette
-        if num_bars > len(colors):
-            colors = (colors * ((num_bars // len(colors)) + 1))[:num_bars]
+
+        colors = [blues_10[9 - (i % 10)] for i in range(num_bars)]
 
         # ----------------------------------------------------------
         # Create figure
