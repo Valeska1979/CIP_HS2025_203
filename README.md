@@ -39,22 +39,33 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
 6. **Semantic Clustering**
    Apply embeddings (`sentence-transformers`), dimensionality reduction (`UMAP`), and clustering (`scikit-learn`) to group similar skills.
 
+7. **Canton Map Visualization**
+   Visualize job counts per canton.
+
+8. **Single Skill Visualization**
+   Visualize top technical skills as horizontal bar charts.
+
+9. **Tasks Overview Visualization**
+   Visualize most common job tasks
+
+
+
 ---
 
 ## Project Structure
 
 CIP_HS2025_203/
 ├── data/
-│   ├── raw/        # Raw scraped data (per session & master file)
-│   ├── processed/  # Cleaned and merged datasets
-│   └── analysis/   # Clustered and analyzed datasets
+│ │ ├── raw/            # Raw CSV data from jobs.ch
+│ ├── processed/        # Cleaned data
 ├── report/
-│   └── figures/    # Plots, figures
+│   └── figures/        # Plots, figures
 ├── src/
+│   ├── archieve/       # Archive folder
 │   ├── scraping/       # Web scraping modules
 │   ├── cleaning/       # Data cleaning & preprocessing
 │   ├── analysis/       # Skill, task, and clustering analysis
-│   ├── visualization/  # Plots
+│   ├── visualization/  # Map and bar chart visualizations
 │   └── main_jobs.py    # Orchestrates the full data pipeline
 ├── requirements.txt    # Python dependencies
 ├── README.md           # Project documentation
