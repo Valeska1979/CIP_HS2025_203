@@ -26,7 +26,7 @@ import os
 import re
 
 # Import Modules
-import src.scraping as jobs_scraping_V1
+import src.scraping as scraping
 import src.cleaning as cleaning
 import src.analysis as analysis
 import src.visualization as vis
@@ -84,7 +84,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
         print("\n[1/9] Running Scraper")
 
         # Call the refactored function, passing all required paths/values
-        jobs_scraped = jobs_scraping_V1.scrape_jobs(
+        jobs_scraped = scraping.scrape_jobs(
             job_search_term=search_term,
             max_jobs_to_scrape=max_jobs,
             save_file_path=SESSION_FILE_PATH,
@@ -98,7 +98,7 @@ def run_full_data_pipeline(search_term: str, max_jobs: int, delete_session: bool
     # --- MERGING ---
     try:
         print("\n[2/9] Merging Data")
-        success = jobs_scraping_V1.merge_session_to_master(
+        success = scraping.merge_session_to_master(
             session_file_path=SESSION_FILE_PATH,
             master_file_path=MASTER_FILE_PATH,
             delete_session=delete_session
