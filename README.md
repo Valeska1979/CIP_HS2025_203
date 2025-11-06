@@ -13,7 +13,7 @@ The project explores trends in technical and soft skills required for data-orien
 
 1. What are the most frequently required skills, tools and tasks across current Data Science job advertisements in Switzerland? 
 2. How can the thematic patterns in job descriptions be grouped into distinct clusters, and what do these clusters reveal about the main types of Data Science roles on the Swiss job market?
-3. In which parts of Switzerland are the most Data Science positions currently advertised?   
+3. In which parts of Switzerland are the most Data Science positions currently advertised?
 
 ---
 
@@ -40,13 +40,13 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
    Apply embeddings (`sentence-transformers`), dimensionality reduction (`UMAP`), and clustering (`scikit-learn`) to group similar skills.
 
 7. **Canton Map Visualization**
-   Visualize job counts per canton.
+   Display the spatial distribution of Data Science job offers across Swiss cantons using geospatial plotting with `geopandas` and `matplotlib`.
 
 8. **Single Skill Visualization**
-   Visualize top technical skills as horizontal bar charts.
+   Present the most frequently mentioned technical skills as comparative horizontal bar charts.
 
 9. **Tasks Overview Visualization**
-   Visualize most common job tasks
+   Visualize the most frequently mentioned soft skills using comparative horizontal bar charts.
 
 
 
@@ -56,12 +56,13 @@ The end-to-end data pipeline is implemented in `main_jobs.py` and follows six ma
 
 CIP_HS2025_203/
 ├── data/
-│ │ ├── raw/            # Raw CSV data from jobs.ch
-│ ├── processed/        # Cleaned data
+│ ├── raw/            # Raw CSV data from jobs.ch
+│ ├── processed/      # Cleaned data
+│ └── visualization/  # Data for visualizations
 ├── report/
 │   └── figures/        # Plots, figures
 ├── src/
-│   ├── archieve/       # Archive folder
+│   ├── archive/        # Archive folder
 │   ├── scraping/       # Web scraping modules
 │   ├── cleaning/       # Data cleaning & preprocessing
 │   ├── analysis/       # Skill, task, and clustering analysis
