@@ -67,6 +67,10 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
             print(f"ERROR: No data after grouping by Unique_Ads in {input_file_path}")
             return False
 
+        if grouped["Unique_Ads"].max() == 0:
+            print(f"ERROR: Maximum Unique_Ads is zero. Nothing to plot in {input_file_path}")
+            return False
+
         # ----------------------------------------------------------
         # Create and assign colors
         # ----------------------------------------------------------
@@ -111,6 +115,10 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
 
             # Draw horizontal bars
             bars = ax.barh(range(len(grouped)), grouped["Unique_Ads"], color=colors, edgecolor='black', height=0.4)
+
+            if len(bars) == 0:
+                print(f"ERROR: No bars to plot. Check CSV: {input_file_path}")
+                return False
 
             # Invert Y-axis (largest bar on top)
             ax.invert_yaxis()
