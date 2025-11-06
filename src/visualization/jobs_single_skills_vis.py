@@ -31,14 +31,16 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # Data preparation
         # ----------------------------------------------------------
 
-        # Read csv
+        # Read CSV
         df = pd.read_csv(input_file_path, sep=CSV_DELIMITER)
 
-        # Ensure Unique_Ads is numeric
+        # Ensure numeric columns
         df["Unique_Ads"] = pd.to_numeric(df["Unique_Ads"], errors='coerce')
+        df["Total_Mentions"] = pd.to_numeric(df["Total_Mentions"], errors='coerce')
 
-        # Remove rows with 0 or NaN Unique_Ads
-        df = df[df["Unique_Ads"] > 0]
+        # DELETE ALL ROWS WHERE Unique_Ads OR Total_Mentions IS 0 OR NaN
+        df = df[(df["Unique_Ads"] > 0) & (df["Total_Mentions"] > 0)]
+
 
         if df.empty:
             print(f"ERROR: No positive Unique_Ads values to plot in {input_file_path}")
