@@ -38,33 +38,27 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         df["Unique_Ads"] = pd.to_numeric(df["Unique_Ads"], errors='coerce')
 
         # Remove rows with 0 or NaN Unique_Ads
+        # Remove rows with 0 or NaN Unique_Ads
         df = df[df["Unique_Ads"] > 0]
 
         if df.empty:
             print(f"ERROR: No positive Unique_Ads values to plot in {input_file_path}")
             return False
 
-        # Sort by Unique_Ads descending and keep top 15
-        df = df.sort_values(by="Unique_Ads", ascending=False).head(15)
-
-        # Check if df is empty
-        if df.empty:
-            print(f"ERROR: No skills data available to plot. Check input CSV: {input_file_path}")
-            return False
-
-        # Ensure required columns exist
-        for col in ["Skill", "Unique_Ads"]:
-            if col not in df.columns:
-                print(f"ERROR: Required column '{col}' not found in CSV.")
-                return False
-
-        # Group skills with same Unique_Ads count
+        # Group skills with same Unique_Ads count first
         grouped = (
             df.groupby("Unique_Ads")["Skill"]
             .apply(lambda skills: " / ".join(skills))  # join with slash separator
             .reset_index()
-            .sort_values(by="Unique_Ads", ascending=False)
         )
+
+        # Sort by Unique_Ads descending and keep top 15 groups
+        grouped = grouped.sort_values(by="Unique_Ads", ascending=False).head(15)
+
+        # Safety check
+        if grouped.empty or grouped["Unique_Ads"].max() == 0:
+            print(f"ERROR: Nothing to plot in {input_file_path}")
+            return False
 
         if grouped.empty:
             print(f"ERROR: No data after grouping by Unique_Ads in {input_file_path}")
