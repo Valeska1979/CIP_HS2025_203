@@ -11,9 +11,9 @@ The project explores trends in technical and soft skills required for data-orien
 
 ## Research Questions
 
-1. Which hard and soft skills are most commonly required in current Data Science job advertisements in Switzerland?
-2. In which regions or cantons are the most Data Science positions advertised?
-3. Which programming languages, tools, or technologies appear most frequently across all job postings?
+1. What are the most frequently required skills, tools and tasks across current Data Science job advertisements in Switzerland? 
+2. How can the thematic patterns in job descriptions be grouped into distinct clusters, and what do these clusters reveal about the main types of Data Science roles on the Swiss job market?
+3. In which parts of Switzerland are the most Data Science positions currently advertised?   
 
 ---
 
