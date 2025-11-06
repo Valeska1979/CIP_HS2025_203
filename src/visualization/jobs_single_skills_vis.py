@@ -34,7 +34,10 @@ def create_single_skill_visualization(input_file_path: Path, output_file_path: P
         # Read csv
         df = pd.read_csv(input_file_path, sep=CSV_DELIMITER)
 
-        # Remove rows with 0 Unique_Ads
+        # Ensure Unique_Ads is numeric
+        df["Unique_Ads"] = pd.to_numeric(df["Unique_Ads"], errors='coerce')
+
+        # Remove rows with 0 or NaN Unique_Ads
         df = df[df["Unique_Ads"] > 0]
 
         if df.empty:
